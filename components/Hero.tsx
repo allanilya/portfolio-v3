@@ -1,5 +1,4 @@
-import Image from 'next/image';
-import { Github, Linkedin, FileText } from 'lucide-react';
+import { LucideGithub, LucideLinkedin, FileText } from 'lucide-react';
 
 export default function Hero() {
   return (
@@ -7,15 +6,9 @@ export default function Hero() {
       <div className="max-w-4xl w-full text-center">
         {/* Profile Photo Placeholder */}
         <div className="mb-8 flex justify-center">
-          <div className="relative w-48 h-48 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-800">
-            {/* Replace with your actual photo */}
-            <Image
-              src="/profile.jpg"
-              alt="Allan Ilyasov"
-              fill
-              className="object-cover"
-              priority
-            />
+          <div className="relative w-48 h-48 rounded-full overflow-hidden bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center">
+            {/* Replace /public/profile.jpg with your actual photo */}
+            <span className="text-7xl font-bold text-white">AI</span>
           </div>
         </div>
 
@@ -37,7 +30,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors"
           >
-            <Linkedin className="w-5 h-5" />
+            <LucideLinkedin className="w-5 h-5" />
             LinkedIn
           </a>
           <a
@@ -46,7 +39,7 @@ export default function Hero() {
             rel="noopener noreferrer"
             className="flex items-center gap-2 px-6 py-3 bg-gray-800 text-white rounded-full hover:bg-gray-900 transition-colors"
           >
-            <Github className="w-5 h-5" />
+            <LucideGithub className="w-5 h-5" />
             GitHub
           </a>
           <a
