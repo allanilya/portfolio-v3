@@ -44,6 +44,10 @@ export default function MatrixBackground() {
     // Array to track the y position of each column
     const drops: number[] = Array(columns).fill(1);
 
+    /**
+     * Main animation function that draws the Matrix rain effect
+     * Creates falling characters by drawing semi-transparent overlays and updating character positions
+     */
     function draw() {
       if (!ctx || !canvas) return;
 
@@ -77,7 +81,9 @@ export default function MatrixBackground() {
     // Animation loop
     const interval = setInterval(draw, 33); // ~30fps (change to 16 for 60fps, 50 for 20fps)
 
-    // Handle window resize
+    /**
+     * Handles window resize events by updating canvas dimensions
+     */
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;

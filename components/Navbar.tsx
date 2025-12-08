@@ -32,7 +32,11 @@ export default function Navbar() {
     { name: 'Certifications', href: '#certifications' },
   ];
 
-  // Smooth scroll to section
+  /**
+   * Smoothly scrolls to a section when a navigation link is clicked
+   * @param e - The mouse click event
+   * @param href - The target section's href (e.g., '#about')
+   */
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
     const element = document.querySelector(href);
@@ -43,6 +47,9 @@ export default function Navbar() {
 
   // Track active section based on scroll position
   useEffect(() => {
+    /**
+     * Updates the active section indicator based on current scroll position
+     */
     const handleScroll = () => {
       const sections = navItems.map(item => item.href.substring(1));
       const scrollPosition = window.scrollY +400;
