@@ -71,7 +71,7 @@ export default function Hero() {
               - scale(0.8) = zoom out 20%
             */}
             <img
-              src="profilepic.jpeg"
+              src="/profilepic.jpeg"
               alt="Allan Ilyasov"
               className="h-full object-cover"
               style={{
