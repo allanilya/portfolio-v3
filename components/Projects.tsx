@@ -252,7 +252,7 @@ export default function Projects() {
                     e.stopPropagation();
                     prevProjectInModal();
                   }}
-                  className="absolute left-4 md:left-90 top-1/2 -translate-y-1/2 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-200 dark:border-gray-700 z-[10001]"
+                  className="absolute left-4 md:left-60 top-1/2 -translate-y-1/2 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-200 dark:border-gray-700 z-[10001]"
                   aria-label="Previous project"
                 >
                   <ChevronLeft className="w-6 h-6" />
@@ -262,7 +262,7 @@ export default function Projects() {
                     e.stopPropagation();
                     nextProjectInModal();
                   }}
-                  className="absolute right-4 md:right-90 top-1/2 -translate-y-1/2 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-200 dark:border-gray-700 z-[10001]"
+                  className="absolute right-4 md:right-60 top-1/2 -translate-y-1/2 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-200 dark:border-gray-700 z-[10001]"
                   aria-label="Next project"
                 >
                   <ChevronRight className="w-6 h-6" />
