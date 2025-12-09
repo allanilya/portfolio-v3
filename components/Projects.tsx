@@ -288,14 +288,16 @@ export default function Projects() {
             </div>
           )}
         </div>
+      </div>
+    </section>
 
-        {/* Project Modal */}
-        {selectedProject !== null && (
-          <div
-            className="fixed inset-0 flex items-center justify-center z-[9999] p-4 overflow-y-auto backdrop-blur-sm"
-            onClick={() => setSelectedProject(null)}
-            style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
-          >
+    {/* Project Modal - Outside section to avoid z-index stacking context issues */}
+    {selectedProject !== null && (
+      <div
+        className="fixed inset-0 flex items-center justify-center z-[9999] p-4 overflow-y-auto backdrop-blur-sm"
+        onClick={() => setSelectedProject(null)}
+        style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
+      >
             <div
               className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative modal-content-animate"
               onClick={(e) => e.stopPropagation()}
@@ -441,8 +443,6 @@ export default function Projects() {
             </div>
           </div>
         )}
-      </div>
-    </section>
     </>
   );
 }
