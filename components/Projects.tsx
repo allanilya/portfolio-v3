@@ -275,9 +275,9 @@ export default function Projects() {
 
                     Note: Tech stack is hidden on cards and only shown in the expanded modal view
                   */}
-                  <p className={`text-gray-400 mb-3 text-lg leading-relaxed overflow-hidden ${
+                  <p className={`text-gray-400 mb-0.8 text-lg leading-relaxed overflow-hidden ${
                     project.liveUrl
-                      ? 'line-clamp-6'
+                      ? 'line-clamp-7'
                       : 'flex-grow'
                   }`}>
                     {project.description}
