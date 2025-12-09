@@ -126,8 +126,24 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="relative z-20 py-20 px-4">
-      <div className="max-w-7xl mx-auto">
+    <>
+      <style jsx>{`
+        @keyframes modalScaleIn {
+          from {
+            transform: scale(0.95);
+            opacity: 0;
+          }
+          to {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        .modal-content-animate {
+          animation: modalScaleIn 0.3s ease-out;
+        }
+      `}</style>
+      <section id="projects" className="relative z-20 py-20 px-4">
+        <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Projects
         </h2>
@@ -281,7 +297,7 @@ export default function Projects() {
             style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
           >
             <div
-              className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative"
+              className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative modal-content-animate"
               onClick={(e) => e.stopPropagation()}
               style={{ zIndex: 10000 }}
             >
@@ -427,5 +443,6 @@ export default function Projects() {
         )}
       </div>
     </section>
+    </>
   );
 }
