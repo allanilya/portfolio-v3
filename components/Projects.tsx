@@ -73,6 +73,19 @@ export default function Projects() {
     setSelectedProject(projects[prevIdx].id);
   };
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (selectedProject !== null) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedProject]);
+
   // Keyboard navigation
   useEffect(() => {
     if (selectedProject === null) return;
@@ -113,7 +126,7 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="relative z-10 py-20 px-4">
+    <section id="projects" className="relative z-20 py-20 px-4">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Projects
@@ -263,9 +276,9 @@ export default function Projects() {
         {/* Project Modal */}
         {selectedProject !== null && (
           <div
-            className="fixed inset-0 flex items-center justify-center z-[9999] p-4 overflow-y-auto"
+            className="fixed inset-0 flex items-center justify-center z-[9999] p-4 overflow-y-auto backdrop-blur-sm"
             onClick={() => setSelectedProject(null)}
-            style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+            style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
           >
             <div
               className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative"
@@ -275,7 +288,7 @@ export default function Projects() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors z-10"
+                className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors z-50"
                 aria-label="Close modal"
               >
                 <X className="w-6 h-6" />
