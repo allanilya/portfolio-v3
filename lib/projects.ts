@@ -12,7 +12,7 @@ export const projects: Project[] = [
     id: 1,
     title: "Codify AI",
     description: "An AI-powered programming tutor that helps students learn coding through interactive conversations without just providing pasted code. Features real-time code assistance powered by Claude 4.5 haiku via AWS Bedrock, with intelligent agentic workflows that adapt to each student's learning pace.",
-    techStack: ["React", "AWS Bedrock", "Flask", "DynamoDB", "Docker", "LangChain"],
+    techStack: ["React", "Flask", "AWS Bedrock", "Claude Sonnet 4.5", "DynamoDB", "Elastic Beanstalk", "Docker", "LangChain"],
     liveUrl: "https://codifyai.org"
   },
   {
