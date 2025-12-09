@@ -32,6 +32,64 @@ export default function Projects() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
 
+  // Tech stack color mapping - matches Skills.tsx categories
+  const getTechColor = (tech: string): string => {
+    // Skills categories from Skills.tsx (matching exactly)
+    const skillCategories = [
+      { skills: ["Python", "TypeScript", "JavaScript", "Java", "SQL", "R", "Swift", "PHP"], color: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200' },
+      { skills: ["React", "Next.js", "Tailwind CSS", "Radix UI"], color: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200' },
+      { skills: ["Flask", "Django", "Spring Boot", "Node.js", "REST APIs"], color: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200' },
+      { skills: ["LangChain", "LangGraph", "TensorFlow", "PyTorch", "Scikit-learn", "AWS Bedrock"], color: 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200' },
+      { skills: ["AWS", "Docker", "DynamoDB", "Elastic Beanstalk", "Lambda", "API Gateway"], color: 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200' },
+      { skills: ["Pandas", "NumPy", "Plotly", "Spark", "NLTK", "Spacy", "Beautiful Soup"], color: 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200' },
+      { skills: ["MySQL", "MongoDB", "Pinecone", "FAISS", "Vector Databases"], color: 'bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200' },
+    ];
+
+    // Check if tech exists in Skills categories
+    for (const category of skillCategories) {
+      if (category.skills.some(skill => skill.toLowerCase() === tech.toLowerCase())) {
+        return category.color;
+      }
+    }
+
+    // Hardcoded mappings for technologies NOT in Skills.tsx
+    const extraTechMap: Record<string, string> = {
+      // AI/ML - Orange
+      'claude sonnet 4.5': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+      'lstm': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+      'gru': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+      'arima': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+      'random forest': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+      'logistic regression': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+      'knn': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+      'naive bayes': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+      'decision tree': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+      'smote': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+
+      // Cloud & DevOps - Indigo
+      'vercel': 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200',
+
+      // Data Science - Teal
+      'statsmodels': 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200',
+      'yfinance': 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200',
+      'jupyter notebook': 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200',
+
+      // Other
+      'shiny': 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200', // R framework
+      '1blocker': 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+      'css': 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
+    };
+
+    // Check hardcoded extras
+    const normalized = tech.toLowerCase();
+    if (extraTechMap[normalized]) {
+      return extraTechMap[normalized];
+    }
+
+    // Default gray for anything else
+    return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200';
+  };
+
   /**
    * Advances the carousel to the next project in the main view
    */
@@ -400,7 +458,7 @@ export default function Projects() {
                         .techStack.map((tech, index) => (
                           <span
                             key={index}
-                            className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full"
+                            className={`px-3 py-1 ${getTechColor(tech)} rounded-full text-sm font-medium transition-transform hover:scale-105`}
                           >
                             {tech}
                           </span>
