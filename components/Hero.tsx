@@ -38,35 +38,10 @@ export default function Hero() {
             - w-80 h-80 = huge (320px)
           */}
           <div className="relative w-72 h-72 overflow-hidden rounded-full">
-            {/*
-              ADJUSTING IMAGE POSITION WITHIN CIRCLE:
-
-              Adjust translateX and translateY to move the image:
-
-              translateX (moves left/right):
-              - Negative values = move image LEFT (show right side of photo)
-              - Positive values = move image RIGHT (show left side of photo)
-              - Examples: -50px, -30px, 0px, 30px, 50px
-
-              translateY (moves up/down):
-              - Negative values = move image UP (show bottom of photo)
-              - Positive values = move image DOWN (show top of photo)
-              - Examples: -50px, -30px, 0px, 30px, 50px
-
-              scale (zoom):
-              - 1.0 = normal size
-              - 1.2 = zoom in 20%
-              - 1.5 = zoom in 50%
-              - 0.8 = zoom out 20%
-            */}
             <img
               src="/profilepic.jpeg"
               alt="Allan Ilyasov"
-              className="absolute object-cover"
-              style={{
-                width: '100%',
-  
-              }}
+              className="w-full h-full object-cover object-[0%_0%] scale-120"
             />
           </div>
         </div>
