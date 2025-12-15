@@ -369,7 +369,7 @@ export default function Projects() {
     {/* Project Modal - Outside section to avoid z-index stacking context issues */}
     {selectedProject !== null && (
       <div
-        className="fixed inset-0 flex items-center justify-center z-[9999] p-4 overflow-y-auto backdrop-blur-sm"
+        className="fixed inset-0 flex items-center justify-center z-[24] p-4 overflow-y-auto backdrop-blur-sm"
         onClick={() => setSelectedProject(null)}
         style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
       >
@@ -381,7 +381,7 @@ export default function Projects() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full transition-colors z-50"
+                className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full transition-colors z-24"
                 aria-label="Close modal"
               >
                 <X className="w-6 h-6" />
