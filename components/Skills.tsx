@@ -102,7 +102,7 @@ export default function Skills() {
             </button>
 
             {/* Category Header */}
-            <div className="mb-6">
+            <div className="mb-6 pr-12">
               <div className="flex items-center gap-3 mb-3">
                 <div className={`w-1 h-10 bg-gradient-to-b ${skillCategories[selectedCategory].colors.bg} rounded-full`}></div>
                 <h3 className={`text-2xl md:text-3xl font-bold ${skillCategories[selectedCategory].colors.text}`}>
@@ -158,7 +158,7 @@ export default function Skills() {
             </button>
 
             {/* Category Header */}
-            <div className="mb-6">
+            <div className="mb-6 pr-12">
               <div className="flex items-center gap-3 mb-3">
                 <div className={`w-1 h-10 bg-gradient-to-b ${skillCategories[selectedSkill.categoryIndex].colors.bg} rounded-full`}></div>
                 <h3 className={`text-2xl md:text-3xl font-bold ${skillCategories[selectedSkill.categoryIndex].colors.text}`}>
