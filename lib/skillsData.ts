@@ -26,8 +26,8 @@ export const skillCategories: SkillCategory[] = [
     skills: ["Python", "TypeScript", "JavaScript", "Java", "SQL", "R", "Swift", "PHP"],
     colors: {
       bg: 'from-purple-500 to-pink-500',
-      text: 'text-purple-600 dark:text-purple-400',
-      badge: 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200'
+      text: 'text-purple-400',
+      badge: 'bg-purple-900 text-purple-200'
     }
   },
   {
@@ -35,8 +35,8 @@ export const skillCategories: SkillCategory[] = [
     skills: ["React", "Next.js", "Tailwind CSS", "Radix UI"],
     colors: {
       bg: 'from-blue-500 to-cyan-500',
-      text: 'text-blue-600 dark:text-blue-400',
-      badge: 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
+      text: 'text-blue-400',
+      badge: 'bg-blue-900 text-blue-200'
     }
   },
   {
@@ -44,8 +44,8 @@ export const skillCategories: SkillCategory[] = [
     skills: ["Flask", "Django", "Spring Boot", "Node.js", "REST APIs"],
     colors: {
       bg: 'from-green-500 to-emerald-500',
-      text: 'text-green-600 dark:text-green-400',
-      badge: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+      text: 'text-green-400',
+      badge: 'bg-green-900 text-green-200'
     }
   },
   {
@@ -53,8 +53,8 @@ export const skillCategories: SkillCategory[] = [
     skills: ["LangChain", "LangGraph", "TensorFlow", "PyTorch", "Scikit-learn", "AWS Bedrock"],
     colors: {
       bg: 'from-orange-500 to-red-500',
-      text: 'text-orange-600 dark:text-orange-400',
-      badge: 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200'
+      text: 'text-orange-400',
+      badge: 'bg-orange-900 text-orange-200'
     }
   },
   {
@@ -62,8 +62,8 @@ export const skillCategories: SkillCategory[] = [
     skills: ["AWS", "Docker", "DynamoDB", "Elastic Beanstalk", "Lambda", "API Gateway"],
     colors: {
       bg: 'from-indigo-500 to-purple-500',
-      text: 'text-indigo-600 dark:text-indigo-400',
-      badge: 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200'
+      text: 'text-indigo-400',
+      badge: 'bg-indigo-900 text-indigo-200'
     }
   },
   {
@@ -71,8 +71,8 @@ export const skillCategories: SkillCategory[] = [
     skills: ["Pandas", "NumPy", "Plotly", "Spark", "NLTK", "Spacy", "Beautiful Soup"],
     colors: {
       bg: 'from-teal-500 to-cyan-500',
-      text: 'text-teal-600 dark:text-teal-400',
-      badge: 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200'
+      text: 'text-teal-400',
+      badge: 'bg-teal-900 text-teal-200'
     }
   },
   {
@@ -80,8 +80,8 @@ export const skillCategories: SkillCategory[] = [
     skills: ["MySQL", "MongoDB", "Pinecone", "FAISS", "Vector Databases"],
     colors: {
       bg: 'from-pink-500 to-rose-500',
-      text: 'text-pink-600 dark:text-pink-400',
-      badge: 'bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200'
+      text: 'text-pink-400',
+      badge: 'bg-pink-900 text-pink-200'
     }
   }
 ];
@@ -92,33 +92,33 @@ export const skillCategories: SkillCategory[] = [
  */
 export const extraTechColors: Record<string, string> = {
   // AI/ML - Orange
-  'claude sonnet 4.5': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
-  'lstm': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
-  'gru': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
-  'arima': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
-  'random forest': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
-  'logistic regression': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
-  'knn': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
-  'naive bayes': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
-  'decision tree': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
-  'smote': 'bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200',
+  'claude sonnet 4.5': 'bg-orange-900 text-orange-200',
+  'lstm': 'bg-orange-900 text-orange-200',
+  'gru': 'bg-orange-900 text-orange-200',
+  'arima': 'bg-orange-900 text-orange-200',
+  'random forest': 'bg-orange-900 text-orange-200',
+  'logistic regression': 'bg-orange-900 text-orange-200',
+  'knn': 'bg-orange-900 text-orange-200',
+  'naive bayes': 'bg-orange-900 text-orange-200',
+  'decision tree': 'bg-orange-900 text-orange-200',
+  'smote': 'bg-orange-900 text-orange-200',
 
   // Cloud & DevOps - Indigo
-  'vercel': 'bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200',
+  'vercel': 'bg-indigo-900 text-indigo-200',
 
   // Data Science - Teal
-  'statsmodels': 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200',
-  'yfinance': 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200',
-  'jupyter notebook': 'bg-teal-100 dark:bg-teal-900 text-teal-800 dark:text-teal-200',
+  'statsmodels': 'bg-teal-900 text-teal-200',
+  'yfinance': 'bg-teal-900 text-teal-200',
+  'jupyter notebook': 'bg-teal-900 text-teal-200',
 
   // Languages - Purple (R framework)
-  'shiny': 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200',
+  'shiny': 'bg-purple-900 text-purple-200',
 
   // Frontend - Blue
-  'css': 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200',
+  'css': 'bg-blue-900 text-blue-200',
 
   // Other
-  '1blocker': 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+  '1blocker': 'bg-gray-700 text-gray-200',
 };
 
 /**
@@ -140,5 +140,5 @@ export function getTechColor(tech: string): string {
   }
 
   // Default gray for anything else
-  return 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200';
+  return 'bg-gray-700 text-gray-200';
 }

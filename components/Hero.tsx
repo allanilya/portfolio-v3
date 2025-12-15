@@ -37,7 +37,7 @@ export default function Hero() {
             - w-72 h-72 = extra-large (288px)
             - w-80 h-80 = huge (320px)
           */}
-          <div className="relative w-72 h-72 overflow-hidden rounded-full">
+          <div className="relative w-70 h-70 overflow-hidden rounded-full">
             <img
               src="/profilepic.jpeg"
               alt="Allan Ilyasov"

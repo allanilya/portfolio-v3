@@ -374,14 +374,14 @@ export default function Projects() {
         style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
       >
             <div
-              className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative modal-content-animate"
+              className="bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative modal-content-animate text-gray-100"
               onClick={(e) => e.stopPropagation()}
               style={{ zIndex: 10000 }}
             >
               {/* Close Button */}
               <button
                 onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors z-50"
+                className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full transition-colors z-50"
                 aria-label="Close modal"
               >
                 <X className="w-6 h-6" />
@@ -392,7 +392,7 @@ export default function Projects() {
                   <h3 className="text-2xl md:text-3xl font-bold mb-4">
                     {projects.find((p) => p.id === selectedProject)!.title}
                   </h3>
-                  <p className="text-gray-700 dark:text-gray-300 mb-6 text-base md:text-lg leading-relaxed">
+                  <p className="text-gray-300 mb-6 text-base md:text-lg leading-relaxed">
                     {projects.find((p) => p.id === selectedProject)!.description}
                   </p>
 
@@ -400,14 +400,14 @@ export default function Projects() {
                   {projects.find((p) => p.id === selectedProject)!.liveUrl && (
                     <div className="mb-6">
                       <h4 className="text-lg md:text-xl font-semibold mb-3">Live Preview</h4>
-                      <div className="relative w-full rounded-lg overflow-hidden border-2 border-gray-200 dark:border-gray-700 shadow-lg">
-                        <div className="bg-gray-100 dark:bg-gray-900 px-4 py-2 flex items-center gap-2 border-b border-gray-200 dark:border-gray-700">
+                      <div className="relative w-full rounded-lg overflow-hidden border-2 border-gray-700 shadow-lg">
+                        <div className="bg-gray-900 px-4 py-2 flex items-center gap-2 border-b border-gray-700">
                           <div className="flex gap-2">
                             <div className="w-3 h-3 rounded-full bg-red-500"></div>
                             <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
                             <div className="w-3 h-3 rounded-full bg-green-500"></div>
                           </div>
-                          <span className="text-xs text-gray-600 dark:text-gray-400 ml-2">
+                          <span className="text-xs text-gray-400 ml-2">
                             {projects.find((p) => p.id === selectedProject)!.liveUrl}
                           </span>
                         </div>
@@ -444,7 +444,7 @@ export default function Projects() {
                         href={projects.find((p) => p.id === selectedProject)!.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-3 bg-gray-800 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-900 dark:hover:bg-gray-600 transition-colors"
+                        className="flex items-center gap-2 px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
                       >
                         <Github className="w-5 h-5" />
                         View on GitHub
@@ -465,14 +465,14 @@ export default function Projects() {
 
                   {/* Navigation Controls - Arrows and Dots */}
                   {projects.length > 1 && (
-                    <div className="flex items-center justify-center gap-4 mt-5 pt-2 border-t border-gray-200 dark:border-gray-700">
+                    <div className="flex items-center justify-center gap-4 mt-5 pt-2 border-t border-gray-700">
                       {/* Previous Button */}
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
                           prevProjectInModal();
                         }}
-                        className="bg-gray-800 dark:bg-gray-700 rounded-full p-3 shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-700 dark:border-gray-600"
+                        className="bg-gray-700 rounded-full p-3 shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-600"
                         aria-label="Previous project"
                       >
                         <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
@@ -491,8 +491,8 @@ export default function Projects() {
                               }}
                               className={`w-3 h-3 rounded-full transition-all ${
                                 currentIdx === index
-                                  ? 'bg-blue-600 dark:bg-blue-400 scale-125'
-                                  : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                                  ? 'bg-blue-400 scale-125'
+                                  : 'bg-gray-600 hover:bg-gray-500'
                               }`}
                               aria-label={`Go to project ${index + 1}`}
                             />
@@ -506,7 +506,7 @@ export default function Projects() {
                           e.stopPropagation();
                           nextProjectInModal();
                         }}
-                        className="bg-gray-800 dark:bg-gray-700 rounded-full p-3 shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-700 dark:border-gray-600"
+                        className="bg-gray-700 rounded-full p-3 shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-600"
                         aria-label="Next project"
                       >
                         <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
