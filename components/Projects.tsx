@@ -172,7 +172,7 @@ export default function Projects() {
 
   /**
    * Gets the subset of projects to display in the carousel
-   * @returns All projects if there are 3 or fewer, otherwise returns the previous, current, and next projects with slot information
+   * @returns 5 projects (2 buffers + 3 visible) to prevent iframe reloads during navigation
    */
   const getVisibleProjects = () => {
     if (projects.length <= 3) return projects.map((p, i) => ({
@@ -180,18 +180,28 @@ export default function Projects() {
       slot: i === 1 ? 'center' : i === 0 ? 'left' : 'right',
     }));
 
+    const farPrev = (currentIndex - 2 + projects.length) % projects.length;
     const prev = (currentIndex - 1 + projects.length) % projects.length;
     const next = (currentIndex + 1) % projects.length;
+    const farNext = (currentIndex + 2) % projects.length;
 
     return [
+      { ...projects[farPrev], slot: 'far-left' },
       { ...projects[prev], slot: 'left' },
       { ...projects[currentIndex], slot: 'center' },
       { ...projects[next], slot: 'right' },
+      { ...projects[farNext], slot: 'far-right' },
     ];
   };
 
   // Framer Motion animation variants (responsive based on screen size)
   const SLOT = {
+    'far-left': {
+      scale: 0.4,
+      x: -xOffset * 2,
+      opacity: 0,
+      zIndex: 0,
+    },
     left: {
       scale: leftRightScale,
       x: -xOffset,
@@ -209,6 +219,12 @@ export default function Projects() {
       x: xOffset,
       opacity: 1,
       zIndex: 1,
+    },
+    'far-right': {
+      scale: 0.4,
+      x: xOffset * 2,
+      opacity: 0,
+      zIndex: 0,
     },
   };
 
@@ -257,9 +273,9 @@ export default function Projects() {
                     opacity: 0,
                     scale: 0.6,
                     x: slideDirection === 'right' ? 220 : -220,
-                    zIndex: project.slot === 'center' ? 30 : 1,
+                    zIndex: project.slot === 'center' ? 30 : project.slot === 'far-left' || project.slot === 'far-right' ? 0 : 1,
                   }}
-                  animate={SLOT[project.slot as 'left' | 'center' | 'right']}
+                  animate={SLOT[project.slot as 'far-left' | 'left' | 'center' | 'right' | 'far-right']}
                   exit={exitVariants[slideDirection || 'right']}
                   transition={{
                     duration: 0.45,
@@ -285,19 +301,27 @@ export default function Projects() {
                       window.open(project.liveUrl, '_blank');
                     }}
                   >
-                    <iframe
-                      src={project.liveUrl}
-                      className="w-full h-full border-0 pointer-events-none"
-                      style={{
-                        transform: 'scale(0.5)',
-                        transformOrigin: 'top left',
-                        width: '200%',
-                        height: '200%'
-                      }}
-                      title={`${project.title} Preview`}
-                      sandbox="allow-same-origin allow-scripts"
-                      loading="lazy"
-                    />
+                    {/* For heavy interactive apps (Shiny, etc.), only load iframe when visible (not in buffer) */}
+                    {project.heavyInteractive && (project.slot === 'far-left' || project.slot === 'far-right') ? (
+                      <div className="w-full h-full bg-gray-850 flex items-center justify-center">
+                        <ExternalLink className="w-8 h-8 text-gray-600" />
+                      </div>
+                    ) : (
+                      <iframe
+                        src={project.liveUrl}
+                        className="w-full h-full border-0 pointer-events-none"
+                        style={{
+                          transform: 'scale(0.5)',
+                          transformOrigin: 'top left',
+                          width: '200%',
+                          height: '200%',
+                          willChange: 'transform'
+                        }}
+                        title={`${project.title} Preview`}
+                        sandbox="allow-same-origin allow-scripts"
+                        loading="lazy"
+                      />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <div className="bg-gray-800/90 px-4 py-2 rounded-lg flex items-center gap-2">
                         <ExternalLink className="w-5 h-5 text-blue-400" />
@@ -448,6 +472,7 @@ export default function Projects() {
                         <iframe
                           src={projects.find((p) => p.id === selectedProject)!.liveUrl}
                           className="w-full h-[320px] border-0"
+                          style={{ willChange: 'transform' }}
                           title={`${projects.find((p) => p.id === selectedProject)!.title} Preview`}
                           sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                           loading="lazy"

@@ -5,6 +5,7 @@ export interface Project {
   techStack: string[];
   githubUrl?: string;
   liveUrl?: string;
+  heavyInteractive?: boolean; // For server-side apps (Shiny, etc.) that should only load when visible
 }
 
 export const projects: Project[] = [
@@ -42,7 +43,8 @@ export const projects: Project[] = [
     description: "An interactive web application that visualizes global trends in life expectancy and economic development using the Gapminder dataset. Features dynamic charts and maps built with R Shiny that allow users to explore historical patterns and regional differences across decades.",
     techStack: ["R", "Shiny"],
     githubUrl: "https://github.com/allanilya/Gapminder-Global-Trends",
-    liveUrl: 'https://allani.shinyapps.io/gapminder/'
+    liveUrl: 'https://allani.shinyapps.io/gapminder/',
+    heavyInteractive: true
   },
   {
     id: 6,
