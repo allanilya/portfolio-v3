@@ -77,7 +77,7 @@ export default function Projects() {
   };
 
   // Minimum swipe distance (in px) to trigger navigation
-  const minSwipeDistance = 50;
+  const minSwipeDistance = 25;
 
   const onTouchStart = (e: React.TouchEvent) => {
     setTouchEnd(null);
