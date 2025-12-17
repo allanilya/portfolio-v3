@@ -25,7 +25,7 @@ export default function Hero() {
     <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-30">
       <div className="max-w-4xl w-full text-center">
         {/* PROFILE PHOTO */}
-        <div className="mb-8 flex justify-center">
+        <div className="mb-4 md:mb-8 flex justify-center">
           {/*
             ADJUSTING IMAGE SIZE:
             Change w-70 h-70 on line 37 to:
@@ -47,12 +47,12 @@ export default function Hero() {
         </div>
 
         {/* NAME - Change your name here */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-2 md:mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Allan Ilyasov
         </h1>
 
         {/* TITLE - Change your professional title here */}
-        <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-2 px-4">
+        <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-4 md:mb-8 px-4">
           AI/ML Engineer & Full-Stack Developer
         </p>
 
