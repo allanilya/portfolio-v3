@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-black text-gray-100">
+    <div className="min-h-screen bg-black text-gray-100 overflow-x-hidden max-w-full">
       <MatrixBackground />
       <Navbar />
       <Hero />
