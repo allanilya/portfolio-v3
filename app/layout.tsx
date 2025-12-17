@@ -17,9 +17,13 @@ export const metadata: Metadata = {
   description: "Portfolio of Allan Ilyasov - Graduate Student, AI/ML Engineer, and Full-Stack Developer specializing in AI-powered applications and cloud infrastructure.",
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
       { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-48.png", sizes: "48x48", type: "image/png" }
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }
     ]
   },
 };
