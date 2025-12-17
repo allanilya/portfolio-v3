@@ -22,7 +22,7 @@ import { LucideGithub, LucideLinkedin, FileText } from 'lucide-react';
 
 export default function Hero() {
   return (
-    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-20">
+    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-30">
       <div className="max-w-4xl w-full text-center">
         {/* PROFILE PHOTO */}
         <div className="mb-8 flex justify-center">
@@ -52,7 +52,7 @@ export default function Hero() {
         </h1>
 
         {/* TITLE - Change your professional title here */}
-        <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 px-4">
+        <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-2 px-4">
           AI/ML Engineer & Full-Stack Developer
         </p>
 
