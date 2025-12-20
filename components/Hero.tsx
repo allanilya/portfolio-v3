@@ -18,37 +18,114 @@
  * - Colors: Change blue-600, purple-600 to other Tailwind colors
  */
 
+'use client';
+
 import { LucideGithub, LucideLinkedin, FileText } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 export default function Hero() {
-  return (
-    <section className="relative z-10 min-h-screen flex flex-col items-center justify-start px-4 pt-25 md:pt-32 pb-12">
-      <div className="max-w-4xl w-full text-center">
-        {/* PROFILE PHOTO */}
-        <div className="mb-4 md:mb-8 flex justify-center">
-          {/*
-            ADJUSTING IMAGE SIZE:
-            Change w-70 h-70 on line 37 to:
-            - w-32 h-32 = small (128px)
-            - w-40 h-40 = medium-small (160px)
-            - w-48 h-48 = medium (192px)
-            - w-56 h-56 = medium-large (224px)
-            - w-64 h-64 = large (256px)
-            - w-72 h-72 = extra-large (288px)
-            - w-80 h-80 = huge (320px)
-          */}
-          <div className="relative w-70 h-70 overflow-hidden rounded-full">
-            <img
-              src="/profilepic.jpeg"
-              alt="Allan Ilyasov"
-              className="absolute inset-0 w-full h-full object-cover scale-110 translate-x-3 [object-position:0%_5%]"
-            />
-          </div>
-        </div>
+  const [phase, setPhase] = useState<'flicker' | 'reveal'>('flicker');
 
-        {/* NAME - Change your name here */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-2 md:mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Allan Ilyasov
+  useEffect(() => {
+    const flickerTimer = setTimeout(() => {
+      setPhase('reveal');
+    }, 1000);
+
+    return () => clearTimeout(flickerTimer);
+  }, []);
+
+  // Giant initial flicker (no movement - FIXED in place)
+  const initialFlickerVariants = {
+    initial: { opacity: 0 },
+    flicker: {
+      opacity: [0, 1, 0.4, 1, 0.6, 1, 0.3, 1],
+      transition: {
+        duration: 0.8,
+        times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1]
+      }
+    },
+    reveal: {
+      opacity: 1,
+      transition: { duration: 0.3 }
+    }
+  };
+
+  // Letter-by-letter reveal for middle letters
+  const letterVariants = {
+    initial: { opacity: 0, filter: "blur(6px)" },
+    flicker: { opacity: 0, filter: "blur(6px)" },
+    reveal: {
+      opacity: 1,
+      filter: "blur(0px)",
+      transition: { duration: 0.5 }
+    }
+  };
+
+  return (
+    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
+      <div className="w-full text-center overflow-x-hidden">
+        {/* NAME - Tron Neon Sign Style */}
+        <h1 className="font-bold mb-8">
+          <div
+            className="flex items-center justify-center gap-1 text-cyan-400 tracking-widest"
+            style={{
+              fontFamily: 'TR2N, Orbitron, monospace',
+              textShadow: "0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.3)"
+            }}
+          >
+            {/* Giant "A" - FIXED - TRULY MASSIVE */}
+            <motion.span
+              className="leading-none font-black"
+              style={{ fontSize: 'clamp(10rem, 20vw, 40rem)' }}
+              variants={initialFlickerVariants}
+              initial="initial"
+              animate={phase}
+            >
+              A
+            </motion.span>
+
+            {/* "llan" - Letters light up one by one */}
+            <motion.span
+              className="flex"
+              style={{ fontSize: 'clamp(3rem, 10vw, 12rem)' }}
+              initial="initial"
+              animate={phase}
+              transition={{ staggerChildren: 0.08, delayChildren: 1.0 }}
+            >
+              {['l', 'l', 'a', 'n'].map((char, i) => (
+                <motion.span key={i} variants={letterVariants}>
+                  {char}
+                </motion.span>
+              ))}
+            </motion.span>
+
+            {/* Giant "I" - FIXED - TRULY MASSIVE */}
+            <motion.span
+              className="leading-none font-black"
+              style={{ fontSize: 'clamp(10rem, 20vw, 40rem)' }}
+              variants={initialFlickerVariants}
+              initial="initial"
+              animate={phase}
+            >
+              I
+            </motion.span>
+
+            {/* "lyasov" - Letters light up one by one */}
+            <motion.span
+              className="flex"
+              style={{ fontSize: 'clamp(3rem, 10vw, 12rem)' }}
+              initial="initial"
+              animate={phase}
+              transition={{ staggerChildren: 0.08, delayChildren: 1.3 }}
+            >
+              {['l', 'y', 'a', 's', 'o', 'v'].map((char, i) => (
+                <motion.span key={i} variants={letterVariants}>
+                  {char}
+                </motion.span>
+              ))}
+            </motion.span>
+          </div>
         </h1>
 
         {/* TITLE - Change your professional title here */}
