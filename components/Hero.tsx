@@ -125,14 +125,16 @@ export default function Hero() {
 
   return (
     <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
-      <div className="w-full text-center overflow-x-hidden">
+      <div className="w-full text-center">
         {/* NAME - Tron Neon Sign Style */}
         <h1 className="font-bold mb-8">
           <div
-            className="flex items-center justify-center text-cyan-400 tracking-widest"
+            className="flex items-center justify-center text-cyan-400"
             style={{
               fontFamily: 'TR2N, Orbitron, monospace',
-              textShadow: "0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.3)"
+              textShadow: "0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.3)",
+              letterSpacing: '0.50em', // Increased letter spacing
+              padding: '80px 40px' // Padding to prevent glow cutoff
             }}
           >
             {/* Giant "A" - Starts center, slides left */}
@@ -154,7 +156,7 @@ export default function Hero() {
               style={{
                 fontSize: 'clamp(3rem, 10vw, 12rem)',
                 width: phase === 'reveal' ? 'auto' : 0,
-                overflow: 'hidden',
+                overflow: 'visible', // Allow glow to blend with adjacent letters
                 transition: 'width 3s'
               }}
               initial="initial"
@@ -191,7 +193,7 @@ export default function Hero() {
               style={{
                 fontSize: 'clamp(3rem, 10vw, 12rem)',
                 width: phase === 'reveal' ? 'auto' : 0,
-                overflow: 'hidden',
+                overflow: 'visible', // Allow glow to blend with adjacent letters
                 transition: 'width 3s'
               }}
               initial="initial"
