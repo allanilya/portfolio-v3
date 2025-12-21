@@ -25,8 +25,16 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
 export default function Hero() {
+  /**
+   * ANIMATION PHASE CONTROL
+   * =======================
+   * The animation has two phases:
+   * 1. 'flicker' (0-1s): AI flickers in the center like a neon sign turning on
+   * 2. 'reveal' (1s+): AI slides apart, letters pop in to complete the name
+   */
   const [phase, setPhase] = useState<'flicker' | 'reveal'>('flicker');
 
+  // After 1 second, switch from 'flicker' to 'reveal' phase
   useEffect(() => {
     const flickerTimer = setTimeout(() => {
       setPhase('reveal');
@@ -35,36 +43,52 @@ export default function Hero() {
     return () => clearTimeout(flickerTimer);
   }, []);
 
-  // "A" - starts at center with I, then slides left to make room for "llan"
+  /**
+   * ANIMATION VARIANTS FOR "A"
+   * ==========================
+   * Controls how the letter "A" animates through each phase
+   *
+   * initial: Starting state (invisible, centered)
+   * flicker: Neon sign flicker effect with rapid opacity changes
+   *          - opacity array creates 8 keyframes from dim to bright
+   *          - times array specifies when each keyframe occurs (0-1)
+   * reveal: Final state after flicker
+   *         - Small x shift (10px) - the 'layout' prop handles most movement
+   *         - x transition takes 2s to complete
+   *         - As letter groups expand, flex layout pushes A naturally
+   */
   const aVariants = {
     initial: { opacity: 0, x: 0 },
     flicker: {
-      opacity: [0, 1, 0.4, 1, 0.6, 1, 0.3, 1],
-      x: 0, // Centered with I
+      opacity: [0, 1, 0.4, 1, 0.6, 1, 0.3, 1], // Flicker pattern: off→on→dim→on→dim→on→dim→on
+      x: 0, // Stay centered during flicker
       transition: {
         opacity: {
-          duration: 1.0,
-          times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1]
+          duration: 1.0, // Flicker lasts 1 second
+          times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1] // When each opacity value occurs
         }
       }
     },
     reveal: {
-      opacity: 1,
-      x: 10,   // was -200
+      opacity: 1, // Fully visible
+      x: 10, // Slight manual shift (flex layout does the rest)
       transition: {
-        x: { duration: 2 },
-        opacity: { duration: 0.3 }
+        opacity: { duration: 0.3 } // Quick fade to full opacity
       }
     }
-
   };
 
-  // "I" - starts at center with A, then slides right to make room for "lyasov"
+  /**
+   * ANIMATION VARIANTS FOR "I"
+   * ==========================
+   * Same pattern as "A" but stays mostly in place
+   * The 'layout' prop handles movement as "lyasov" expands
+   */
   const iVariants = {
     initial: { opacity: 0, x: 0 },
     flicker: {
-      opacity: [0, 1, 0.4, 1, 0.6, 1, 0.3, 1],
-      x: 0, // Centered with A
+      opacity: [0, 1, 0.4, 1, 0.6, 1, 0.3, 1], // Same flicker pattern as A
+      x: 0,
       transition: {
         opacity: {
           duration: 1.0,
@@ -74,22 +98,28 @@ export default function Hero() {
     },
     reveal: {
       opacity: 1,
-      x: -0,   // SLIGHT left shift
+      x: 0, // No manual movement - flex layout handles positioning
       transition: {
-        x: { duration: 2 },
         opacity: { duration: 0.3 }
       }
     }
-
   };
 
-  // Letters pop on like lights (NO SCALE - just opacity)
+  /**
+   * ANIMATION VARIANTS FOR LETTERS
+   * ==============================
+   * Controls how individual letters (llan, lyasov) pop in
+   *
+   * - No position or scale animation - just pure opacity (like lights turning on)
+   * - Duration: 0.2s for instant "pop" effect
+   * - Letters appear in staggered sequence (controlled by staggerChildren below)
+   */
   const letterVariants = {
     initial: { opacity: 0 },
-    flicker: { opacity: 0 },
+    flicker: { opacity: 0 }, // Stay hidden during flicker
     reveal: {
       opacity: 1,
-      transition: { duration: 0.2 } // Quick pop like a light
+      transition: { duration: 0.2 } // Quick pop like a light switch
     }
   };
 
@@ -108,8 +138,9 @@ export default function Hero() {
             {/* Giant "A" - Starts center, slides left */}
             <motion.span
               layout
+              transition={{ layout: { duration: 3 } }}
               className="leading-none font-black"
-              style={{ fontSize: 'clamp(10rem, 20vw, 40rem)' }}
+              style={{ fontSize: 'clamp(10rem, 17vw, 40rem)' }}
               variants={aVariants}
               initial="initial"
               animate={phase}
@@ -124,11 +155,11 @@ export default function Hero() {
                 fontSize: 'clamp(3rem, 10vw, 12rem)',
                 width: phase === 'reveal' ? 'auto' : 0,
                 overflow: 'hidden',
-                transition: 'width 1.2s'
+                transition: 'width 3s'
               }}
               initial="initial"
               animate={phase}
-              transition={{ staggerChildren: 0.3, delayChildren: 1.0 }}
+              transition={{ staggerChildren: 0.5 , delayChildren: 0.8 }}
             >
               {['n', 'a', 'l', 'l'].map((char, i) => (
                 <motion.span
@@ -144,8 +175,9 @@ export default function Hero() {
             {/* Giant "I" - Starts center, moves slightly left */}
             <motion.span
               layout
+              transition={{ layout: { duration: 3 } }}
               className="leading-none font-black"
-              style={{ fontSize: 'clamp(10rem, 20vw, 40rem)' }}
+              style={{ fontSize: 'clamp(10rem, 17vw, 40rem)' }}
               variants={iVariants}
               initial="initial"
               animate={phase}
@@ -160,11 +192,11 @@ export default function Hero() {
                 fontSize: 'clamp(3rem, 10vw, 12rem)',
                 width: phase === 'reveal' ? 'auto' : 0,
                 overflow: 'hidden',
-                transition: 'width 1.2s'
+                transition: 'width 3s'
               }}
               initial="initial"
               animate={phase}
-              transition={{ staggerChildren: 0.3, delayChildren: 1.0 }}
+              transition={{ staggerChildren: 0.50, delayChildren: 0.2}}
             >
               {['v', 'o', 's', 'a', 'y', 'l'].map((char, i) => (
                 <motion.span
