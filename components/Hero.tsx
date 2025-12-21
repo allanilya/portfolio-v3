@@ -132,7 +132,7 @@ export default function Hero() {
             className="flex items-center justify-center text-cyan-400"
             style={{
               fontFamily: 'TR2N, Orbitron, monospace',
-              textShadow: "0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.3)",
+              textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
               letterSpacing: '0.50em', // Increased letter spacing
               padding: '80px 40px' // Padding to prevent glow cutoff
             }}
