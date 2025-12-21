@@ -35,30 +35,61 @@ export default function Hero() {
     return () => clearTimeout(flickerTimer);
   }, []);
 
-  // Giant initial flicker (no movement - FIXED in place)
-  const initialFlickerVariants = {
-    initial: { opacity: 0 },
+  // "A" - starts at center with I, then slides left to make room for "llan"
+  const aVariants = {
+    initial: { opacity: 0, x: 0 },
     flicker: {
       opacity: [0, 1, 0.4, 1, 0.6, 1, 0.3, 1],
+      x: 0, // Centered with I
       transition: {
-        duration: 0.8,
-        times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1]
+        opacity: {
+          duration: 1.0,
+          times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1]
+        }
       }
     },
     reveal: {
       opacity: 1,
-      transition: { duration: 0.3 }
+      x: 10,   // was -200
+      transition: {
+        x: { duration: 2 },
+        opacity: { duration: 0.3 }
+      }
     }
+
   };
 
-  // Letter-by-letter reveal for middle letters
-  const letterVariants = {
-    initial: { opacity: 0, filter: "blur(6px)" },
-    flicker: { opacity: 0, filter: "blur(6px)" },
+  // "I" - starts at center with A, then slides right to make room for "lyasov"
+  const iVariants = {
+    initial: { opacity: 0, x: 0 },
+    flicker: {
+      opacity: [0, 1, 0.4, 1, 0.6, 1, 0.3, 1],
+      x: 0, // Centered with A
+      transition: {
+        opacity: {
+          duration: 1.0,
+          times: [0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1]
+        }
+      }
+    },
     reveal: {
       opacity: 1,
-      filter: "blur(0px)",
-      transition: { duration: 0.5 }
+      x: -0,   // SLIGHT left shift
+      transition: {
+        x: { duration: 2 },
+        opacity: { duration: 0.3 }
+      }
+    }
+
+  };
+
+  // Letters pop on like lights (NO SCALE - just opacity)
+  const letterVariants = {
+    initial: { opacity: 0 },
+    flicker: { opacity: 0 },
+    reveal: {
+      opacity: 1,
+      transition: { duration: 0.2 } // Quick pop like a light
     }
   };
 
@@ -68,59 +99,79 @@ export default function Hero() {
         {/* NAME - Tron Neon Sign Style */}
         <h1 className="font-bold mb-8">
           <div
-            className="flex items-center justify-center gap-1 text-cyan-400 tracking-widest"
+            className="flex items-center justify-center text-cyan-400 tracking-widest"
             style={{
               fontFamily: 'TR2N, Orbitron, monospace',
               textShadow: "0 0 10px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5), 0 0 30px rgba(0, 255, 255, 0.3)"
             }}
           >
-            {/* Giant "A" - FIXED - TRULY MASSIVE */}
+            {/* Giant "A" - Starts center, slides left */}
             <motion.span
+              layout
               className="leading-none font-black"
               style={{ fontSize: 'clamp(10rem, 20vw, 40rem)' }}
-              variants={initialFlickerVariants}
+              variants={aVariants}
               initial="initial"
               animate={phase}
             >
               A
             </motion.span>
 
-            {/* "llan" - Letters light up one by one */}
+            {/* "llan" - Pop up from LAST to FIRST (n→a→l→l) */}
             <motion.span
               className="flex"
-              style={{ fontSize: 'clamp(3rem, 10vw, 12rem)' }}
+              style={{
+                fontSize: 'clamp(3rem, 10vw, 12rem)',
+                width: phase === 'reveal' ? 'auto' : 0,
+                overflow: 'hidden',
+                transition: 'width 1.2s'
+              }}
               initial="initial"
               animate={phase}
-              transition={{ staggerChildren: 0.08, delayChildren: 1.0 }}
+              transition={{ staggerChildren: 0.3, delayChildren: 1.0 }}
             >
-              {['l', 'l', 'a', 'n'].map((char, i) => (
-                <motion.span key={i} variants={letterVariants}>
+              {['n', 'a', 'l', 'l'].map((char, i) => (
+                <motion.span
+                  key={i}
+                  variants={letterVariants}
+                  style={{ order: 3 - i }} // Reverse visual order
+                >
                   {char}
                 </motion.span>
               ))}
             </motion.span>
 
-            {/* Giant "I" - FIXED - TRULY MASSIVE */}
+            {/* Giant "I" - Starts center, moves slightly left */}
             <motion.span
+              layout
               className="leading-none font-black"
               style={{ fontSize: 'clamp(10rem, 20vw, 40rem)' }}
-              variants={initialFlickerVariants}
+              variants={iVariants}
               initial="initial"
               animate={phase}
             >
               I
             </motion.span>
 
-            {/* "lyasov" - Letters light up one by one */}
+            {/* "lyasov" - Pop up from LAST to FIRST (v→o→s→a→y→l) */}
             <motion.span
               className="flex"
-              style={{ fontSize: 'clamp(3rem, 10vw, 12rem)' }}
+              style={{
+                fontSize: 'clamp(3rem, 10vw, 12rem)',
+                width: phase === 'reveal' ? 'auto' : 0,
+                overflow: 'hidden',
+                transition: 'width 1.2s'
+              }}
               initial="initial"
               animate={phase}
-              transition={{ staggerChildren: 0.08, delayChildren: 1.3 }}
+              transition={{ staggerChildren: 0.3, delayChildren: 1.0 }}
             >
-              {['l', 'y', 'a', 's', 'o', 'v'].map((char, i) => (
-                <motion.span key={i} variants={letterVariants}>
+              {['v', 'o', 's', 'a', 'y', 'l'].map((char, i) => (
+                <motion.span
+                  key={i}
+                  variants={letterVariants}
+                  style={{ order: 5 - i }} // Reverse visual order
+                >
                   {char}
                 </motion.span>
               ))}
