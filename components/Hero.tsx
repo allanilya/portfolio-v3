@@ -94,7 +94,7 @@ export default function Hero() {
       color: '',
       webkitTextStroke: '',
       textShadow: ''
-    }, 3.3);
+    }, 0.50 * 3.3);
 
     // I flicker sequence (different timing)
     tl.set(iRef.current, {
