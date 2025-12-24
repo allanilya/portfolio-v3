@@ -22,7 +22,8 @@
 
 import { LucideGithub, LucideLinkedin, FileText } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
 
 export default function Hero() {
   /**
@@ -33,231 +34,108 @@ export default function Hero() {
    * 2. 'reveal' (1s+): AI slides apart, letters pop in to complete the name
    */
   const [phase, setPhase] = useState<'flicker' | 'reveal'>('flicker');
+  const aRef = useRef<HTMLSpanElement>(null);
+  const iRef = useRef<HTMLSpanElement>(null);
 
-  // After 3.5 seconds, switch from 'flicker' to 'reveal' phase
+  // GSAP flicker animation for A and I
   useEffect(() => {
+    if (!aRef.current || !iRef.current) return;
+
+    const tl = gsap.timeline();
+
+    // A flicker sequence
+    tl.set(aRef.current, {
+      opacity: 0,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    }, 0)
+    // Keyframe 1: off
+    .set(aRef.current, { opacity: 0 }, 0.08 * 3.3)
+    // Keyframe 2: outline only
+    .set(aRef.current, {
+      opacity: 1,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    }, 0.12 * 3.3)
+    // Keyframe 3: dim fill
+    .set(aRef.current, {
+      opacity: 0.4,
+      color: 'rgb(34, 211, 238)',
+      webkitTextStroke: '0px transparent',
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+    }, 0.25 * 3.3)
+    // Keyframe 4: outline only
+    .set(aRef.current, {
+      opacity: 1,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    }, 0.35 * 3.3)
+    // Keyframe 5: full fill
+    .set(aRef.current, {
+      opacity: 1,
+      color: 'rgb(34, 211, 238)',
+      webkitTextStroke: '0px transparent',
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+    }, 0.45 * 3.3)
+    // Continue at full fill until end
+    .set(aRef.current, {
+      opacity: 1,
+      color: 'rgb(34, 211, 238)',
+      webkitTextStroke: '0px transparent',
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+    }, 3.3);
+
+    // I flicker sequence (different timing)
+    tl.set(iRef.current, {
+      opacity: 0,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    }, 0)
+    // Keyframe 1: outline only
+    .set(iRef.current, {
+      opacity: 1,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    }, 0.10 * 3.3)
+    // Keyframe 2: off
+    .set(iRef.current, { opacity: 0 }, 0.18 * 3.3)
+    // Keyframe 3: full fill
+    .set(iRef.current, {
+      opacity: 1,
+      color: 'rgb(34, 211, 238)',
+      webkitTextStroke: '0px transparent',
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+    }, 0.30 * 3.3)
+    // Keyframe 4: dim fill
+    .set(iRef.current, {
+      opacity: 0.4,
+      color: 'rgb(34, 211, 238)',
+      webkitTextStroke: '0px transparent',
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+    }, 0.42 * 3.3)
+    // Continue at full fill
+    .set(iRef.current, {
+      opacity: 1,
+      color: 'rgb(34, 211, 238)',
+      webkitTextStroke: '0px transparent',
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+    }, 0.60 * 3.3);
+
+    // After flicker completes, switch to reveal phase
     const flickerTimer = setTimeout(() => {
       setPhase('reveal');
     }, 3500);
 
-    return () => clearTimeout(flickerTimer);
+    return () => {
+      clearTimeout(flickerTimer);
+      tl.kill();
+    };
   }, []);
-
-  /**
-   * ANIMATION VARIANTS FOR "A"
-   * ==========================
-   * Three-state flicker animation:
-   * 1. Off (opacity: 0) - completely invisible
-   * 2. Outline only (opacity: 1, color: transparent) - just the stroke visible
-   * 3. Full fill (opacity: 1, color: rgb with varying alpha) - stroke + fill with varying brightness
-   */
-  const aVariants = {
-    initial: {
-      opacity: 0,
-      x: 0,
-      color: 'transparent',
-      WebkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
-    },
-    flicker: {
-      opacity: [
-        0,      // off
-        0,      // off
-        1,      // outline only
-        0.4,    // dim fill
-        1,      // outline only
-        1,      // full fill
-        0.5,    // dim fill
-        1,      // full fill
-        1,      // full fill
-        1,      // full fill
-        1,      // full fill
-        1       // full fill - stable
-      ],
-      color: [
-        'transparent',           // off
-        'transparent',           // off
-        'transparent',           // outline only - no fill
-        'rgb(0, 255, 255)',      // dim fill
-        'transparent',           // outline only - no fill
-        'rgb(0, 255, 255)',      // full fill
-        'rgb(0, 255, 255)',      // dim fill
-        'rgb(0, 255, 255)',      // full fill
-        'rgb(0, 255, 255)',      // full fill
-        'rgb(0, 255, 255)',      // full fill
-        'rgb(0, 255, 255)',      // full fill
-        'rgba(o, 255, 255, 0.8)' // broken syntax - makes outline states work
-      ],
-      WebkitTextStroke: [
-        '2px rgba(0, 255, 255, 0.8)',  // off (has stroke)
-        '2px rgba(0, 255, 255, 0.8)',  // off (has stroke)
-        '2px rgba(0, 255, 255, 0.8)',  // outline only - stroke visible
-        '0px transparent',              // dim fill - no stroke (like reveal)
-        '2px rgba(0, 255, 255, 0.8)',  // outline only - stroke visible
-        '0px transparent',              // full fill - no stroke (like reveal)
-        '0px transparent',              // dim fill - no stroke (like reveal)
-        '0px transparent',              // full fill - no stroke (like reveal)
-        '0px transparent',              // full fill - no stroke (like reveal)
-        '0px transparent',              // full fill - no stroke (like reveal)
-        '0px transparent',              // full fill - no stroke (like reveal)
-        '0px transparent'               // full fill - no stroke (like reveal)
-      ],
-      textShadow: [
-        'none',                                                                                          // off
-        'none',                                                                                          // off
-        'none',                                                                                          // outline only - no glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // dim fill - parent glow
-        'none',                                                                                          // outline only - no glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // full fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // dim fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // full fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // full fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // full fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // full fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'  // full fill - parent glow
-      ],
-      x: 0,
-      transition: {
-        opacity: {
-          duration: 3.3,
-          ease: "linear" as const,
-          times: [0, 0.08, 0.12, 0.25, 0.35, 0.45, 0.55, 0.65, 0.72, 0.80, 0.90, 1]
-        },
-        color: {
-          duration: 3.3,
-          ease: "linear" as const,
-          times: [0, 0.08, 0.12, 0.25, 0.35, 0.45, 0.55, 0.65, 0.72, 0.80, 0.90, 1]
-        },
-        WebkitTextStroke: {
-          duration: 3.3,
-          ease: "linear" as const,
-          times: [0, 0.08, 0.12, 0.25, 0.35, 0.45, 0.55, 0.65, 0.72, 0.80, 0.90, 1]
-        },
-        textShadow: {
-          duration: 3.3,
-          ease: "linear" as const,
-          times: [0, 0.08, 0.12, 0.25, 0.35, 0.45, 0.55, 0.65, 0.72, 0.80, 0.90, 1]
-        }
-      }
-    },
-    reveal: {
-      opacity: 1,
-      color: 'inherit',
-      WebkitTextStroke: '0px transparent',
-      textShadow: 'inherit',
-      x: 10,
-      transition: {
-        opacity: { duration: 0.3 }
-      }
-    }
-  };
-
-  /**
-   * ANIMATION VARIANTS FOR "I"
-   * ==========================
-   * Different flicker pattern than "A" for more realistic neon effect
-   * Uses the same three-state system with different timing
-   */
-  const iVariants = {
-    initial: {
-      opacity: 0,
-      x: 0,
-      color: 'transparent',
-      WebkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
-    },
-    flicker: {
-      opacity: [
-        0,      // off
-        1,      // outline only
-        0,      // off
-        1,      // full fill
-        0.4,    // dim fill
-        0,      // off
-        1,      // outline only
-        1,      // full fill
-        0.6,    // dim fill
-        1,      // full fill
-        1,      // full fill
-        1       // full fill - stable
-      ],
-      color: [
-        'transparent',           // off
-        'transparent',           // outline only - no fill
-        'transparent',           // off
-        'rgb(0, 255, 255)',      // full fill
-        'rgb(0, 255, 255)',      // dim fill
-        'transparent',           // off
-        'transparent',           // outline only - no fill
-        'rgb(0, 255, 255)',      // full fill
-        'rgb(0, 255, 255)',      // dim fill
-        'rgb(0, 255, 255)',      // full fill
-        'rgb(0, 255, 255)',      // full fill
-        'rgba(o, 255, 255, 0,8)' // broken syntax - makes outline states work
-      ],
-      WebkitTextStroke: [
-        '2px rgba(0, 255, 255, 0.8)',  // off (has stroke)
-        '2px rgba(0, 255, 255, 0.8)',  // outline only - stroke visible
-        '2px rgba(0, 255, 255, 0.8)',  // off (has stroke)
-        '0px transparent',              // full fill - no stroke (like reveal)
-        '0px transparent',              // dim fill - no stroke (like reveal)
-        '2px rgba(0, 255, 255, 0.8)',  // off (has stroke)
-        '2px rgba(0, 255, 255, 0.8)',  // outline only - stroke visible
-        '0px transparent',              // full fill - no stroke (like reveal)
-        '0px transparent',              // dim fill - no stroke (like reveal)
-        '0px transparent',              // full fill - no stroke (like reveal)
-        '0px transparent',              // full fill - no stroke (like reveal)
-        '0px transparent'               // full fill - no stroke (like reveal)
-      ],
-      textShadow: [
-        'none',                                                                                          // off
-        'none',                                                                                          // outline only - no glow
-        'none',                                                                                          // off
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // full fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // dim fill - parent glow
-        'none',                                                                                          // off
-        'none',                                                                                          // outline only - no glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // full fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // dim fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // full fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)', // full fill - parent glow
-        '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'  // full fill - parent glow
-      ],
-      x: 0,
-      transition: {
-        opacity: {
-          duration: 3.3,
-          ease: "linear" as const,
-          times: [0, 0.10, 0.18, 0.30, 0.42, 0.50, 0.60, 0.68, 0.76, 0.85, 0.93, 1]
-        },
-        color: {
-          duration: 3.3,
-          ease: "linear" as const,
-          times: [0, 0.10, 0.18, 0.30, 0.42, 0.50, 0.60, 0.68, 0.76, 0.85, 0.93, 1]
-        },
-        WebkitTextStroke: {
-          duration: 3.3,
-          ease: "linear" as const,
-          times: [0, 0.10, 0.18, 0.30, 0.42, 0.50, 0.60, 0.68, 0.76, 0.85, 0.93, 1]
-        },
-        textShadow: {
-          duration: 3.3,
-          ease: "linear" as const,
-          times: [0, 0.10, 0.18, 0.30, 0.42, 0.50, 0.60, 0.68, 0.76, 0.85, 0.93, 1]
-        }
-      }
-    },
-    reveal: {
-      opacity: 1,
-      color: 'inherit',
-      WebkitTextStroke: '0px transparent',
-      textShadow: 'inherit',
-      x: 0,
-      transition: {
-        opacity: { duration: 0.3 }
-      }
-    }
-  };
 
   /**
    * ANIMATION VARIANTS FOR LETTERS
@@ -293,15 +171,14 @@ export default function Hero() {
           >
             {/* Giant "A" - Starts center, slides left */}
             <motion.span
+              ref={aRef}
               layout
               transition={{ layout: { duration: 3 } }}
               className="leading-none font-black"
               style={{
-                fontSize: 'clamp(10rem, 17vw, 40rem)'
+                fontSize: 'clamp(10rem, 17vw, 40rem)',
+                display: 'inline-block'
               }}
-              variants={aVariants}
-              initial="initial"
-              animate={phase}
             >
               A
             </motion.span>
@@ -330,17 +207,16 @@ export default function Hero() {
               ))}
             </motion.span>
 
-            {/* Giant "I" - Starts center, moves slightly left */}
+            {/* Giant "I" - Starts center, slides right */}
             <motion.span
+              ref={iRef}
               layout
               transition={{ layout: { duration: 3 } }}
               className="leading-none font-black"
               style={{
                 fontSize: 'clamp(10rem, 17vw, 40rem)',
+                display: 'inline-block'
               }}
-              variants={iVariants}
-              initial="initial"
-              animate={phase}
             >
               I
             </motion.span>
