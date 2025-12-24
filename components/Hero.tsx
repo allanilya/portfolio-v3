@@ -41,6 +41,14 @@ export default function Hero() {
   useEffect(() => {
     if (!aRef.current || !iRef.current) return;
 
+    // Set initial state immediately (before timeline starts)
+    gsap.set([aRef.current, iRef.current], {
+      opacity: 0,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    });
+
     const tl = gsap.timeline();
 
     // A flicker sequence
@@ -80,12 +88,12 @@ export default function Hero() {
       webkitTextStroke: '0px transparent',
       textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
     }, 0.45 * 3.3)
-    // Continue at full fill until end
+    // Clear inline styles to inherit from parent (matches smaller letters exactly)
     .set(aRef.current, {
       opacity: 1,
-      color: 'rgb(34, 211, 238)',
-      webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+      color: '',
+      webkitTextStroke: '',
+      textShadow: ''
     }, 3.3);
 
     // I flicker sequence (different timing)
@@ -118,12 +126,12 @@ export default function Hero() {
       webkitTextStroke: '0px transparent',
       textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
     }, 0.42 * 3.3)
-    // Continue at full fill
+    // Clear inline styles to inherit from parent (matches smaller letters exactly)
     .set(iRef.current, {
       opacity: 1,
-      color: 'rgb(34, 211, 238)',
-      webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+      color: '',
+      webkitTextStroke: '',
+      textShadow: ''
     }, 0.60 * 3.3);
 
     // After flicker completes, switch to reveal phase
