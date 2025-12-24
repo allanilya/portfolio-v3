@@ -252,7 +252,13 @@ export default function Projects() {
       `}</style>
       <section id="projects" className="relative z-10 py-20 px-4">
         <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        <h2
+          className="text-3xl md:text-4xl font-bold mb-12 text-center text-cyan-400"
+          style={{
+            fontFamily: 'TR2N, Orbitron, monospace',
+            textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
+          }}
+        >
           Projects
         </h2>
         {/* Carousel Controls */}

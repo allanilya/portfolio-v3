@@ -21,7 +21,15 @@ export default function About() {
     <section id="about" className="relative z-10 py-16 md:py-20 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Section Heading */}
-        <h2 className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">About Me</h2>
+        <h2
+          className="text-3xl md:text-4xl font-bold mb-4 md:mb-6 text-center text-cyan-400"
+          style={{
+            fontFamily: 'TR2N, Orbitron, monospace',
+            textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
+          }}
+        >
+          About Me
+        </h2>
 
         {/* Content Card */}
         <div className="bg-gray-800 rounded-lg p-6 md:p-8 shadow-lg">

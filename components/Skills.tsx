@@ -44,7 +44,13 @@ export default function Skills() {
     <>
       <section id="skills" className="relative z-10 py-16 md:py-20 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <h2
+            className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center text-cyan-400"
+            style={{
+              fontFamily: 'TR2N, Orbitron, monospace',
+              textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
+            }}
+          >
             Technical Skills
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
