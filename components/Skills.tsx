@@ -35,9 +35,9 @@ const VoxelBackground: React.FC<{
     const depth = layerIndex;
     const depthRatio = depth / (layers - 1); // 0 to 1
 
-    // Reflected light intensity: very subtle diffused reflection
-    // Voxels are non-luminous, barely catching light from above
-    const reflectedLight = Math.pow(1 - depthRatio, 2.5) * 0.02; // 5% intensity for maximum subtlety
+    // Reflected light intensity: visible pixelated gradient effect
+    // Creates stepped glow layers from bright to black
+    const reflectedLight = Math.pow(1 - depthRatio, 1.5) * 0.05; // Visible voxel gradient
 
     // Depth offset for parallax
     const offsetX = depth * 2;
@@ -220,10 +220,11 @@ export default function Skills() {
               <div
                 key={index}
                 onClick={() => setSelectedCategory(index)}
-                className="group bg-gray-800 rounded-xl p-5 md:p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-700 hover:border-blue-600 transform hover:-translate-y-1 cursor-pointer relative"
+                className="group bg-gray-800 p-5 md:p-6 transition-all duration-300 border-2 transform hover:-translate-y-1 cursor-pointer relative"
                 style={{
-                  boxShadow: getCardGlow(category.colors.text),
-                  overflow: 'visible' // Allow voxel layers to extend beyond card
+                  borderColor: `rgba(${getRgb(category.colors.text)}, 0.6)`,
+                  boxShadow: `0 0 8px rgba(${getRgb(category.colors.text)}, 0.6), 0 0 15px rgba(${getRgb(category.colors.text)}, 0.3)`,
+                  overflow: 'visible',
                 }}
               >
                 {/* Voxel background for each card - light source is the card title */}
