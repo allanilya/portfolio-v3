@@ -260,7 +260,7 @@ export default function Hero() {
           className="text-lg sm:text-xl md:text-2xl text-cyan-400 mb-4 md:mb-8 px-4"
           style={{
             fontFamily: 'TR2N, Orbitron, monospace',
-            textShadow: "0 0 4px rgba(0, 255, 255, 1), 0 0 30px rgba(0, 255, 255, 0.7), 0 0 15px rgba(0, 255, 255, 0.5)"
+            textShadow: "0 0 2px rgba(0, 255, 255, 1), 0 0 70px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5)"
           }}
         >
           AI/ML Engineer & Full-Stack Developer

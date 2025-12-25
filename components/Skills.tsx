@@ -23,6 +23,57 @@ import { skillCategories } from '@/lib/skillsData';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Multi-layer voxel depth background - non-luminous blocks reflecting the glow from above
+// Like Minecraft terrain: uniform-sized voxels, no borders, each layer reflects less light
+const VoxelBackground: React.FC<{
+  rgb: string; // "R,G,B" of the light source (element above)
+  layers?: number; // 6-8 layers recommended
+}> = ({ rgb, layers = 8 }) => {
+  const voxelSize = 6; // Uniform voxel size across all layers
+
+  const layerElements = Array.from({ length: layers }, (_, layerIndex) => {
+    const depth = layerIndex;
+    const depthRatio = depth / (layers - 1); // 0 to 1
+
+    // Reflected light intensity: very subtle diffused reflection
+    // Voxels are non-luminous, barely catching light from above
+    const reflectedLight = Math.pow(1 - depthRatio, 2.5) * 0.02; // 5% intensity for maximum subtlety
+
+    // Depth offset for parallax
+    const offsetX = depth * 2;
+    const offsetY = depth * 2;
+
+    // Spread increases with depth
+    const spread = 30 + depth * 12;
+
+    return (
+      <div
+        key={layerIndex}
+        className="absolute pointer-events-none"
+        style={{
+          // Extend beyond element boundaries
+          top: `-${spread}px`,
+          left: `-${spread}px`,
+          right: `-${spread}px`,
+          bottom: `-${spread}px`,
+          // Solid connected voxels - no borders, like Minecraft blocks
+          backgroundImage: `
+            linear-gradient(0deg, rgba(${rgb}, ${reflectedLight}) ${voxelSize}px, transparent 0),
+            linear-gradient(90deg, rgba(${rgb}, ${reflectedLight}) ${voxelSize}px, transparent 0)
+          `,
+          backgroundSize: `${voxelSize}px ${voxelSize}px`,
+          backgroundPosition: `${offsetX}px ${offsetY}px`,
+          // NO blur - crisp, non-luminous voxel blocks
+          zIndex: -(layers - depth),
+          opacity: reflectedLight > 0.01 ? 1 : 0,
+        }}
+      />
+    );
+  });
+
+  return <>{layerElements}</>;
+};
+
 export default function Skills() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<{ categoryIndex: number; skillName: string } | null>(null);
@@ -90,29 +141,71 @@ export default function Skills() {
   return (
     <>
       <style jsx>{`
-        .skill-glow {
+        
           position: relative;
         }
 
-        .skill-glow::before {
+        /* Layer 1: Pixel Grid Underlay */
+        .neon-pixel::before {
           content: "";
           position: absolute;
-          inset: -30px;
+          inset: -40px; /* Glow spread area */
           z-index: -1;
-          background: radial-gradient(circle at center,
-            rgba(var(--glow-rgb), 0.9) 0%,
-            rgba(var(--glow-rgb), 0.4) 40%,
-            rgba(var(--glow-rgb), 0.2) 70%,
-            rgba(var(--glow-rgb), 0) 100%
+          pointer-events: none;
+
+          /* Create the cube/voxel grid that light catches on */
+          background-image:
+            linear-gradient(90deg, rgba(var(--rgb), 0.3) 1px, transparent 1px),
+            linear-gradient(0deg, rgba(var(--rgb), 0.3) 1px, transparent 1px);
+          background-size: 6px 6px; /* Cube size - matches fixed grid */
+
+          /* Neon bloom that illuminates the grid */
+          filter:
+            blur(28px)        /* Medium bloom - catches the grid */
+            brightness(1.8)   /* Amplify the glow */
+            saturate(1.5);    /* Boost color intensity */
+
+          opacity: 0.85;
+        }
+
+        /* Layer 2: Soft Outer Bloom */
+        .neon-pixel::after {
+          content: "";
+          position: absolute;
+          inset: -60px; /* Wider spread for large diffused bloom */
+          z-index: -2;
+          pointer-events: none;
+
+          /* Radial gradient for soft outer glow */
+          background: radial-gradient(
+            circle at center,
+            rgba(var(--rgb), 0.7) 0%,
+            rgba(var(--rgb), 0.35) 30%,
+            rgba(var(--rgb), 0.15) 60%,
+            transparent 100%
           );
-          filter: blur(22px);
-          transform: scale(0.6);
-          image-rendering: pixelated;
+
+          /* Large blur for wide diffusion (matches your 70px composite) */
+          filter: blur(50px);
+          opacity: 0.9;
+        }
+
+        /* Sharp neon core on the text itself */
+        .neon-pixel {
+          text-shadow:
+            0 0 2px rgba(var(--rgb), 1),      /* Sharp core */
+            0 0 8px rgba(var(--rgb), 0.8),    /* Close glow */
+            0 0 16px rgba(var(--rgb), 0.6),   /* Medium spread */
+            0 0 32px rgba(var(--rgb), 0.4);   /* Wider halo */
         }
       `}</style>
 
-      <section id="skills" className="relative z-10 py-16 md:py-20 px-4">
-        <div className="max-w-7xl mx-auto">
+      <section id="skills" className="relative z-10 py-16 md:py-20 px-4 overflow-visible">
+        {/* Fixed pixel substrate under entire section */}
+        <div className="pixel-grid"></div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Section Title - No voxel background needed, Tron font has pixel glow */}
           <h2
             className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center text-cyan-400"
             style={{
@@ -127,12 +220,16 @@ export default function Skills() {
               <div
                 key={index}
                 onClick={() => setSelectedCategory(index)}
-                className="group bg-gray-800 rounded-xl p-5 md:p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-700 hover:border-blue-600 transform hover:-translate-y-1 cursor-pointer"
+                className="group bg-gray-800 rounded-xl p-5 md:p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-700 hover:border-blue-600 transform hover:-translate-y-1 cursor-pointer relative"
                 style={{
-                  boxShadow: getCardGlow(category.colors.text)
+                  boxShadow: getCardGlow(category.colors.text),
+                  overflow: 'visible' // Allow voxel layers to extend beyond card
                 }}
               >
-                <div className="flex items-center gap-3 mb-4">
+                {/* Voxel background for each card - light source is the card title */}
+                <VoxelBackground rgb={getRgb(category.colors.text)} layers={8} />
+
+                <div className="flex items-center gap-3 mb-4 relative z-10">
                   <div className={`w-1 h-8 bg-gradient-to-b ${category.colors.bg} rounded-full`}></div>
                   <h3
                     className={`text-lg md:text-xl font-bold ${category.colors.text}`}
@@ -151,11 +248,11 @@ export default function Skills() {
                         e.stopPropagation();
                         setSelectedSkill({ categoryIndex: index, skillName: skill.name });
                       }}
-                      className={`skill-glow px-3 py-1.5 ${category.colors.badge} rounded-lg text-sm font-medium transition-transform hover:scale-105 cursor-pointer`}
+                      className={`px-3 py-1.5 ${category.colors.badge} rounded-lg text-sm font-medium transition-transform hover:scale-105 cursor-pointer`}
                       style={{
-                        '--glow-rgb': getRgb(category.colors.text),
                         textShadow: getColoredGlow(category.colors.text),
-                      } as React.CSSProperties}
+                        boxShadow: getCardGlow(category.colors.text)
+                      }}
                     >
                       {skill.name}
                     </span>
