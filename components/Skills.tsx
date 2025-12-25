@@ -27,6 +27,53 @@ export default function Skills() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<{ categoryIndex: number; skillName: string } | null>(null);
 
+  // Helper function to get RGB values for CSS variables
+  const getRgb = (color: string) => {
+    return {
+      'text-purple-400': '192, 132, 252',
+      'text-blue-400': '96, 165, 250',
+      'text-green-400': '74, 222, 128',
+      'text-orange-400': '251, 146, 60',
+      'text-indigo-400': '129, 140, 248',
+      'text-teal-400': '45, 212, 191',
+      'text-pink-400': '244, 114, 182',
+    }[color] || '255, 255, 255';
+  };
+
+  // Helper function to get colored glow for skill category titles and text (pixelated/stepped glow)
+  const getColoredGlow = (color: string) => {
+    const rgb = getRgb(color);
+    return `
+      0 0 2px rgba(${rgb}, 0.9),
+      0 0 15px rgba(${rgb}, 0.6),
+      0 0 30px rgba(${rgb}, 0.4),
+      0 0 45px rgba(${rgb}, 0.25),
+      0 0 60px rgba(${rgb}, 0.15)
+    `;
+  };
+
+  const getCardGlow = (color: string) => {
+    const rgb = {
+      'text-purple-400': '192, 132, 252',
+      'text-blue-400': '96, 165, 250',
+      'text-green-400': '74, 222, 128',
+      'text-orange-400': '251, 146, 60',
+      'text-indigo-400': '129, 140, 248',
+      'text-teal-400': '45, 212, 191',
+      'text-pink-400': '244, 114, 182',
+    }[color];
+
+    if (!rgb) return '';
+
+    return `
+      0 0 4px rgba(${rgb}, 0.9),
+      0 0 20px rgba(${rgb}, 0.5),
+      0 0 35px rgba(${rgb}, 0.3),
+      0 0 50px rgba(${rgb}, 0.2)
+    `;
+  };
+
+
   // Prevent body scroll when modal is open
   useEffect(() => {
     if (selectedCategory !== null || selectedSkill !== null) {
@@ -42,6 +89,28 @@ export default function Skills() {
 
   return (
     <>
+      <style jsx>{`
+        .skill-glow {
+          position: relative;
+        }
+
+        .skill-glow::before {
+          content: "";
+          position: absolute;
+          inset: -30px;
+          z-index: -1;
+          background: radial-gradient(circle at center,
+            rgba(var(--glow-rgb), 0.9) 0%,
+            rgba(var(--glow-rgb), 0.4) 40%,
+            rgba(var(--glow-rgb), 0.2) 70%,
+            rgba(var(--glow-rgb), 0) 100%
+          );
+          filter: blur(22px);
+          transform: scale(0.6);
+          image-rendering: pixelated;
+        }
+      `}</style>
+
       <section id="skills" className="relative z-10 py-16 md:py-20 px-4">
         <div className="max-w-7xl mx-auto">
           <h2
@@ -59,10 +128,18 @@ export default function Skills() {
                 key={index}
                 onClick={() => setSelectedCategory(index)}
                 className="group bg-gray-800 rounded-xl p-5 md:p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-700 hover:border-blue-600 transform hover:-translate-y-1 cursor-pointer"
+                style={{
+                  boxShadow: getCardGlow(category.colors.text)
+                }}
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className={`w-1 h-8 bg-gradient-to-b ${category.colors.bg} rounded-full`}></div>
-                  <h3 className={`text-lg md:text-xl font-bold ${category.colors.text}`}>
+                  <h3
+                    className={`text-lg md:text-xl font-bold ${category.colors.text}`}
+                    style={{
+                      textShadow: getColoredGlow(category.colors.text)
+                    }}
+                  >
                     {category.title}
                   </h3>
                 </div>
@@ -74,7 +151,11 @@ export default function Skills() {
                         e.stopPropagation();
                         setSelectedSkill({ categoryIndex: index, skillName: skill.name });
                       }}
-                      className={`px-3 py-1.5 ${category.colors.badge} rounded-lg text-sm font-medium transition-transform hover:scale-105 cursor-pointer`}
+                      className={`skill-glow px-3 py-1.5 ${category.colors.badge} rounded-lg text-sm font-medium transition-transform hover:scale-105 cursor-pointer`}
+                      style={{
+                        '--glow-rgb': getRgb(category.colors.text),
+                        textShadow: getColoredGlow(category.colors.text),
+                      } as React.CSSProperties}
                     >
                       {skill.name}
                     </span>

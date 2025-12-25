@@ -240,7 +240,7 @@ export default function Hero() {
               }}
               initial="initial"
               animate={phase}
-              transition={{ staggerChildren: 0.50, delayChildren: 0.2}}
+              transition={{ staggerChildren: 0.50, delayChildren: 0.3}}
             >
               {['v', 'o', 's', 'a', 'y', 'l'].map((char, i) => (
                 <motion.span
