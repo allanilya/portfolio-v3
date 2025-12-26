@@ -28,8 +28,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 const VoxelBackground: React.FC<{
   rgb: string; // "R,G,B" of the light source (element above)
   layers?: number; // 6-8 layers recommended
-}> = ({ rgb, layers = 8 }) => {
-  const voxelSize = 6; // Uniform voxel size across all layers
+  voxelSize?: number; // Size of each voxel in pixels
+}> = ({ rgb, layers = 8, voxelSize = 2 }) => {
 
   const layerElements = Array.from({ length: layers }, (_, layerIndex) => {
     const depth = layerIndex;
@@ -57,9 +57,10 @@ const VoxelBackground: React.FC<{
           right: `-${spread}px`,
           bottom: `-${spread}px`,
           // Solid connected voxels - no borders, like Minecraft blocks
+          // Create grid pattern: 1px lines every voxelSize pixels
           backgroundImage: `
-            linear-gradient(0deg, rgba(${rgb}, ${reflectedLight}) ${voxelSize}px, transparent 0),
-            linear-gradient(90deg, rgba(${rgb}, ${reflectedLight}) ${voxelSize}px, transparent 0)
+            linear-gradient(0deg, rgba(${rgb}, ${reflectedLight}) 0, rgba(${rgb}, ${reflectedLight}) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(${rgb}, ${reflectedLight}) 0, rgba(${rgb}, ${reflectedLight}) 1px, transparent 1px)
           `,
           backgroundSize: `${voxelSize}px ${voxelSize}px`,
           backgroundPosition: `${offsetX}px ${offsetY}px`,
