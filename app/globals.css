@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* TR2N Font - Tron style */
+@font-face {
+  font-family: 'TR2N';
+  src: url('/fonts/Tr2n.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;

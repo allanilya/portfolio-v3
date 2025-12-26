@@ -18,41 +18,251 @@
  * - Colors: Change blue-600, purple-600 to other Tailwind colors
  */
 
+'use client';
+
 import { LucideGithub, LucideLinkedin, FileText } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
 
 export default function Hero() {
-  return (
-    <section className="relative z-10 min-h-screen flex flex-col items-center justify-start px-4 pt-25 md:pt-32 pb-12">
-      <div className="max-w-4xl w-full text-center">
-        {/* PROFILE PHOTO */}
-        <div className="mb-4 md:mb-8 flex justify-center">
-          {/*
-            ADJUSTING IMAGE SIZE:
-            Change w-70 h-70 on line 37 to:
-            - w-32 h-32 = small (128px)
-            - w-40 h-40 = medium-small (160px)
-            - w-48 h-48 = medium (192px)
-            - w-56 h-56 = medium-large (224px)
-            - w-64 h-64 = large (256px)
-            - w-72 h-72 = extra-large (288px)
-            - w-80 h-80 = huge (320px)
-          */}
-          <div className="relative w-70 h-70 overflow-hidden rounded-full">
-            <img
-              src="/profilepic.jpeg"
-              alt="Allan Ilyasov"
-              className="absolute inset-0 w-full h-full object-cover scale-110 translate-x-3 [object-position:0%_5%]"
-            />
-          </div>
-        </div>
+  /**
+   * ANIMATION PHASE CONTROL
+   * =======================
+   * The animation has two phases:
+   * 1. 'flicker' (0-1s): AI flickers in the center like a neon sign turning on
+   * 2. 'reveal' (1s+): AI slides apart, letters pop in to complete the name
+   */
+  const [phase, setPhase] = useState<'flicker' | 'reveal'>('flicker');
+  const aRef = useRef<HTMLSpanElement>(null);
+  const iRef = useRef<HTMLSpanElement>(null);
 
-        {/* NAME - Change your name here */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-2 md:mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-          Allan Ilyasov
+  // GSAP flicker animation for A and I
+  useEffect(() => {
+    if (!aRef.current || !iRef.current) return;
+
+    // Set initial state immediately (before timeline starts)
+    gsap.set([aRef.current, iRef.current], {
+      opacity: 0,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    });
+
+    const tl = gsap.timeline();
+
+    // A flicker sequence
+    tl.set(aRef.current, {
+      opacity: 0,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    }, 0)
+    // Keyframe 1: off
+    .set(aRef.current, { opacity: 0 }, 0.08 * 3.3)
+    // Keyframe 2: outline only
+    .set(aRef.current, {
+      opacity: 1,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    }, 0.12 * 3.3)
+    // Keyframe 3: dim fill
+    .set(aRef.current, {
+      opacity: 0.4,
+      color: 'rgb(34, 211, 238)',
+      webkitTextStroke: '0px transparent',
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+    }, 0.25 * 3.3)
+    // Keyframe 4: outline only
+    .set(aRef.current, {
+      opacity: 1,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    }, 0.35 * 3.3)
+    // Keyframe 5: full fill
+    .set(aRef.current, {
+      opacity: 1,
+      color: 'rgb(34, 211, 238)',
+      webkitTextStroke: '0px transparent',
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+    }, 0.45 * 3.3)
+    // Clear inline styles to inherit from parent (matches smaller letters exactly)
+    .set(aRef.current, {
+      opacity: 1,
+      color: '',
+      webkitTextStroke: '',
+      textShadow: ''
+    }, 0.50 * 3.3);
+
+    // I flicker sequence (different timing)
+    tl.set(iRef.current, {
+      opacity: 0,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    }, 0)
+    // Keyframe 1: outline only
+    .set(iRef.current, {
+      opacity: 1,
+      color: 'transparent',
+      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      textShadow: 'none'
+    }, 0.10 * 3.3)
+    // Keyframe 2: off
+    .set(iRef.current, { opacity: 0 }, 0.18 * 3.3)
+    // Keyframe 3: full fill
+    .set(iRef.current, {
+      opacity: 1,
+      color: 'rgb(34, 211, 238)',
+      webkitTextStroke: '0px transparent',
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+    }, 0.30 * 3.3)
+    // Keyframe 4: dim fill
+    .set(iRef.current, {
+      opacity: 0.4,
+      color: 'rgb(34, 211, 238)',
+      webkitTextStroke: '0px transparent',
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+    }, 0.42 * 3.3)
+    // Clear inline styles to inherit from parent (matches smaller letters exactly)
+    .set(iRef.current, {
+      opacity: 1,
+      color: '',
+      webkitTextStroke: '',
+      textShadow: ''
+    }, 0.60 * 3.3);
+
+    // After flicker completes, switch to reveal phase
+    const flickerTimer = setTimeout(() => {
+      setPhase('reveal');
+    }, 3500);
+
+    return () => {
+      clearTimeout(flickerTimer);
+      tl.kill();
+    };
+  }, []);
+
+  /**
+   * ANIMATION VARIANTS FOR LETTERS
+   * ==============================
+   * Controls how individual letters (llan, lyasov) pop in
+   *
+   * - No position or scale animation - just pure opacity (like lights turning on)
+   * - Duration: 0.2s for instant "pop" effect
+   * - Letters appear in staggered sequence (controlled by staggerChildren below)
+   */
+  const letterVariants = {
+    initial: { opacity: 0 },
+    flicker: { opacity: 0 }, // Stay hidden during flicker
+    reveal: {
+      opacity: 1,
+      transition: { duration: 0.2 } // Quick pop like a light switch
+    }
+  };
+
+  return (
+    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
+      <div className="w-full text-center">
+        {/* NAME - Tron Neon Sign Style */}
+        <h1 className="font-bold mb-8">
+          <div
+            className="flex items-center justify-center text-cyan-400"
+            style={{
+              fontFamily: 'TR2N, Orbitron, monospace',
+              textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
+              letterSpacing: '0.50em', // Increased letter spacing
+              padding: '80px 40px' // Padding to prevent glow cutoff
+            }}
+          >
+            {/* Giant "A" - Starts center, slides left */}
+            <motion.span
+              ref={aRef}
+              layout
+              transition={{ layout: { duration: 3 } }}
+              className="leading-none font-black"
+              style={{
+                fontSize: 'clamp(10rem, 17vw, 40rem)',
+                display: 'inline-block'
+              }}
+            >
+              A
+            </motion.span>
+
+            {/* "llan" - Pop up from LAST to FIRST (n→a→l→l) */}
+            <motion.span
+              className="flex"
+              style={{
+                fontSize: 'clamp(3rem, 10vw, 12rem)',
+                width: phase === 'reveal' ? 'auto' : 0,
+                overflow: 'visible', // Allow glow to blend with adjacent letters
+                transition: 'width 3s'
+              }}
+              initial="initial"
+              animate={phase}
+              transition={{ staggerChildren: 0.5 , delayChildren: 0.8 }}
+            >
+              {['n', 'a', 'l', 'l'].map((char, i) => (
+                <motion.span
+                  key={i}
+                  variants={letterVariants}
+                  style={{ order: 3 - i }} // Reverse visual order
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </motion.span>
+
+            {/* Giant "I" - Starts center, slides right */}
+            <motion.span
+              ref={iRef}
+              layout
+              transition={{ layout: { duration: 3 } }}
+              className="leading-none font-black"
+              style={{
+                fontSize: 'clamp(10rem, 17vw, 40rem)',
+                display: 'inline-block'
+              }}
+            >
+              I
+            </motion.span>
+
+            {/* "lyasov" - Pop up from LAST to FIRST (v→o→s→a→y→l) */}
+            <motion.span
+              className="flex"
+              style={{
+                fontSize: 'clamp(3rem, 10vw, 12rem)',
+                width: phase === 'reveal' ? 'auto' : 0,
+                overflow: 'visible', // Allow glow to blend with adjacent letters
+                transition: 'width 3s'
+              }}
+              initial="initial"
+              animate={phase}
+              transition={{ staggerChildren: 0.50, delayChildren: 0.3}}
+            >
+              {['v', 'o', 's', 'a', 'y', 'l'].map((char, i) => (
+                <motion.span
+                  key={i}
+                  variants={letterVariants}
+                  style={{ order: 5 - i }} // Reverse visual order
+                >
+                  {char}
+                </motion.span>
+              ))}
+            </motion.span>
+          </div>
         </h1>
 
         {/* TITLE - Change your professional title here */}
-        <p className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-4 md:mb-8 px-4">
+        <p
+          className="text-lg sm:text-xl md:text-2xl text-cyan-400 mb-4 md:mb-8 px-4"
+          style={{
+            fontFamily: 'TR2N, Orbitron, monospace',
+            textShadow: "0 0 2px rgba(0, 255, 255, 1), 0 0 70px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5)"
+          }}
+        >
           AI/ML Engineer & Full-Stack Developer
         </p>
 
