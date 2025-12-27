@@ -29,7 +29,7 @@ const VoxelBackground: React.FC<{
   rgb: string; // "R,G,B" of the light source (element above)
   layers?: number; // 6-8 layers recommended
   voxelSize?: number; // Size of each voxel in pixels
-}> = ({ rgb, layers = 8, voxelSize = 4 }) => {
+}> = ({ rgb, layers = 8, voxelSize = 2 }) => {
 
   const layerElements = Array.from({ length: layers }, (_, layerIndex) => {
     const depth = layerIndex;
@@ -37,11 +37,11 @@ const VoxelBackground: React.FC<{
 
     // Reflected light intensity: visible pixelated gradient effect
     // Creates stepped glow layers from bright to black
-    const reflectedLight = Math.pow(1 - depthRatio, 1.5) * 0.15; // Increased brightness for visible stepped effect
+    const reflectedLight = Math.pow(1 - depthRatio, 1.5) * 0.05; // Visible voxel gradient
 
     // Depth offset for parallax
-    const offsetX = depth * 3;
-    const offsetY = depth * 3;
+    const offsetX = depth * 2;
+    const offsetY = depth * 2;
 
     // Spread increases with depth
     const spread = 30 + depth * 12;
@@ -57,8 +57,12 @@ const VoxelBackground: React.FC<{
           right: `-${spread}px`,
           bottom: `-${spread}px`,
           // Solid connected voxels - no borders, like Minecraft blocks
-          // Filled voxel squares with no outlines - solid color creates seamless stepping effect
-          backgroundColor: `rgba(${rgb}, ${reflectedLight})`,
+          // Create grid pattern: 1px lines every voxelSize pixels
+          backgroundImage: `
+            linear-gradient(0deg, rgba(${rgb}, ${reflectedLight}) 0, rgba(${rgb}, ${reflectedLight}) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(${rgb}, ${reflectedLight}) 0, rgba(${rgb}, ${reflectedLight}) 1px, transparent 1px)
+          `,
+          backgroundSize: `${voxelSize}px ${voxelSize}px`,
           backgroundPosition: `${offsetX}px ${offsetY}px`,
           // NO blur - crisp, non-luminous voxel blocks
           zIndex: -(layers - depth),
@@ -225,7 +229,7 @@ export default function Skills() {
                 }}
               >
                 {/* Voxel background for each card - light source is the card title */}
-                <VoxelBackground rgb={getRgb(category.colors.text)} layers={8} voxelSize={4} />
+                <VoxelBackground rgb={getRgb(category.colors.text)} layers={8} />
 
                 <div className="flex items-center gap-3 mb-4 relative z-10">
                   <div className={`w-1 h-8 bg-gradient-to-b ${category.colors.bg} rounded-full`}></div>
