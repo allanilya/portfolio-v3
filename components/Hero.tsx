@@ -34,8 +34,19 @@ export default function Hero() {
    * 2. 'reveal' (1s+): AI slides apart, letters pop in to complete the name
    */
   const [phase, setPhase] = useState<'flicker' | 'reveal'>('flicker');
+  const [isMobile, setIsMobile] = useState(false);
   const aRef = useRef<HTMLSpanElement>(null);
   const iRef = useRef<HTMLSpanElement>(null);
+
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // sm breakpoint
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // GSAP flicker animation for A and I
   useEffect(() => {
@@ -219,13 +230,28 @@ export default function Hero() {
               </motion.span>
             </div>
 
-            {/* ILYASOV - Second line on mobile, centered */}
+            {/* ILYASOV - Second line on mobile, only I moves down then left */}
             <div className="flex items-center justify-center">
-              {/* Giant "I" - Starts center, slides right */}
+              {/* Giant "I" - Mobile: drop down, then slide left into place */}
               <motion.span
                 ref={iRef}
-                layout
-                transition={{ layout: { duration: 3 } }}
+                layout={false}
+                initial={{ x: 0, y: 0 }}
+                animate={phase === 'reveal' && isMobile ? {
+                  y: [-80, 0, 0],    // Drop down to the line
+                  x: [60, 60, 0]     // Then slide left into place (after reaching the line)
+                } : phase === 'reveal' ? {
+                  x: 0, // Desktop: no movement
+                  y: 0
+                } : {
+                  x: 0,
+                  y: 0
+                }}
+                transition={{
+                  duration: 3,
+                  times: [0, 0.5, 1], // First half: drop down, second half: slide left
+                  ease: "easeInOut"
+                }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(10rem, 17vw, 40rem)', // Bigger on mobile: 6rem min
@@ -235,14 +261,15 @@ export default function Hero() {
                 I
               </motion.span>
 
-              {/* "lyasov" - Pop up from LAST to FIRST (v→o→s→a→y→l) */}
+              {/* "lyasov" - Static, appears where I ends up (doesn't move) */}
               <motion.span
                 className="flex"
                 style={{
                   fontSize: 'clamp(5rem, 10vw, 12rem)', // Bigger on mobile: 2.5rem min
                   width: phase === 'reveal' ? 'auto' : 0,
                   overflow: 'visible', // Allow glow to blend with adjacent letters
-                  transition: 'width 3s'
+                  transition: 'width 3s',
+                  marginLeft: '0' // Keep centered; I is absolute during mobile reveal
                 }}
                 initial="initial"
                 animate={phase}
