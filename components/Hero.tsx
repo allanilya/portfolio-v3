@@ -173,7 +173,7 @@ export default function Hero() {
             style={{
               fontFamily: 'TR2N, Orbitron, monospace',
               textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-              letterSpacing: 'clamp(0.1em, 4vw, 0.50em)', // Responsive letter spacing - tighter on mobile
+              letterSpacing: 'clamp(0.1em, 4vw, 0.30em)', // Tighter letter spacing on mobile
               padding: 'clamp(20px, 8vw, 80px) clamp(10px, 4vw, 40px)' // Responsive padding - less on mobile
             }}
           >
