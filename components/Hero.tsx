@@ -169,89 +169,96 @@ export default function Hero() {
         {/* NAME - Tron Neon Sign Style */}
         <h1 className="font-bold mb-8">
           <div
-            className="flex items-center justify-center text-cyan-400"
+            className={`flex items-center justify-center text-cyan-400 ${phase === 'reveal' ? 'flex-col sm:flex-row' : 'flex-row'}`}
             style={{
               fontFamily: 'TR2N, Orbitron, monospace',
               textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-              letterSpacing: 'clamp(0.1em, 4vw, 0.30em)', // Tighter letter spacing on mobile
-              padding: 'clamp(20px, 8vw, 80px) clamp(10px, 4vw, 40px)' // Responsive padding - less on mobile
+              letterSpacing: 'clamp(0.15em, 4vw, 0.30em)', // Tighter letter spacing on mobile
+              padding: 'clamp(20px, 8vw, 80px) clamp(20px, 8vw, 80px)', // Responsive padding - less on mobile
+              gap: 'clamp(0px, 2vw, 0px)' // Small gap between lines on mobile
             }}
           >
-            {/* Giant "A" - Starts center, slides left */}
-            <motion.span
-              ref={aRef}
-              layout
-              transition={{ layout: { duration: 3 } }}
-              className="leading-none font-black"
-              style={{
-                fontSize: 'clamp(4rem, 17vw, 40rem)', // Reduced min from 10rem to 4rem for mobile
-                display: 'inline-block'
-              }}
-            >
-              A
-            </motion.span>
+            {/* ALLAN - First line on mobile, centered */}
+            <div className="flex items-center justify-center">
+              {/* Giant "A" - Starts center, slides left */}
+              <motion.span
+                ref={aRef}
+                layout
+                transition={{ layout: { duration: 3 } }}
+                className="leading-none font-black"
+                style={{
+                  fontSize: 'clamp(10rem, 17vw, 40rem)', // Bigger on mobile: 6rem min
+                  display: 'inline-block'
+                }}
+              >
+                A
+              </motion.span>
 
-            {/* "llan" - Pop up from LAST to FIRST (n→a→l→l) */}
-            <motion.span
-              className="flex"
-              style={{
-                fontSize: 'clamp(1.5rem, 10vw, 12rem)', // Reduced min from 3rem to 1.5rem for mobile
-                width: phase === 'reveal' ? 'auto' : 0,
-                overflow: 'visible', // Allow glow to blend with adjacent letters
-                transition: 'width 3s'
-              }}
-              initial="initial"
-              animate={phase}
-              transition={{ staggerChildren: 0.5 , delayChildren: 0.8 }}
-            >
-              {['n', 'a', 'l', 'l'].map((char, i) => (
-                <motion.span
-                  key={i}
-                  variants={letterVariants}
-                  style={{ order: 3 - i }} // Reverse visual order
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.span>
+              {/* "llan" - Pop up from LAST to FIRST (n→a→l→l) */}
+              <motion.span
+                className="flex"
+                style={{
+                  fontSize: 'clamp(5rem, 10vw, 12rem)', // Bigger on mobile: 2.5rem min
+                  width: phase === 'reveal' ? 'auto' : 0,
+                  overflow: 'visible', // Allow glow to blend with adjacent letters
+                  transition: 'width 3s'
+                }}
+                initial="initial"
+                animate={phase}
+                transition={{ staggerChildren: 0.5 , delayChildren: 0.8 }}
+              >
+                {['n', 'a', 'l', 'l'].map((char, i) => (
+                  <motion.span
+                    key={i}
+                    variants={letterVariants}
+                    style={{ order: 3 - i }} // Reverse visual order
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.span>
+            </div>
 
-            {/* Giant "I" - Starts center, slides right */}
-            <motion.span
-              ref={iRef}
-              layout
-              transition={{ layout: { duration: 3 } }}
-              className="leading-none font-black"
-              style={{
-                fontSize: 'clamp(4rem, 17vw, 40rem)', // Reduced min from 10rem to 4rem for mobile
-                display: 'inline-block'
-              }}
-            >
-              I
-            </motion.span>
+            {/* ILYASOV - Second line on mobile, centered */}
+            <div className="flex items-center justify-center">
+              {/* Giant "I" - Starts center, slides right */}
+              <motion.span
+                ref={iRef}
+                layout
+                transition={{ layout: { duration: 3 } }}
+                className="leading-none font-black"
+                style={{
+                  fontSize: 'clamp(10rem, 17vw, 40rem)', // Bigger on mobile: 6rem min
+                  display: 'inline-block'
+                }}
+              >
+                I
+              </motion.span>
 
-            {/* "lyasov" - Pop up from LAST to FIRST (v→o→s→a→y→l) */}
-            <motion.span
-              className="flex"
-              style={{
-                fontSize: 'clamp(1.5rem, 10vw, 12rem)', // Reduced min from 3rem to 1.5rem for mobile
-                width: phase === 'reveal' ? 'auto' : 0,
-                overflow: 'visible', // Allow glow to blend with adjacent letters
-                transition: 'width 3s'
-              }}
-              initial="initial"
-              animate={phase}
-              transition={{ staggerChildren: 0.50, delayChildren: 0.3}}
-            >
-              {['v', 'o', 's', 'a', 'y', 'l'].map((char, i) => (
-                <motion.span
-                  key={i}
-                  variants={letterVariants}
-                  style={{ order: 5 - i }} // Reverse visual order
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.span>
+              {/* "lyasov" - Pop up from LAST to FIRST (v→o→s→a→y→l) */}
+              <motion.span
+                className="flex"
+                style={{
+                  fontSize: 'clamp(5rem, 10vw, 12rem)', // Bigger on mobile: 2.5rem min
+                  width: phase === 'reveal' ? 'auto' : 0,
+                  overflow: 'visible', // Allow glow to blend with adjacent letters
+                  transition: 'width 3s'
+                }}
+                initial="initial"
+                animate={phase}
+                transition={{ staggerChildren: 0.50, delayChildren: 0.3}}
+              >
+                {['v', 'o', 's', 'a', 'y', 'l'].map((char, i) => (
+                  <motion.span
+                    key={i}
+                    variants={letterVariants}
+                    style={{ order: 5 - i }} // Reverse visual order
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.span>
+            </div>
           </div>
         </h1>
 
