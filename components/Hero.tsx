@@ -180,16 +180,17 @@ export default function Hero() {
         {/* NAME - Tron Neon Sign Style */}
         <h1 className="font-bold mb-8">
           <div
-            className={`flex items-center justify-center text-cyan-400 ${phase === 'reveal' ? 'flex-col sm:flex-row' : 'flex-row'}`}
+            className={`flex items-center text-cyan-400 ${phase === 'reveal' ? 'flex-col sm:flex-row' : 'flex-row'}`}
             style={{
               fontFamily: 'TR2N, Orbitron, monospace',
               textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
               letterSpacing: 'clamp(0.15em, 4vw, 0.30em)', // Tighter letter spacing on mobile
               padding: 'clamp(20px, 8vw, 80px) clamp(20px, 8vw, 80px)', // Responsive padding - less on mobile
-              gap: 'clamp(0px, 2vw, 0px)' // Small gap between lines on mobile
+              gap: 'clamp(0px, 2vw, 0px)', // Small gap between lines on mobile
+              justifyContent: phase === 'reveal' && isMobile ? 'flex-start' : 'center' // Keep ALLAN at same level as AI flicker
             }}
           >
-            {/* ALLAN - First line on mobile, centered */}
+            {/* ALLAN - First line on mobile, baseline aligned */}
             <div className="flex items-center justify-center">
               {/* Giant "A" - Starts center, slides left */}
               <motion.span
@@ -230,46 +231,45 @@ export default function Hero() {
               </motion.span>
             </div>
 
-            {/* ILYASOV - Second line on mobile, only I moves down then left */}
-            <div className="flex items-center justify-center">
-              {/* Giant "I" - Mobile: drop down, then slide left into place */}
+            {/* ILYASOV - Second line on mobile, I moves DOWN then LEFT */}
+            <div className="flex items-center justify-center relative" style={{ minHeight: phase === 'reveal' && isMobile ? '150px' : 'auto' }}>
+              {/* Giant "I" - L-shaped movement: starts at flicker position, moves DOWN first, then LEFT */}
               <motion.span
                 ref={iRef}
-                layout={false}
-                initial={{ x: 0, y: 0 }}
+                layout={!isMobile} // Use layout animation on desktop, explicit L-path on mobile
                 animate={phase === 'reveal' && isMobile ? {
-                  y: [-80, 0, 0],    // Drop down to the line
-                  x: [60, 60, 0]     // Then slide left into place (after reaching the line)
-                } : phase === 'reveal' ? {
-                  x: 0, // Desktop: no movement
-                  y: 0
-                } : {
-                  x: 0,
-                  y: 0
-                }}
+                  y: [-100, 0, 0], // Start at flicker level (above), move DOWN to second line, stay
+                  x: [25, 25, -180]  // Stay centered, stay centered, then move LEFT
+                } : {}}
                 transition={{
-                  duration: 3,
-                  times: [0, 0.5, 1], // First half: drop down, second half: slide left
+                  duration: 2.5,
+                  times: [0, 0.5, 1], // 0-60%: move down, 60-100%: move left
                   ease: "easeInOut"
                 }}
                 className="leading-none font-black"
                 style={{
-                  fontSize: 'clamp(10rem, 17vw, 40rem)', // Bigger on mobile: 6rem min
-                  display: 'inline-block'
+                  fontSize: 'clamp(10rem, 17vw, 40rem)',
+                  display: 'inline-block',
+                  position: phase === 'reveal' && isMobile ? 'absolute' : 'relative',
+                  ...(phase === 'reveal' && isMobile ? {
+                    left: '50%',
+                    top: '0',
+                    transform: 'translateX(-50%)' // Center horizontally - Framer Motion x animation will add to this
+                  } : {})
                 }}
               >
                 I
               </motion.span>
 
-              {/* "lyasov" - Static, appears where I ends up (doesn't move) */}
+              {/* "lyasov" - Pop up from LAST to FIRST (v→o→s→a→y→l) */}
               <motion.span
                 className="flex"
                 style={{
-                  fontSize: 'clamp(5rem, 10vw, 12rem)', // Bigger on mobile: 2.5rem min
+                  fontSize: 'clamp(5rem, 10vw, 12rem)',
                   width: phase === 'reveal' ? 'auto' : 0,
                   overflow: 'visible', // Allow glow to blend with adjacent letters
                   transition: 'width 3s',
-                  marginLeft: '0' // Keep centered; I is absolute during mobile reveal
+                  marginLeft: isMobile ? '3.5rem' : '0.1rem' // Position to right of I on mobile
                 }}
                 initial="initial"
                 animate={phase}
