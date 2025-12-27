@@ -23,48 +23,45 @@ import { skillCategories } from '@/lib/skillsData';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Multi-layer voxel depth background - non-luminous blocks reflecting the glow from above
-// Like Minecraft terrain: uniform-sized voxels, no borders, each layer reflects less light
-const VoxelBackground: React.FC<{
+// Depth layer configuration
+const DEFAULT_LAYERS = 0;
+
+// Multi-layer depth background - creates stepped shadow effect on all sides
+// Each layer extends further out and gets dimmer, creating 3D depth
+const DepthBackground: React.FC<{
   rgb: string; // "R,G,B" of the light source (element above)
   layers?: number; // 6-8 layers recommended
-  voxelSize?: number; // Size of each voxel in pixels
-}> = ({ rgb, layers = 8, voxelSize = 2 }) => {
+}> = ({ rgb, layers = DEFAULT_LAYERS }) => {
 
   const layerElements = Array.from({ length: layers }, (_, layerIndex) => {
     const depth = layerIndex;
     const depthRatio = depth / (layers - 1); // 0 to 1
 
-    // Reflected light intensity: visible pixelated gradient effect
-    // Creates stepped glow layers from bright to black
-    const reflectedLight = Math.pow(1 - depthRatio, 1.5) * 0.05; // Visible voxel gradient
+    // Reflected light intensity: layers further away get dimmer
+    // Creates stepped glow layers from bright to dark
+    const reflectedLight = Math.pow(1 - depthRatio, 1.5) * 0.15;
 
-    // Depth offset for parallax
-    const offsetX = depth * 2;
-    const offsetY = depth * 2;
+    // Depth offset for parallax effect
+    const offsetX = depth * 3;
+    const offsetY = depth * 3;
 
-    // Spread increases with depth
-    const spread = 30 + depth * 12;
+    // Spread increases with depth - each layer extends further on all sides
+    const spread = 10 + depth * 10;
 
     return (
       <div
         key={layerIndex}
         className="absolute pointer-events-none"
         style={{
-          // Extend beyond element boundaries
+          // Extend beyond element boundaries on all sides
           top: `-${spread}px`,
           left: `-${spread}px`,
           right: `-${spread}px`,
           bottom: `-${spread}px`,
-          // Solid connected voxels - no borders, like Minecraft blocks
-          // Create grid pattern: 1px lines every voxelSize pixels
-          backgroundImage: `
-            linear-gradient(0deg, rgba(${rgb}, ${reflectedLight}) 0, rgba(${rgb}, ${reflectedLight}) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(${rgb}, ${reflectedLight}) 0, rgba(${rgb}, ${reflectedLight}) 1px, transparent 1px)
-          `,
-          backgroundSize: `${voxelSize}px ${voxelSize}px`,
+          // Solid color layer - no patterns or gridlines
+          backgroundColor: `rgba(${rgb}, ${reflectedLight})`,
           backgroundPosition: `${offsetX}px ${offsetY}px`,
-          // NO blur - crisp, non-luminous voxel blocks
+          // NO blur - crisp depth layers
           zIndex: -(layers - depth),
           opacity: reflectedLight > 0.01 ? 1 : 0,
         }}
@@ -228,8 +225,8 @@ export default function Skills() {
                   overflow: 'visible',
                 }}
               >
-                {/* Voxel background for each card - light source is the card title */}
-                <VoxelBackground rgb={getRgb(category.colors.text)} layers={8} />
+                {/* Depth background for each card - creates 3D stepped shadow effect */}
+                <DepthBackground rgb={getRgb(category.colors.text)} layers={DEFAULT_LAYERS} />
 
                 <div className="flex items-center gap-3 mb-4 relative z-10">
                   <div className={`w-1 h-8 bg-gradient-to-b ${category.colors.bg} rounded-full`}></div>
