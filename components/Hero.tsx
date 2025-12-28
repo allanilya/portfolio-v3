@@ -180,26 +180,26 @@ export default function Hero() {
         {/* NAME - Tron Neon Sign Style */}
         <h1 className="font-bold mb-8">
           <div
-            className={`flex items-center text-cyan-400 ${phase === 'reveal' ? 'flex-col sm:flex-row' : 'flex-row'}`}
+            className="flex items-center justify-center text-cyan-400"
             style={{
               fontFamily: 'TR2N, Orbitron, monospace',
               textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-              letterSpacing: 'clamp(0.15em, 4vw, 0.30em)', // Tighter letter spacing on mobile
-              padding: 'clamp(20px, 8vw, 80px) clamp(20px, 8vw, 80px)', // Responsive padding - less on mobile
-              gap: 'clamp(0px, 2vw, 0px)', // Small gap between lines on mobile
-              justifyContent: phase === 'reveal' && isMobile ? 'flex-start' : 'center' // Keep ALLAN at same level as AI flicker
+              letterSpacing: 'clamp(0.15em, 4vw, 0.30em)',
+              padding: 'clamp(20px, 8vw, 80px) clamp(20px, 8vw, 80px)',
+              flexDirection: phase === 'reveal' && isMobile ? 'column' : 'row'
             }}
           >
             {/* ALLAN - First line on mobile, baseline aligned */}
             <div className="flex items-center justify-center">
-              {/* Giant "A" - Starts center, slides left */}
+              {/* Giant "A" - Centered during flicker, slides left during reveal */}
               <motion.span
                 ref={aRef}
+                layoutId="giant-a"
                 layout
-                transition={{ layout: { duration: 3 } }}
+                transition={{ layout: { duration: 3, ease: "easeInOut" } }}
                 className="leading-none font-black"
                 style={{
-                  fontSize: 'clamp(10rem, 17vw, 40rem)', // Bigger on mobile: 6rem min
+                  fontSize: 'clamp(10rem, 17vw, 40rem)',
                   display: 'inline-block'
                 }}
               >
@@ -233,17 +233,56 @@ export default function Hero() {
 
             {/* ILYASOV - Second line on mobile, I moves DOWN then LEFT */}
             <div className="flex items-center justify-center relative" style={{ minHeight: phase === 'reveal' && isMobile ? '150px' : 'auto' }}>
-              {/* Giant "I" - L-shaped movement: starts at flicker position, moves DOWN first, then LEFT */}
+              {/**
+               * ========================================
+               * MOBILE "I" POSITIONING ADJUSTMENT GUIDE
+               * ========================================
+               *
+               * During FLICKER phase:
+               *   - I is positioned naturally in this container (centered)
+               *   - During flicker, this whole div is in the second row (flex-col)
+               *
+               * During REVEAL phase on mobile:
+               *   - I uses explicit animation (not layout) for L-shaped movement
+               *
+               * ADJUST THESE VALUES TO FIX I's POSITION:
+               *
+               * 1. Starting Y position (line ~240):
+               *    y: [-100, 0, 0]
+               *         ^^^^
+               *    - Negative = I starts ABOVE its natural position (to align with flicker)
+               *    - Increase magnitude to start higher (e.g., -150)
+               *    - Decrease to start lower (e.g., -50)
+               *
+               * 2. Starting X position (line ~241):
+               *    x: [25, 25, -180]
+               *        ^^
+               *    - Positive = I starts RIGHT of center
+               *    - Adjust to align with flicker position
+               *
+               * 3. Final X position (line ~241):
+               *    x: [25, 25, -180]
+               *                ^^^^
+               *    - Negative = I moves LEFT of center at end
+               *    - Increase magnitude to move further left
+               *
+               * 4. Movement timing (line ~244):
+               *    times: [0, 0.5, 1]
+               *             ^^^^
+               *    - 0.5 = halfway point (when horizontal movement starts)
+               *    - Increase to delay horizontal movement
+               *    - Decrease to start horizontal movement earlier
+               */}
               <motion.span
                 ref={iRef}
-                layout={!isMobile} // Use layout animation on desktop, explicit L-path on mobile
+                layout={phase === 'reveal' && !isMobile} // DESKTOP: use layout. MOBILE: use explicit animation below
                 animate={phase === 'reveal' && isMobile ? {
-                  y: [-100, 0, 0], // Start at flicker level (above), move DOWN to second line, stay
-                  x: [25, 25, -180]  // Stay centered, stay centered, then move LEFT
+                  y: [-100, 0, 0], // ADJUST: Start Y offset to align with flicker position
+                  x: [25, 25, -180]  // ADJUST: Start X, then final X position
                 } : {}}
                 transition={{
                   duration: 2.5,
-                  times: [0, 0.5, 1], // 0-60%: move down, 60-100%: move left
+                  times: [0, 0.5, 1], // ADJUST: timing of down vs left movement
                   ease: "easeInOut"
                 }}
                 className="leading-none font-black"
