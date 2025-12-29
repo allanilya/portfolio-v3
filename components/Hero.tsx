@@ -194,7 +194,7 @@ export default function Hero() {
                 ref={aRef}
                 layoutId="giant-a"
                 layout
-                transition={{ layout: { duration: 3, ease: "easeInOut" } }}
+                transition={{ layout: { duration: 2.2, ease: "easeInOut" } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
@@ -235,7 +235,7 @@ export default function Hero() {
                 ref={iRef}
                 layoutId="giant-i"
                 layout
-                transition={{ layout: { duration: 3, ease: "easeInOut" } }}
+                transition={{ layout: { duration: 2.2, ease: "easeInOut" } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
