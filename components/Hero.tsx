@@ -34,7 +34,7 @@ export default function Hero() {
    * 2. 'reveal' (1s+): AI slides apart, letters pop in to complete the name
    */
   const [phase, setPhase] = useState<'flicker' | 'reveal'>('flicker');
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);  
   const aRef = useRef<HTMLSpanElement>(null);
   const iRef = useRef<HTMLSpanElement>(null);
 
@@ -47,7 +47,6 @@ export default function Hero() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
   // GSAP flicker animation for A and I
   useEffect(() => {
     if (!aRef.current || !iRef.current) return;
@@ -184,9 +183,8 @@ export default function Hero() {
             style={{
               fontFamily: 'TR2N, Orbitron, monospace',
               textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-              letterSpacing: 'clamp(0.15em, 4vw, 0.30em)',
-              padding: 'clamp(20px, 8vw, 80px) clamp(20px, 8vw, 80px)',
-              flexDirection: phase === 'reveal' && isMobile ? 'column' : 'row'
+              letterSpacing: isMobile ? 'clamp(0.1em, 3vw, 0.15em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
+              padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)' // Less padding on mobile
             }}
           >
             {/* ALLAN - First line on mobile, baseline aligned */}
@@ -199,7 +197,7 @@ export default function Hero() {
                 transition={{ layout: { duration: 3, ease: "easeInOut" } }}
                 className="leading-none font-black"
                 style={{
-                  fontSize: 'clamp(10rem, 17vw, 40rem)',
+                  fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
                   display: 'inline-block'
                 }}
               >
@@ -210,7 +208,7 @@ export default function Hero() {
               <motion.span
                 className="flex"
                 style={{
-                  fontSize: 'clamp(5rem, 10vw, 12rem)', // Bigger on mobile: 2.5rem min
+                  fontSize: 'clamp(3rem, 10vw, 12rem)', // Smaller on mobile to fit single line
                   width: phase === 'reveal' ? 'auto' : 0,
                   overflow: 'visible', // Allow glow to blend with adjacent letters
                   transition: 'width 3s'
@@ -231,70 +229,17 @@ export default function Hero() {
               </motion.span>
             </div>
 
-            {/* ILYASOV - Second line on mobile, I moves DOWN then LEFT */}
-            <div className="flex items-center justify-center relative" style={{ minHeight: phase === 'reveal' && isMobile ? '150px' : 'auto' }}>
-              {/**
-               * ========================================
-               * MOBILE "I" POSITIONING ADJUSTMENT GUIDE
-               * ========================================
-               *
-               * During FLICKER phase:
-               *   - I is positioned naturally in this container (centered)
-               *   - During flicker, this whole div is in the second row (flex-col)
-               *
-               * During REVEAL phase on mobile:
-               *   - I uses explicit animation (not layout) for L-shaped movement
-               *
-               * ADJUST THESE VALUES TO FIX I's POSITION:
-               *
-               * 1. Starting Y position (line ~240):
-               *    y: [-100, 0, 0]
-               *         ^^^^
-               *    - Negative = I starts ABOVE its natural position (to align with flicker)
-               *    - Increase magnitude to start higher (e.g., -150)
-               *    - Decrease to start lower (e.g., -50)
-               *
-               * 2. Starting X position (line ~241):
-               *    x: [25, 25, -180]
-               *        ^^
-               *    - Positive = I starts RIGHT of center
-               *    - Adjust to align with flicker position
-               *
-               * 3. Final X position (line ~241):
-               *    x: [25, 25, -180]
-               *                ^^^^
-               *    - Negative = I moves LEFT of center at end
-               *    - Increase magnitude to move further left
-               *
-               * 4. Movement timing (line ~244):
-               *    times: [0, 0.5, 1]
-               *             ^^^^
-               *    - 0.5 = halfway point (when horizontal movement starts)
-               *    - Increase to delay horizontal movement
-               *    - Decrease to start horizontal movement earlier
-               */}
+            {/* ILYASOV - Giant "I" slides right during reveal */}
+            <div className="flex items-center justify-center">
               <motion.span
                 ref={iRef}
-                layout={phase === 'reveal' && !isMobile} // DESKTOP: use layout. MOBILE: use explicit animation below
-                animate={phase === 'reveal' && isMobile ? {
-                  y: [-100, 0, 0], // ADJUST: Start Y offset to align with flicker position
-                  x: [25, 25, -180]  // ADJUST: Start X, then final X position
-                } : {}}
-                transition={{
-                  duration: 2.5,
-                  times: [0, 0.5, 1], // ADJUST: timing of down vs left movement
-                  ease: "easeInOut"
-                }}
+                layoutId="giant-i"
+                layout
+                transition={{ layout: { duration: 3, ease: "easeInOut" } }}
                 className="leading-none font-black"
                 style={{
-                  fontSize: 'clamp(10rem, 17vw, 40rem)',
-                  display: 'inline-block',
-                  position: phase === 'reveal' && isMobile ? 'absolute' : 'relative',
-                  ...(phase === 'reveal' && isMobile ? {
-                    left: '50%',
-                    top: '0',
-                    transform: 'translateX(-50%)' // Center horizontally - Framer Motion x animation will add to this
-                  } : {})
+                  fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
+                  display: 'inline-block'
                 }}
               >
                 I
@@ -304,11 +249,10 @@ export default function Hero() {
               <motion.span
                 className="flex"
                 style={{
-                  fontSize: 'clamp(5rem, 10vw, 12rem)',
+                  fontSize: 'clamp(3rem, 10vw, 12rem)', // Smaller on mobile to fit single line
                   width: phase === 'reveal' ? 'auto' : 0,
                   overflow: 'visible', // Allow glow to blend with adjacent letters
-                  transition: 'width 3s',
-                  marginLeft: isMobile ? '3.5rem' : '0.1rem' // Position to right of I on mobile
+                  transition: 'width 3s'
                 }}
                 initial="initial"
                 animate={phase}
