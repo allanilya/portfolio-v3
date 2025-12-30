@@ -41,7 +41,15 @@ export default function Navbar() {
     e.preventDefault();
     const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Calculate position with offset for navbar height + padding
+      const navbarHeight = 100; // Navbar height + padding to prevent title cutoff
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - navbarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -52,7 +60,14 @@ export default function Navbar() {
      */
     const handleScroll = () => {
       const sections = navItems.map(item => item.href.substring(1));
-      const scrollPosition = window.scrollY +400;
+      const scrollPosition = window.scrollY;
+
+      // Clear active section when in Hero section (top of page)
+      const aboutElement = document.getElementById('about');
+      if (aboutElement && scrollPosition < aboutElement.offsetTop) {
+        setActiveSection('');
+        return;
+      }
 
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -71,7 +86,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-4 left-4 right-4 z-15 bg-black bg-opacity-80 backdrop-blur-md border border-green-900/30 rounded-xl shadow-lg">
+    <nav className="fixed top-4 left-4 right-4 z-15 bg-black/60 backdrop-blur-md border border-green-900/30 rounded-xl shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Name */}
@@ -81,7 +96,11 @@ export default function Navbar() {
               e.preventDefault();
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
-            className="text-xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent hover:from-green-300 hover:to-blue-400 transition-all cursor-pointer"
+            className="text-xl font-bold text-cyan-400 hover:text-cyan-300 transition-all cursor-pointer"
+            style={{
+              fontFamily: 'Orbitron, sans-serif',
+              textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5)"
+            }}
           >
             Allan Ilyasov
           </a>
@@ -100,15 +119,16 @@ export default function Navbar() {
                   className={`
                     relative px-3 py-2 text-sm font-medium transition-all
                     ${isActive
-                      ? 'text-green-400'
-                      : 'text-gray-300 hover:text-green-400'
+                      ? 'text-cyan-400'
+                      : 'text-gray-300 hover:text-cyan-400'
                     }
                   `}
+                  style={{ fontFamily: 'Orbitron, sans-serif' }}
                 >
                   {item.name}
                   {/* Active indicator */}
                   {isActive && (
-                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-green-400 to-blue-500"></span>
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-cyan-400"></span>
                   )}
                 </a>
               );
@@ -160,6 +180,7 @@ export default function Navbar() {
                     : 'text-gray-300 hover:text-green-400 hover:bg-green-900/10'
                   }
                 `}
+                style={{ fontFamily: 'Orbitron, sans-serif' }}
               >
                 {item.name}
               </a>

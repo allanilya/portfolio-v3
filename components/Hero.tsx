@@ -21,7 +21,7 @@
 'use client';
 
 import { LucideGithub, LucideLinkedin, FileText } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, LayoutGroup } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
@@ -34,116 +34,133 @@ export default function Hero() {
    * 2. 'reveal' (1s+): AI slides apart, letters pop in to complete the name
    */
   const [phase, setPhase] = useState<'flicker' | 'reveal'>('flicker');
+  const [isMobile, setIsMobile] = useState(false);  
   const aRef = useRef<HTMLSpanElement>(null);
   const iRef = useRef<HTMLSpanElement>(null);
+  const llanRef = useRef<HTMLSpanElement>(null);
+  const lyasovRef = useRef<HTMLSpanElement>(null);
 
+  // Detect mobile screen size
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // sm breakpoint
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   // GSAP flicker animation for A and I
   useEffect(() => {
     if (!aRef.current || !iRef.current) return;
 
     // Set initial state immediately (before timeline starts)
+    const giantFontSize = isMobile ? 'clamp(12rem, 35vw, 50rem)' : 'clamp(5rem, 17vw, 40rem)';
+    const normalFontSize = 'clamp(5rem, 17vw, 40rem)';
+    
+    // Lock position during flicker to prevent layout squeezing
     gsap.set([aRef.current, iRef.current], {
       opacity: 0,
       color: 'transparent',
       webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
+      textShadow: 'none',
+      fontSize: isMobile ? giantFontSize : normalFontSize, // Start with giant font size on mobile
+      x: 0,
+      y: 0,
+      clearProps: 'transform' // Clear any existing transforms
     });
 
     const tl = gsap.timeline();
 
-    // A flicker sequence
-    tl.set(aRef.current, {
+    // Synchronized flicker states for both A and I
+    const emptyState = {
       opacity: 0,
       color: 'transparent',
-      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
-    }, 0)
-    // Keyframe 1: off
-    .set(aRef.current, { opacity: 0 }, 0.08 * 3.3)
-    // Keyframe 2: outline only
-    .set(aRef.current, {
+      webkitTextStroke: '0px transparent',
+      textShadow: 'none',
+      fontSize: isMobile ? giantFontSize : normalFontSize
+    };
+    const skeletonState = {
       opacity: 1,
       color: 'transparent',
       webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
-    }, 0.12 * 3.3)
-    // Keyframe 3: dim fill
-    .set(aRef.current, {
-      opacity: 0.4,
+      textShadow: 'none',
+      fontSize: isMobile ? giantFontSize : normalFontSize
+    };
+    const dimFullState = {
+      opacity: 0.5,
       color: 'rgb(34, 211, 238)',
       webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
-    }, 0.25 * 3.3)
-    // Keyframe 4: outline only
-    .set(aRef.current, {
-      opacity: 1,
-      color: 'transparent',
-      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
-    }, 0.35 * 3.3)
-    // Keyframe 5: full fill
-    .set(aRef.current, {
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
+      fontSize: isMobile ? giantFontSize : normalFontSize
+    };
+    const fullState = {
       opacity: 1,
       color: 'rgb(34, 211, 238)',
       webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
-    }, 0.45 * 3.3)
-    // Clear inline styles to inherit from parent (matches smaller letters exactly)
-    .set(aRef.current, {
-      opacity: 1,
-      color: '',
-      webkitTextStroke: '',
-      textShadow: ''
-    }, 0.50 * 3.3);
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
+      fontSize: isMobile ? giantFontSize : normalFontSize
+    };
 
-    // I flicker sequence (different timing)
-    tl.set(iRef.current, {
-      opacity: 0,
-      color: 'transparent',
-      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
-    }, 0)
-    // Keyframe 1: outline only
-    .set(iRef.current, {
-      opacity: 1,
-      color: 'transparent',
-      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
-    }, 0.10 * 3.3)
-    // Keyframe 2: off
-    .set(iRef.current, { opacity: 0 }, 0.18 * 3.3)
-    // Keyframe 3: full fill
-    .set(iRef.current, {
-      opacity: 1,
-      color: 'rgb(34, 211, 238)',
-      webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
-    }, 0.30 * 3.3)
-    // Keyframe 4: dim fill
-    .set(iRef.current, {
-      opacity: 0.4,
-      color: 'rgb(34, 211, 238)',
-      webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
-    }, 0.42 * 3.3)
+    // Synchronized flicker for both A and I
+    tl.set([aRef.current, iRef.current], { ...emptyState, x: 0, y: 0, force3D: true }, 0)
+      // Black for 0.5s
+      .set([aRef.current, iRef.current], emptyState, 1.2)
+      // Rapid flicker starts (both letters in sync)
+      .set([aRef.current, iRef.current], skeletonState, 1.24)
+      .set([aRef.current, iRef.current], emptyState, 1.30)
+      .set([aRef.current, iRef.current], dimFullState, 1.13)
+      .set([aRef.current, iRef.current], skeletonState, 1.27)
+      .set([aRef.current, iRef.current], dimFullState, 1.40)
+      .set([aRef.current, iRef.current], fullState, 1.5)    
+      .set([aRef.current, iRef.current], emptyState, 2.00)
+      .set([aRef.current, iRef.current], skeletonState, 2.16)
+      .set([aRef.current, iRef.current], dimFullState, 2.35)
+      .set([aRef.current, iRef.current], emptyState, 2.55)
+      .set([aRef.current, iRef.current], fullState, 3.15)
+      .set([aRef.current, iRef.current], skeletonState, 3.28)
+      .set([aRef.current, iRef.current], emptyState, 3.40)
+      .set([aRef.current, iRef.current], skeletonState, 3.45)
+
+      // Final full state at 3.6s, stays until shrink
+      .set([aRef.current, iRef.current], fullState, 3.6)
     // Clear inline styles to inherit from parent (matches smaller letters exactly)
-    .set(iRef.current, {
+    .set([aRef.current, iRef.current], {
       opacity: 1,
       color: '',
       webkitTextStroke: '',
       textShadow: ''
-    }, 0.60 * 3.3);
+    }, 4);
+
+    // Mobile-only: Shrink font size down to normal (happens right before reveal phase)
+    if (isMobile) {
+      tl.to([aRef.current, iRef.current], {
+        fontSize: normalFontSize,
+        duration: 2,
+        ease: "power2.inOut"
+      }, 4); // Start shrinking at 4s, completes around 3.5s when reveal starts
+    }
 
     // After flicker completes, switch to reveal phase
+    // Mobile: wait for shrink to complete (2.7s start + 2s duration = 4.7s)
+    // Desktop: reveal immediately after flicker stabilizes
+    const revealDelay = isMobile ? 5700 : 5000;
     const flickerTimer = setTimeout(() => {
       setPhase('reveal');
-    }, 3500);
+
+      // Clear GSAP locks right when reveal starts to let Framer Motion take over
+      if (aRef.current && iRef.current) {
+        gsap.set([aRef.current, iRef.current], {
+          clearProps: 'x,y,transform'
+        });
+      }
+    }, revealDelay);
 
     return () => {
       clearTimeout(flickerTimer);
       tl.kill();
     };
-  }, []);
+  }, [isMobile]);
+
 
   /**
    * ANIMATION VARIANTS FOR LETTERS
@@ -168,96 +185,105 @@ export default function Hero() {
       <div className="w-full text-center">
         {/* NAME - Tron Neon Sign Style */}
         <h1 className="font-bold mb-8">
-          <div
-            className="flex items-center justify-center text-cyan-400"
-            style={{
-              fontFamily: 'TR2N, Orbitron, monospace',
-              textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-              letterSpacing: 'clamp(0.1em, 4vw, 0.30em)', // Tighter letter spacing on mobile
-              padding: 'clamp(20px, 8vw, 80px) clamp(10px, 4vw, 40px)' // Responsive padding - less on mobile
-            }}
-          >
-            {/* Giant "A" - Starts center, slides left */}
-            <motion.span
-              ref={aRef}
-              layout
-              transition={{ layout: { duration: 3 } }}
-              className="leading-none font-black"
+          <LayoutGroup>
+            <div
+              className="flex items-center justify-center text-cyan-400"
               style={{
-                fontSize: 'clamp(4rem, 17vw, 40rem)', // Reduced min from 10rem to 4rem for mobile
-                display: 'inline-block'
+                fontFamily: 'TR2N, Orbitron, monospace',
+                textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
+                letterSpacing: isMobile ? 'clamp(0.1em, 3vw, 0.15em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
+                padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)' // Less padding on mobile
               }}
             >
-              A
-            </motion.span>
+            {/* ALLAN - First line on mobile, baseline aligned */}
+            <div className="flex items-center justify-center">
+              {/* Giant "A" - Centered during flicker, slides left during reveal */}
+              <motion.span
+                ref={aRef}
+                layout
+                transition={{ layout: { duration: 3.5 } }}
+                className="leading-none font-black"
+                style={{
+                  fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
+                  display: 'inline-block'
+                }}
+              >
+                A
+              </motion.span>
 
-            {/* "llan" - Pop up from LAST to FIRST (n→a→l→l) */}
-            <motion.span
-              className="flex"
-              style={{
-                fontSize: 'clamp(1.5rem, 10vw, 12rem)', // Reduced min from 3rem to 1.5rem for mobile
-                width: phase === 'reveal' ? 'auto' : 0,
-                overflow: 'visible', // Allow glow to blend with adjacent letters
-                transition: 'width 3s'
-              }}
-              initial="initial"
-              animate={phase}
-              transition={{ staggerChildren: 0.5 , delayChildren: 0.8 }}
-            >
-              {['n', 'a', 'l', 'l'].map((char, i) => (
-                <motion.span
-                  key={i}
-                  variants={letterVariants}
-                  style={{ order: 3 - i }} // Reverse visual order
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.span>
+              {/* "llan" - Pop up from LAST to FIRST (n→a→l→l) */}
+              <motion.span
+                ref={llanRef}
+                className="flex"
+                style={{
+                  fontSize: 'clamp(3rem, 10vw, 12rem)', // Smaller on mobile to fit single line
+                  width: phase === 'reveal' ? 'auto' : 0,
+                  overflow: 'visible', // Allow glow to blend with adjacent letters
+                  transition: 'width 3s'
+                }}
+                initial="initial"
+                animate={phase}
+                transition={{ staggerChildren: 0.7 , delayChildren: 0.85 }}
+              >
+                {['n', 'a', 'l', 'l'].map((char, i) => (
+                  <motion.span
+                    key={i}
+                    variants={letterVariants}
+                    style={{ order: 3 - i }} // Reverse visual order
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.span>
+            </div>
 
-            {/* Giant "I" - Starts center, slides right */}
-            <motion.span
-              ref={iRef}
-              layout
-              transition={{ layout: { duration: 3 } }}
-              className="leading-none font-black"
-              style={{
-                fontSize: 'clamp(4rem, 17vw, 40rem)', // Reduced min from 10rem to 4rem for mobile
-                display: 'inline-block'
-              }}
-            >
-              I
-            </motion.span>
+            {/* ILYASOV - Giant "I" slides right during reveal */}
+            <div className="flex items-center justify-center">
+              <motion.span
+                ref={iRef}
+                layout
+                transition={{ layout: { duration: 3.5 } }}
+                className="leading-none font-black"
+                style={{
+                  fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
+                  display: 'inline-block'
+                }}
+              >
+                I
+              </motion.span>
 
-            {/* "lyasov" - Pop up from LAST to FIRST (v→o→s→a→y→l) */}
-            <motion.span
-              className="flex"
-              style={{
-                fontSize: 'clamp(1.5rem, 10vw, 12rem)', // Reduced min from 3rem to 1.5rem for mobile
-                width: phase === 'reveal' ? 'auto' : 0,
-                overflow: 'visible', // Allow glow to blend with adjacent letters
-                transition: 'width 3s'
-              }}
-              initial="initial"
-              animate={phase}
-              transition={{ staggerChildren: 0.50, delayChildren: 0.3}}
-            >
-              {['v', 'o', 's', 'a', 'y', 'l'].map((char, i) => (
-                <motion.span
-                  key={i}
-                  variants={letterVariants}
-                  style={{ order: 5 - i }} // Reverse visual order
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.span>
+              {/* "lyasov" - Pop up from LAST to FIRST (v→o→s→a→y→l) */}
+              <motion.span
+                ref={lyasovRef}
+                className="flex"
+                style={{
+                  fontSize: 'clamp(3rem, 10vw, 12rem)', // Smaller on mobile to fit single line
+                  width: phase === 'reveal' ? 'auto' : 0,
+                  overflow: 'visible', // Allow glow to blend with adjacent letters
+                  transition: 'width 3s'
+                }}
+                initial="initial"
+                animate={phase}
+                transition={{ staggerChildren: 0.7, delayChildren: 0.20}}
+              >
+                {['v', 'o', 's', 'a', 'y', 'l'].map((char, i) => (
+                  <motion.span
+                    key={i}
+                    variants={letterVariants}
+                    style={{ order: 5 - i }} // Reverse visual order
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.span>
+            </div>
           </div>
+          </LayoutGroup>
         </h1>
 
         {/* TITLE - Change your professional title here */}
         <p
-          className="text-lg sm:text-xl md:text-2xl text-cyan-400 mb-4 md:mb-8 px-4"
+          className="text-2xl sm:text-2xl md:text-4xl text-cyan-400 mb-4 md:mb-8 px-4"
           style={{
             fontFamily: 'TR2N, Orbitron, monospace',
             textShadow: "0 0 2px rgba(0, 255, 255, 1), 0 0 70px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5)"
