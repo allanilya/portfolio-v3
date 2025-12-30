@@ -41,7 +41,15 @@ export default function Navbar() {
     e.preventDefault();
     const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Calculate position with offset for navbar height + padding
+      const navbarHeight = 100; // Navbar height + padding to prevent title cutoff
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - navbarHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -52,7 +60,14 @@ export default function Navbar() {
      */
     const handleScroll = () => {
       const sections = navItems.map(item => item.href.substring(1));
-      const scrollPosition = window.scrollY +400;
+      const scrollPosition = window.scrollY;
+
+      // Clear active section when in Hero section (top of page)
+      const aboutElement = document.getElementById('about');
+      if (aboutElement && scrollPosition < aboutElement.offsetTop) {
+        setActiveSection('');
+        return;
+      }
 
       for (const section of sections) {
         const element = document.getElementById(section);
