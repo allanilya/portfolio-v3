@@ -21,7 +21,7 @@
 'use client';
 
 import { LucideGithub, LucideLinkedin, FileText } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion, LayoutGroup } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
@@ -71,7 +71,7 @@ export default function Hero() {
 
     const tl = gsap.timeline();
 
-    // A flicker sequence - keep giant font size during flicker, lock position
+    // A flicker sequence - keep giant font size during flicker, lock position with force3D
     tl.set(aRef.current, {
       opacity: 0,
       color: 'transparent',
@@ -79,7 +79,8 @@ export default function Hero() {
       textShadow: 'none',
       fontSize: isMobile ? giantFontSize : normalFontSize,
       x: 0,
-      y: 0
+      y: 0,
+      force3D: true
     }, 0)
     // Keyframe 1: off
     .set(aRef.current, { opacity: 0, fontSize: isMobile ? giantFontSize : normalFontSize }, 0.08 * 3.3)
@@ -132,12 +133,9 @@ export default function Hero() {
       }, 2.7); // Start shrinking at 2.7s, completes around 3.5s when reveal starts
     }
     
-    // Release position lock right before reveal (let Framer Motion take over)
-    tl.set(aRef.current, {
-      clearProps: 'x,y,transform'
-    }, 3.45);
+    // Keep locked during entire flicker phase - will clear when reveal starts
 
-    // I flicker sequence (different timing) - keep giant font size during flicker, lock position
+    // I flicker sequence (different timing) - keep giant font size during flicker, lock position with force3D
     tl.set(iRef.current, {
       opacity: 0,
       color: 'transparent',
@@ -145,7 +143,8 @@ export default function Hero() {
       textShadow: 'none',
       fontSize: isMobile ? giantFontSize : normalFontSize,
       x: 0,
-      y: 0
+      y: 0,
+      force3D: true
     }, 0)
     // Keyframe 1: outline only
     .set(iRef.current, {
@@ -190,16 +189,20 @@ export default function Hero() {
       }, 2.7); // Start shrinking at 2.7s, completes around 3.5s when reveal starts
     }
     
-    // Release position lock right before reveal (let Framer Motion take over)
-    tl.set(iRef.current, {
-      clearProps: 'x,y,transform'
-    }, 3.45);
+    // Keep locked during entire flicker phase - will clear when reveal starts
     
     // Keep position locked - GSAP will handle sliding in separate effect
 
     // After flicker completes, switch to reveal phase
     const flickerTimer = setTimeout(() => {
       setPhase('reveal');
+      
+      // Clear GSAP locks right when reveal starts to let Framer Motion take over
+      if (aRef.current && iRef.current) {
+        gsap.set([aRef.current, iRef.current], {
+          clearProps: 'x,y,transform'
+        });
+      }
     }, 3500);
 
     return () => {
@@ -232,27 +235,27 @@ export default function Hero() {
       <div className="w-full text-center">
         {/* NAME - Tron Neon Sign Style */}
         <h1 className="font-bold mb-8">
-          <div
-            className="flex items-center justify-center text-cyan-400"
-            style={{
-              fontFamily: 'TR2N, Orbitron, monospace',
-              textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-              letterSpacing: isMobile ? 'clamp(0.1em, 3vw, 0.15em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
-              padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)' // Less padding on mobile
-            }}
-          >
+          <LayoutGroup>
+            <div
+              className="flex items-center justify-center text-cyan-400"
+              style={{
+                fontFamily: 'TR2N, Orbitron, monospace',
+                textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
+                letterSpacing: isMobile ? 'clamp(0.1em, 3vw, 0.15em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
+                padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)' // Less padding on mobile
+              }}
+            >
             {/* ALLAN - First line on mobile, baseline aligned */}
             <div className="flex items-center justify-center">
               {/* Giant "A" - Centered during flicker, slides left during reveal */}
               <motion.span
                 ref={aRef}
-                layout="position"
+                layout
                 transition={{ layout: { duration: 3 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
-                  display: 'inline-block',
-                  willChange: phase === 'reveal' ? 'transform' : 'auto'
+                  display: 'inline-block'
                 }}
               >
                 A
@@ -288,13 +291,12 @@ export default function Hero() {
             <div className="flex items-center justify-center">
               <motion.span
                 ref={iRef}
-                layout="position"
+                layout
                 transition={{ layout: { duration: 3 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
-                  display: 'inline-block',
-                  willChange: phase === 'reveal' ? 'transform' : 'auto'
+                  display: 'inline-block'
                 }}
               >
                 I
@@ -326,6 +328,7 @@ export default function Hero() {
               </motion.span>
             </div>
           </div>
+          </LayoutGroup>
         </h1>
 
         {/* TITLE - Change your professional title here */}
