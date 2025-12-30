@@ -18,12 +18,34 @@
  * - Fade speed: Change trail opacity on line 50 (higher = faster fade)
  */
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export default function MatrixBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [opacity, setOpacity] = useState(0);
+  const [startAnimation, setStartAnimation] = useState(false);
+
+  // Start animation 2 seconds before fade-in (at 3 seconds)
+  useEffect(() => {
+    const animationTimer = setTimeout(() => {
+      setStartAnimation(true);
+    }, 2000);
+
+    return () => clearTimeout(animationTimer);
+  }, []);
+
+  // Fade in effect - starts after 5 seconds (when reveal begins)
+  useEffect(() => {
+    const fadeInTimer = setTimeout(() => {
+      setOpacity(0.8);
+    }, 4500);
+
+    return () => clearTimeout(fadeInTimer);
+  }, []);
 
   useEffect(() => {
+    if (!startAnimation) return; // Don't start until fade-in begins
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -95,13 +117,18 @@ export default function MatrixBackground() {
       clearInterval(interval);
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [startAnimation]);
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed top-0 left-0 w-full h-full pointer-events-none"
-      style={{ background: '#000', zIndex: 0 }}
+      style={{
+        background: '#000',
+        zIndex: 0,
+        opacity: opacity,
+        transition: 'opacity 4s ease-in-out'
+      }}
     />
   );
 }

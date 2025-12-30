@@ -5,10 +5,12 @@ import Projects from '@/components/Projects';
 import Certifications from '@/components/Certifications';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import MatrixBackground from '@/components/MatrixBackground';
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-black text-gray-100 overflow-x-hidden max-w-full">
+      <MatrixBackground />
       <Navbar />
       <Hero />
       <About />
