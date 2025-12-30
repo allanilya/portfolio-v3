@@ -71,139 +71,98 @@ export default function Hero() {
 
     const tl = gsap.timeline();
 
-    // A flicker sequence - keep giant font size during flicker, lock position with force3D
-    tl.set(aRef.current, {
+    // Synchronized flicker states for both A and I
+    const emptyState = {
       opacity: 0,
       color: 'transparent',
-      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
+      webkitTextStroke: '0px transparent',
       textShadow: 'none',
-      fontSize: isMobile ? giantFontSize : normalFontSize,
-      x: 0,
-      y: 0,
-      force3D: true
-    }, 0)
-    // Keyframe 1: off
-    .set(aRef.current, { opacity: 0, fontSize: isMobile ? giantFontSize : normalFontSize }, 0.08 * 3.3)
-    // Keyframe 2: outline only
-    .set(aRef.current, {
+      fontSize: isMobile ? giantFontSize : normalFontSize
+    };
+    const skeletonState = {
       opacity: 1,
       color: 'transparent',
       webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
       textShadow: 'none',
       fontSize: isMobile ? giantFontSize : normalFontSize
-    }, 0.12 * 3.3)
-    // Keyframe 3: dim fill
-    .set(aRef.current, {
-      opacity: 0.4,
+    };
+    const dimFullState = {
+      opacity: 0.5,
       color: 'rgb(34, 211, 238)',
       webkitTextStroke: '0px transparent',
       textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
       fontSize: isMobile ? giantFontSize : normalFontSize
-    }, 0.25 * 3.3)
-    // Keyframe 4: outline only
-    .set(aRef.current, {
-      opacity: 1,
-      color: 'transparent',
-      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none',
-      fontSize: isMobile ? giantFontSize : normalFontSize
-    }, 0.35 * 3.3)
-    // Keyframe 5: full fill
-    .set(aRef.current, {
+    };
+    const fullState = {
       opacity: 1,
       color: 'rgb(34, 211, 238)',
       webkitTextStroke: '0px transparent',
       textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
       fontSize: isMobile ? giantFontSize : normalFontSize
-    }, 0.45 * 3.3)
+    };
+
+    // Synchronized flicker for both A and I
+    tl.set([aRef.current, iRef.current], { ...emptyState, x: 0, y: 0, force3D: true }, 0)
+      // Black for 0.5s
+      .set([aRef.current, iRef.current], emptyState, 0.5)
+      // Rapid flicker starts (both letters in sync)
+      .set([aRef.current, iRef.current], skeletonState, 0.55)
+      .set([aRef.current, iRef.current], emptyState, 0.60)
+      .set([aRef.current, iRef.current], dimFullState, 0.65)
+      .set([aRef.current, iRef.current], skeletonState, 0.75)
+      .set([aRef.current, iRef.current], fullState, 0.85)
+      .set([aRef.current, iRef.current], emptyState, 0.90)
+      .set([aRef.current, iRef.current], skeletonState, 0.95)
+      .set([aRef.current, iRef.current], dimFullState, 1.05)
+      .set([aRef.current, iRef.current], emptyState, 1.10)
+      .set([aRef.current, iRef.current], fullState, 1.20)
+      .set([aRef.current, iRef.current], skeletonState, 1.30)
+      .set([aRef.current, iRef.current], emptyState, 1.35)
+      .set([aRef.current, iRef.current], dimFullState, 1.45)
+      .set([aRef.current, iRef.current], skeletonState, 1.55)
+      .set([aRef.current, iRef.current], fullState, 1.65)
+      .set([aRef.current, iRef.current], emptyState, 1.70)
+      .set([aRef.current, iRef.current], skeletonState, 1.75)
+      .set([aRef.current, iRef.current], dimFullState, 1.85)
+      .set([aRef.current, iRef.current], fullState, 2.0)
+      .set([aRef.current, iRef.current], skeletonState, 2.05)
+      .set([aRef.current, iRef.current], dimFullState, 2.15)
+      .set([aRef.current, iRef.current], emptyState, 2.20)
+      .set([aRef.current, iRef.current], fullState, 2.30)
+      .set([aRef.current, iRef.current], dimFullState, 2.40)
+      // Final full state at 2.5s, stays until shrink
+      .set([aRef.current, iRef.current], fullState, 2.5)
     // Clear inline styles to inherit from parent (matches smaller letters exactly)
-    .set(aRef.current, {
+    .set([aRef.current, iRef.current], {
       opacity: 1,
       color: '',
       webkitTextStroke: '',
       textShadow: ''
-    }, 0.50 * 3.3);
+    }, 2.6);
 
     // Mobile-only: Shrink font size down to normal (happens right before reveal phase)
     if (isMobile) {
-      tl.to(aRef.current, {
+      tl.to([aRef.current, iRef.current], {
         fontSize: normalFontSize,
-        duration: 0.8,
+        duration: 2,
         ease: "power2.inOut"
       }, 2.7); // Start shrinking at 2.7s, completes around 3.5s when reveal starts
     }
-    
-    // Keep locked during entire flicker phase - will clear when reveal starts
-
-    // I flicker sequence (different timing) - keep giant font size during flicker, lock position with force3D
-    tl.set(iRef.current, {
-      opacity: 0,
-      color: 'transparent',
-      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none',
-      fontSize: isMobile ? giantFontSize : normalFontSize,
-      x: 0,
-      y: 0,
-      force3D: true
-    }, 0)
-    // Keyframe 1: outline only
-    .set(iRef.current, {
-      opacity: 1,
-      color: 'transparent',
-      webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none',
-      fontSize: isMobile ? giantFontSize : normalFontSize
-    }, 0.10 * 3.3)
-    // Keyframe 2: off
-    .set(iRef.current, { opacity: 0, fontSize: isMobile ? giantFontSize : normalFontSize }, 0.18 * 3.3)
-    // Keyframe 3: full fill
-    .set(iRef.current, {
-      opacity: 1,
-      color: 'rgb(34, 211, 238)',
-      webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
-      fontSize: isMobile ? giantFontSize : normalFontSize
-    }, 0.30 * 3.3)
-    // Keyframe 4: dim fill
-    .set(iRef.current, {
-      opacity: 0.4,
-      color: 'rgb(34, 211, 238)',
-      webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
-      fontSize: isMobile ? giantFontSize : normalFontSize
-    }, 0.42 * 3.3)
-    // Clear inline styles to inherit from parent (matches smaller letters exactly)
-    .set(iRef.current, {
-      opacity: 1,
-      color: '',
-      webkitTextStroke: '',
-      textShadow: ''
-    }, 0.60 * 3.3);
-
-    // Mobile-only: Shrink font size down to normal (happens right before reveal phase)
-    if (isMobile) {
-      tl.to(iRef.current, {
-        fontSize: normalFontSize,
-        duration: 0.8,
-        ease: "power2.inOut"
-      }, 2.7); // Start shrinking at 2.7s, completes around 3.5s when reveal starts
-    }
-    
-    // Keep locked during entire flicker phase - will clear when reveal starts
-    
-    // Keep position locked - GSAP will handle sliding in separate effect
 
     // After flicker completes, switch to reveal phase
+    // Mobile: wait for shrink to complete (2.7s start + 2s duration = 4.7s)
+    // Desktop: reveal immediately after flicker stabilizes
+    const revealDelay = isMobile ? 4700 : 3700;
     const flickerTimer = setTimeout(() => {
       setPhase('reveal');
-      
+
       // Clear GSAP locks right when reveal starts to let Framer Motion take over
       if (aRef.current && iRef.current) {
         gsap.set([aRef.current, iRef.current], {
           clearProps: 'x,y,transform'
         });
       }
-    }, 3500);
+    }, revealDelay);
 
     return () => {
       clearTimeout(flickerTimer);
@@ -251,7 +210,7 @@ export default function Hero() {
               <motion.span
                 ref={aRef}
                 layout
-                transition={{ layout: { duration: 3 } }}
+                transition={{ layout: { duration: 3.5 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
@@ -273,7 +232,7 @@ export default function Hero() {
                 }}
                 initial="initial"
                 animate={phase}
-                transition={{ staggerChildren: 0.5 , delayChildren: 0.8 }}
+                transition={{ staggerChildren: 0.7 , delayChildren: 0.9 }}
               >
                 {['n', 'a', 'l', 'l'].map((char, i) => (
                   <motion.span
@@ -292,7 +251,7 @@ export default function Hero() {
               <motion.span
                 ref={iRef}
                 layout
-                transition={{ layout: { duration: 3 } }}
+                transition={{ layout: { duration: 3.5 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
