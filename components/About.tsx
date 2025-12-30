@@ -34,7 +34,7 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" className="relative z-10 py-16 md:py-20 px-4">
+    <section id="about" className="relative z-10 py-24 md:py-32 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Section Heading */}
         <h2

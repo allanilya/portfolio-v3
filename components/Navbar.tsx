@@ -61,10 +61,11 @@ export default function Navbar() {
     const handleScroll = () => {
       const sections = navItems.map(item => item.href.substring(1));
       const scrollPosition = window.scrollY;
+      const navbarOffset = 10000; // Same offset used in scrollToSection
 
       // Clear active section when in Hero section (top of page)
       const aboutElement = document.getElementById('about');
-      if (aboutElement && scrollPosition < aboutElement.offsetTop) {
+      if (aboutElement && scrollPosition + navbarOffset < aboutElement.offsetTop) {
         setActiveSection('');
         return;
       }
@@ -73,7 +74,8 @@ export default function Navbar() {
         const element = document.getElementById(section);
         if (element) {
           const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          // Add navbarOffset to scrollPosition to account for the scroll offset
+          if (scrollPosition + navbarOffset >= offsetTop && scrollPosition + navbarOffset < offsetTop + offsetHeight) {
             setActiveSection(section);
             break;
           }
