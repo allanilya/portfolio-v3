@@ -104,41 +104,32 @@ export default function Hero() {
     // Synchronized flicker for both A and I
     tl.set([aRef.current, iRef.current], { ...emptyState, x: 0, y: 0, force3D: true }, 0)
       // Black for 0.5s
-      .set([aRef.current, iRef.current], emptyState, 0.5)
+      .set([aRef.current, iRef.current], emptyState, 1.2)
       // Rapid flicker starts (both letters in sync)
-      .set([aRef.current, iRef.current], skeletonState, 0.55)
-      .set([aRef.current, iRef.current], emptyState, 0.60)
-      .set([aRef.current, iRef.current], dimFullState, 0.65)
-      .set([aRef.current, iRef.current], skeletonState, 0.75)
-      .set([aRef.current, iRef.current], fullState, 0.85)
-      .set([aRef.current, iRef.current], emptyState, 0.90)
-      .set([aRef.current, iRef.current], skeletonState, 0.95)
-      .set([aRef.current, iRef.current], dimFullState, 1.05)
-      .set([aRef.current, iRef.current], emptyState, 1.10)
-      .set([aRef.current, iRef.current], fullState, 1.20)
-      .set([aRef.current, iRef.current], skeletonState, 1.30)
-      .set([aRef.current, iRef.current], emptyState, 1.35)
-      .set([aRef.current, iRef.current], dimFullState, 1.45)
-      .set([aRef.current, iRef.current], skeletonState, 1.55)
-      .set([aRef.current, iRef.current], fullState, 1.65)
-      .set([aRef.current, iRef.current], emptyState, 1.70)
-      .set([aRef.current, iRef.current], skeletonState, 1.75)
-      .set([aRef.current, iRef.current], dimFullState, 1.85)
-      .set([aRef.current, iRef.current], fullState, 2.0)
-      .set([aRef.current, iRef.current], skeletonState, 2.05)
-      .set([aRef.current, iRef.current], dimFullState, 2.15)
-      .set([aRef.current, iRef.current], emptyState, 2.20)
-      .set([aRef.current, iRef.current], fullState, 2.30)
-      .set([aRef.current, iRef.current], dimFullState, 2.40)
-      // Final full state at 2.5s, stays until shrink
-      .set([aRef.current, iRef.current], fullState, 2.5)
+      .set([aRef.current, iRef.current], skeletonState, 1.24)
+      .set([aRef.current, iRef.current], emptyState, 1.30)
+      .set([aRef.current, iRef.current], dimFullState, 1.13)
+      .set([aRef.current, iRef.current], skeletonState, 1.27)
+      .set([aRef.current, iRef.current], dimFullState, 1.40)
+      .set([aRef.current, iRef.current], fullState, 1.5)    
+      .set([aRef.current, iRef.current], emptyState, 2.00)
+      .set([aRef.current, iRef.current], skeletonState, 2.16)
+      .set([aRef.current, iRef.current], dimFullState, 2.35)
+      .set([aRef.current, iRef.current], emptyState, 2.55)
+      .set([aRef.current, iRef.current], fullState, 3.15)
+      .set([aRef.current, iRef.current], skeletonState, 3.28)
+      .set([aRef.current, iRef.current], emptyState, 3.40)
+      .set([aRef.current, iRef.current], skeletonState, 3.45)
+
+      // Final full state at 3.6s, stays until shrink
+      .set([aRef.current, iRef.current], fullState, 3.6)
     // Clear inline styles to inherit from parent (matches smaller letters exactly)
     .set([aRef.current, iRef.current], {
       opacity: 1,
       color: '',
       webkitTextStroke: '',
       textShadow: ''
-    }, 2.6);
+    }, 4);
 
     // Mobile-only: Shrink font size down to normal (happens right before reveal phase)
     if (isMobile) {
@@ -146,13 +137,13 @@ export default function Hero() {
         fontSize: normalFontSize,
         duration: 2,
         ease: "power2.inOut"
-      }, 2.7); // Start shrinking at 2.7s, completes around 3.5s when reveal starts
+      }, 4); // Start shrinking at 4s, completes around 3.5s when reveal starts
     }
 
     // After flicker completes, switch to reveal phase
     // Mobile: wait for shrink to complete (2.7s start + 2s duration = 4.7s)
     // Desktop: reveal immediately after flicker stabilizes
-    const revealDelay = isMobile ? 4700 : 3700;
+    const revealDelay = isMobile ? 5700 : 5000;
     const flickerTimer = setTimeout(() => {
       setPhase('reveal');
 
@@ -232,7 +223,7 @@ export default function Hero() {
                 }}
                 initial="initial"
                 animate={phase}
-                transition={{ staggerChildren: 0.7 , delayChildren: 0.9 }}
+                transition={{ staggerChildren: 0.7 , delayChildren: 0.85 }}
               >
                 {['n', 'a', 'l', 'l'].map((char, i) => (
                   <motion.span
@@ -273,7 +264,7 @@ export default function Hero() {
                 }}
                 initial="initial"
                 animate={phase}
-                transition={{ staggerChildren: 0.50, delayChildren: 0.3}}
+                transition={{ staggerChildren: 0.7, delayChildren: 0.20}}
               >
                 {['v', 'o', 's', 'a', 'y', 'l'].map((char, i) => (
                   <motion.span
