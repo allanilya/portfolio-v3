@@ -37,6 +37,8 @@ export default function Hero() {
   const [isMobile, setIsMobile] = useState(false);  
   const aRef = useRef<HTMLSpanElement>(null);
   const iRef = useRef<HTMLSpanElement>(null);
+  const llanRef = useRef<HTMLSpanElement>(null);
+  const lyasovRef = useRef<HTMLSpanElement>(null);
 
   // Detect mobile screen size
   useEffect(() => {
@@ -52,51 +54,66 @@ export default function Hero() {
     if (!aRef.current || !iRef.current) return;
 
     // Set initial state immediately (before timeline starts)
+    const giantFontSize = isMobile ? 'clamp(12rem, 35vw, 50rem)' : 'clamp(5rem, 17vw, 40rem)';
+    const normalFontSize = 'clamp(5rem, 17vw, 40rem)';
+    
+    // Lock position during flicker to prevent layout squeezing
     gsap.set([aRef.current, iRef.current], {
       opacity: 0,
       color: 'transparent',
       webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
+      textShadow: 'none',
+      fontSize: isMobile ? giantFontSize : normalFontSize, // Start with giant font size on mobile
+      x: 0,
+      y: 0,
+      clearProps: 'transform' // Clear any existing transforms
     });
 
     const tl = gsap.timeline();
 
-    // A flicker sequence
+    // A flicker sequence - keep giant font size during flicker, lock position
     tl.set(aRef.current, {
       opacity: 0,
       color: 'transparent',
       webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
+      textShadow: 'none',
+      fontSize: isMobile ? giantFontSize : normalFontSize,
+      x: 0,
+      y: 0
     }, 0)
     // Keyframe 1: off
-    .set(aRef.current, { opacity: 0 }, 0.08 * 3.3)
+    .set(aRef.current, { opacity: 0, fontSize: isMobile ? giantFontSize : normalFontSize }, 0.08 * 3.3)
     // Keyframe 2: outline only
     .set(aRef.current, {
       opacity: 1,
       color: 'transparent',
       webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
+      textShadow: 'none',
+      fontSize: isMobile ? giantFontSize : normalFontSize
     }, 0.12 * 3.3)
     // Keyframe 3: dim fill
     .set(aRef.current, {
       opacity: 0.4,
       color: 'rgb(34, 211, 238)',
       webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
+      fontSize: isMobile ? giantFontSize : normalFontSize
     }, 0.25 * 3.3)
     // Keyframe 4: outline only
     .set(aRef.current, {
       opacity: 1,
       color: 'transparent',
       webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
+      textShadow: 'none',
+      fontSize: isMobile ? giantFontSize : normalFontSize
     }, 0.35 * 3.3)
     // Keyframe 5: full fill
     .set(aRef.current, {
       opacity: 1,
       color: 'rgb(34, 211, 238)',
       webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
+      fontSize: isMobile ? giantFontSize : normalFontSize
     }, 0.45 * 3.3)
     // Clear inline styles to inherit from parent (matches smaller letters exactly)
     .set(aRef.current, {
@@ -106,35 +123,55 @@ export default function Hero() {
       textShadow: ''
     }, 0.50 * 3.3);
 
-    // I flicker sequence (different timing)
+    // Mobile-only: Shrink font size down to normal (happens right before reveal phase)
+    if (isMobile) {
+      tl.to(aRef.current, {
+        fontSize: normalFontSize,
+        duration: 0.8,
+        ease: "power2.inOut"
+      }, 2.7); // Start shrinking at 2.7s, completes around 3.5s when reveal starts
+    }
+    
+    // Release position lock right before reveal (let Framer Motion take over)
+    tl.set(aRef.current, {
+      clearProps: 'x,y,transform'
+    }, 3.45);
+
+    // I flicker sequence (different timing) - keep giant font size during flicker, lock position
     tl.set(iRef.current, {
       opacity: 0,
       color: 'transparent',
       webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
+      textShadow: 'none',
+      fontSize: isMobile ? giantFontSize : normalFontSize,
+      x: 0,
+      y: 0
     }, 0)
     // Keyframe 1: outline only
     .set(iRef.current, {
       opacity: 1,
       color: 'transparent',
       webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
-      textShadow: 'none'
+      textShadow: 'none',
+      fontSize: isMobile ? giantFontSize : normalFontSize
     }, 0.10 * 3.3)
     // Keyframe 2: off
-    .set(iRef.current, { opacity: 0 }, 0.18 * 3.3)
+    .set(iRef.current, { opacity: 0, fontSize: isMobile ? giantFontSize : normalFontSize }, 0.18 * 3.3)
     // Keyframe 3: full fill
     .set(iRef.current, {
       opacity: 1,
       color: 'rgb(34, 211, 238)',
       webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
+      fontSize: isMobile ? giantFontSize : normalFontSize
     }, 0.30 * 3.3)
     // Keyframe 4: dim fill
     .set(iRef.current, {
       opacity: 0.4,
       color: 'rgb(34, 211, 238)',
       webkitTextStroke: '0px transparent',
-      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)'
+      textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
+      fontSize: isMobile ? giantFontSize : normalFontSize
     }, 0.42 * 3.3)
     // Clear inline styles to inherit from parent (matches smaller letters exactly)
     .set(iRef.current, {
@@ -143,6 +180,22 @@ export default function Hero() {
       webkitTextStroke: '',
       textShadow: ''
     }, 0.60 * 3.3);
+
+    // Mobile-only: Shrink font size down to normal (happens right before reveal phase)
+    if (isMobile) {
+      tl.to(iRef.current, {
+        fontSize: normalFontSize,
+        duration: 0.8,
+        ease: "power2.inOut"
+      }, 2.7); // Start shrinking at 2.7s, completes around 3.5s when reveal starts
+    }
+    
+    // Release position lock right before reveal (let Framer Motion take over)
+    tl.set(iRef.current, {
+      clearProps: 'x,y,transform'
+    }, 3.45);
+    
+    // Keep position locked - GSAP will handle sliding in separate effect
 
     // After flicker completes, switch to reveal phase
     const flickerTimer = setTimeout(() => {
@@ -153,7 +206,8 @@ export default function Hero() {
       clearTimeout(flickerTimer);
       tl.kill();
     };
-  }, []);
+  }, [isMobile]);
+
 
   /**
    * ANIMATION VARIANTS FOR LETTERS
@@ -192,13 +246,13 @@ export default function Hero() {
               {/* Giant "A" - Centered during flicker, slides left during reveal */}
               <motion.span
                 ref={aRef}
-                layoutId="giant-a"
-                layout
-                transition={{ layout: { duration: 2.2, ease: "easeInOut" } }}
+                layout="position"
+                transition={{ layout: { duration: 3 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
-                  display: 'inline-block'
+                  display: 'inline-block',
+                  willChange: phase === 'reveal' ? 'transform' : 'auto'
                 }}
               >
                 A
@@ -206,6 +260,7 @@ export default function Hero() {
 
               {/* "llan" - Pop up from LAST to FIRST (n→a→l→l) */}
               <motion.span
+                ref={llanRef}
                 className="flex"
                 style={{
                   fontSize: 'clamp(3rem, 10vw, 12rem)', // Smaller on mobile to fit single line
@@ -233,13 +288,13 @@ export default function Hero() {
             <div className="flex items-center justify-center">
               <motion.span
                 ref={iRef}
-                layoutId="giant-i"
-                layout
-                transition={{ layout: { duration: 2.2, ease: "easeInOut" } }}
+                layout="position"
+                transition={{ layout: { duration: 3 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
-                  display: 'inline-block'
+                  display: 'inline-block',
+                  willChange: phase === 'reveal' ? 'transform' : 'auto'
                 }}
               >
                 I
@@ -247,6 +302,7 @@ export default function Hero() {
 
               {/* "lyasov" - Pop up from LAST to FIRST (v→o→s→a→y→l) */}
               <motion.span
+                ref={lyasovRef}
                 className="flex"
                 style={{
                   fontSize: 'clamp(3rem, 10vw, 12rem)', // Smaller on mobile to fit single line
