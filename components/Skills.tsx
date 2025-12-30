@@ -19,7 +19,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { skillCategories } from '@/lib/skillsData';
+import { skillCategories, getColoredGlow, getCardGlow } from '@/lib/skillsData';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -75,52 +75,6 @@ const DepthBackground: React.FC<{
 export default function Skills() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<{ categoryIndex: number; skillName: string } | null>(null);
-
-  // Helper function to get RGB values for CSS variables
-  const getRgb = (color: string) => {
-    return {
-      'text-purple-400': '192, 132, 252',
-      'text-blue-400': '96, 165, 250',
-      'text-green-400': '74, 222, 128',
-      'text-orange-400': '251, 146, 60',
-      'text-indigo-400': '129, 140, 248',
-      'text-teal-400': '45, 212, 191',
-      'text-pink-400': '244, 114, 182',
-    }[color] || '255, 255, 255';
-  };
-
-  // Helper function to get colored glow for skill category titles and text (pixelated/stepped glow)
-  const getColoredGlow = (color: string) => {
-    const rgb = getRgb(color);
-    return `
-      0 0 2px rgba(${rgb}, 0.9),
-      0 0 15px rgba(${rgb}, 0.6),
-      0 0 30px rgba(${rgb}, 0.4),
-      0 0 45px rgba(${rgb}, 0.25),
-      0 0 60px rgba(${rgb}, 0.15)
-    `;
-  };
-
-  const getCardGlow = (color: string) => {
-    const rgb = {
-      'text-purple-400': '192, 132, 252',
-      'text-blue-400': '96, 165, 250',
-      'text-green-400': '74, 222, 128',
-      'text-orange-400': '251, 146, 60',
-      'text-indigo-400': '129, 140, 248',
-      'text-teal-400': '45, 212, 191',
-      'text-pink-400': '244, 114, 182',
-    }[color];
-
-    if (!rgb) return '';
-
-    return `
-      0 0 4px rgba(${rgb}, 0.9),
-      0 0 20px rgba(${rgb}, 0.5),
-      0 0 35px rgba(${rgb}, 0.3),
-      0 0 50px rgba(${rgb}, 0.2)
-    `;
-  };
 
 
   // Prevent body scroll when modal is open
@@ -220,13 +174,13 @@ export default function Skills() {
                 onClick={() => setSelectedCategory(index)}
                 className="group bg-black/80 p-5 md:p-6 transition-all duration-300 border-2 transform hover:-translate-y-1 cursor-pointer relative"
                 style={{
-                  borderColor: `rgba(${getRgb(category.colors.text)}, 0.6)`,
-                  boxShadow: `0 0 8px rgba(${getRgb(category.colors.text)}, 0.6), 0 0 15px rgba(${getRgb(category.colors.text)}, 0.3)`,
+                  borderColor: `rgba(${category.colors.neonRgb}, 0.6)`,
+                  boxShadow: `0 0 8px rgba(${category.colors.neonRgb}, 0.6), 0 0 15px rgba(${category.colors.neonRgb}, 0.3)`,
                   overflow: 'visible',
                 }}
               >
                 {/* Depth background for each card - creates 3D stepped shadow effect */}
-                <DepthBackground rgb={getRgb(category.colors.text)} layers={DEFAULT_LAYERS} />
+                <DepthBackground rgb={category.colors.neonRgb} layers={DEFAULT_LAYERS} />
 
                 <div className="flex items-center gap-3 mb-4 relative z-10">
                   <div className={`w-1 h-8 bg-gradient-to-b ${category.colors.bg} rounded-full`}></div>
@@ -234,7 +188,7 @@ export default function Skills() {
                     className={`text-lg md:text-xl font-bold ${category.colors.text}`}
                     style={{
                       fontFamily: 'Orbitron, sans-serif',
-                      textShadow: getColoredGlow(category.colors.text)
+                      textShadow: getColoredGlow(category.colors.neonRgb)
                     }}
                   >
                     {category.title}
@@ -250,8 +204,8 @@ export default function Skills() {
                       }}
                       className={`px-3 py-1.5 ${category.colors.badge} rounded-lg text-sm font-medium transition-transform hover:scale-105 cursor-pointer`}
                       style={{
-                        textShadow: getColoredGlow(category.colors.text),
-                        boxShadow: getCardGlow(category.colors.text)
+                        textShadow: getColoredGlow(category.colors.neonRgb),
+                        boxShadow: getCardGlow(category.colors.neonRgb)
                       }}
                     >
                       {skill.name}
@@ -293,7 +247,7 @@ export default function Skills() {
                   className={`text-2xl md:text-3xl font-bold ${skillCategories[selectedCategory].colors.text}`}
                   style={{
                     fontFamily: 'Orbitron, sans-serif',
-                    textShadow: getColoredGlow(skillCategories[selectedCategory].colors.text)
+                    textShadow: getColoredGlow(skillCategories[selectedCategory].colors.neonRgb)
                   }}
                 >
                   {skillCategories[selectedCategory].title}
@@ -317,8 +271,8 @@ export default function Skills() {
                     }}
                     className={`px-4 py-2 ${skillCategories[selectedCategory].colors.badge} rounded-lg text-sm md:text-base font-medium transition-all hover:scale-110 cursor-pointer shadow-md hover:shadow-lg`}
                     style={{
-                      textShadow: getColoredGlow(skillCategories[selectedCategory].colors.text),
-                      boxShadow: getCardGlow(skillCategories[selectedCategory].colors.text)
+                      textShadow: getColoredGlow(skillCategories[selectedCategory].colors.neonRgb),
+                      boxShadow: getCardGlow(skillCategories[selectedCategory].colors.neonRgb)
                     }}
                   >
                     {skill.name}
@@ -359,7 +313,7 @@ export default function Skills() {
                   className={`text-2xl md:text-3xl font-bold ${skillCategories[selectedSkill.categoryIndex].colors.text}`}
                   style={{
                     fontFamily: 'Orbitron, sans-serif',
-                    textShadow: getColoredGlow(skillCategories[selectedSkill.categoryIndex].colors.text)
+                    textShadow: getColoredGlow(skillCategories[selectedSkill.categoryIndex].colors.neonRgb)
                   }}
                 >
                   {skillCategories[selectedSkill.categoryIndex].title}
@@ -389,8 +343,8 @@ export default function Skills() {
                       skill.name === selectedSkill.skillName ? 'ring-2 ring-blue-400 scale-105' : ''
                     }`}
                     style={{
-                      textShadow: getColoredGlow(skillCategories[selectedSkill.categoryIndex].colors.text),
-                      boxShadow: getCardGlow(skillCategories[selectedSkill.categoryIndex].colors.text)
+                      textShadow: getColoredGlow(skillCategories[selectedSkill.categoryIndex].colors.neonRgb),
+                      boxShadow: getCardGlow(skillCategories[selectedSkill.categoryIndex].colors.neonRgb)
                     }}
                   >
                     {skill.name}

@@ -26,7 +26,7 @@ import { useState, useEffect } from 'react';
 import { Github, ExternalLink, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { projects } from '@/lib/projects';
 import { motion, AnimatePresence } from 'framer-motion';
-import { getTechColor } from '@/lib/skillsData';
+import { getTechColor, getTechRgb, getColoredGlow, getCardGlow } from '@/lib/skillsData';
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
@@ -380,17 +380,14 @@ export default function Projects() {
                     Note: Tech stack is hidden on cards and only shown in the expanded modal view
                   */}
                   <p
-                    className={`text-gray-400 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden ${
-
+                    className={`text-gray-400 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden text-center ${
                     project.liveUrl
                       ? 'line-clamp-7'
-                      : 'flex-grow: line-clamp-14'
-
+                      : 'flex-grow line-clamp-14'
                   }`}
                     style={{ fontFamily: 'Inter, sans-serif' }}
                   >
                     {project.description}
-
                   </p>
 
                   {/* Click to view details - Fixed at bottom */}
@@ -515,6 +512,10 @@ export default function Projects() {
                           <span
                             key={index}
                             className={`px-3 py-1 ${getTechColor(tech)} rounded-full text-sm font-medium transition-transform hover:scale-105`}
+                            style={{
+                              textShadow: getColoredGlow(getTechRgb(tech)),
+                              boxShadow: getCardGlow(getTechRgb(tech))
+                            }}
                           >
                             {tech}
                           </span>

@@ -16,6 +16,7 @@ export interface SkillCategory {
     bg: string;
     text: string;
     badge: string;
+    neonRgb: string; // RGB values for neon glow effects (e.g., "192,132,252")
   };
 }
 
@@ -41,7 +42,8 @@ export const skillCategories: SkillCategory[] = [
     colors: {
       bg: 'from-purple-500 to-pink-500',
       text: 'text-purple-400',
-      badge: 'bg-purple-900 text-purple-200'
+      badge: 'bg-purple-900 text-purple-200',
+      neonRgb: '192,132,252'
     }
   },
   {
@@ -56,7 +58,8 @@ export const skillCategories: SkillCategory[] = [
     colors: {
       bg: 'from-blue-500 to-cyan-500',
       text: 'text-blue-400',
-      badge: 'bg-blue-900 text-blue-200'
+      badge: 'bg-blue-900 text-blue-200',
+      neonRgb: '96,165,250'
     }
   },
   {
@@ -72,7 +75,8 @@ export const skillCategories: SkillCategory[] = [
     colors: {
       bg: 'from-green-500 to-emerald-500',
       text: 'text-green-400',
-      badge: 'bg-green-900 text-green-200'
+      badge: 'bg-green-900 text-green-200',
+      neonRgb: '74,222,128'
     }
   },
   {
@@ -89,7 +93,8 @@ export const skillCategories: SkillCategory[] = [
     colors: {
       bg: 'from-orange-500 to-red-500',
       text: 'text-orange-400',
-      badge: 'bg-orange-900 text-orange-200'
+      badge: 'bg-orange-900 text-orange-200',
+      neonRgb: '251,146,60'
     }
   },
   {
@@ -106,7 +111,8 @@ export const skillCategories: SkillCategory[] = [
     colors: {
       bg: 'from-indigo-500 to-purple-500',
       text: 'text-indigo-400',
-      badge: 'bg-indigo-900 text-indigo-200'
+      badge: 'bg-indigo-900 text-indigo-200',
+      neonRgb: '129,140,248'
     }
   },
   {
@@ -124,7 +130,8 @@ export const skillCategories: SkillCategory[] = [
     colors: {
       bg: 'from-teal-500 to-cyan-500',
       text: 'text-teal-400',
-      badge: 'bg-teal-900 text-teal-200'
+      badge: 'bg-teal-900 text-teal-200',
+      neonRgb: '45,212,191'
     }
   },
   {
@@ -140,7 +147,8 @@ export const skillCategories: SkillCategory[] = [
     colors: {
       bg: 'from-pink-500 to-rose-500',
       text: 'text-pink-400',
-      badge: 'bg-pink-900 text-pink-200'
+      badge: 'bg-pink-900 text-pink-200',
+      neonRgb: '244,114,182'
     }
   }
 ];
@@ -200,4 +208,82 @@ export function getTechColor(tech: string): string {
 
   // Default gray for anything else
   return 'bg-gray-700 text-gray-200';
+}
+
+/**
+ * Helper function to get colored text glow for neon effects
+ */
+export function getColoredGlow(neonRgb: string): string {
+  return `
+    0 0 2px rgba(${neonRgb}, 0.9),
+    0 0 15px rgba(${neonRgb}, 0.6),
+    0 0 30px rgba(${neonRgb}, 0.4),
+    0 0 45px rgba(${neonRgb}, 0.25),
+    0 0 60px rgba(${neonRgb}, 0.15)
+  `;
+}
+
+/**
+ * Helper function to get card/badge box shadow glow for neon effects
+ */
+export function getCardGlow(neonRgb: string): string {
+  return `
+    0 0 4px rgba(${neonRgb}, 0.9),
+    0 0 20px rgba(${neonRgb}, 0.5),
+    0 0 35px rgba(${neonRgb}, 0.3),
+    0 0 50px rgba(${neonRgb}, 0.2)
+  `;
+}
+
+/**
+ * Get the neon RGB values for a given technology (for glow effects)
+ * Returns RGB string like "192,132,252" for use in rgba() CSS functions
+ */
+export function getTechRgb(tech: string): string {
+  // Check if tech exists in main skill categories
+  for (const category of skillCategories) {
+    if (category.skills.some(skill => skill.name.toLowerCase() === tech.toLowerCase())) {
+      return category.colors.neonRgb;
+    }
+  }
+
+  // Map extra tech to their category's RGB values
+  const normalized = tech.toLowerCase();
+  const extraTechRgbMap: Record<string, string> = {
+    // AI/ML - Orange
+    'claude sonnet 4.5': '251,146,60',
+    'lstm': '251,146,60',
+    'gru': '251,146,60',
+    'arima': '251,146,60',
+    'random forest': '251,146,60',
+    'logistic regression': '251,146,60',
+    'knn': '251,146,60',
+    'naive bayes': '251,146,60',
+    'decision tree': '251,146,60',
+    'smote': '251,146,60',
+
+    // Cloud & DevOps - Indigo
+    'vercel': '129,140,248',
+
+    // Data Science - Teal
+    'statsmodels': '45,212,191',
+    'yfinance': '45,212,191',
+    'jupyter notebook': '45,212,191',
+
+    // Languages - Purple (R framework)
+    'shiny': '192,132,252',
+
+    // Frontend - Blue
+    'css': '96,165,250',
+
+    // Other - Gray
+    '1blocker': '156,163,175',
+  };
+
+  if (extraTechRgbMap[normalized]) {
+    return extraTechRgbMap[normalized];
+  }
+
+  // Default gray for anything else
+  return '156,163,175';
 }
