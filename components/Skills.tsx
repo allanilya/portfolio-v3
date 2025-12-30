@@ -218,7 +218,7 @@ export default function Skills() {
               <div
                 key={index}
                 onClick={() => setSelectedCategory(index)}
-                className="group bg-gray-800 p-5 md:p-6 transition-all duration-300 border-2 transform hover:-translate-y-1 cursor-pointer relative"
+                className="group bg-black/80 p-5 md:p-6 transition-all duration-300 border-2 transform hover:-translate-y-1 cursor-pointer relative"
                 style={{
                   borderColor: `rgba(${getRgb(category.colors.text)}, 0.6)`,
                   boxShadow: `0 0 8px rgba(${getRgb(category.colors.text)}, 0.6), 0 0 15px rgba(${getRgb(category.colors.text)}, 0.3)`,
@@ -233,6 +233,7 @@ export default function Skills() {
                   <h3
                     className={`text-lg md:text-xl font-bold ${category.colors.text}`}
                     style={{
+                      fontFamily: 'Orbitron, sans-serif',
                       textShadow: getColoredGlow(category.colors.text)
                     }}
                   >
@@ -271,7 +272,7 @@ export default function Skills() {
           style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
         >
           <div
-            className="bg-gray-800 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100"
+            className="bg-black/80 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100"
             onClick={(e) => e.stopPropagation()}
             style={{ zIndex: 10000 }}
           >
@@ -288,11 +289,17 @@ export default function Skills() {
             <div className="mb-6 pr-12">
               <div className="flex items-center gap-3 mb-3">
                 <div className={`w-1 h-10 bg-gradient-to-b ${skillCategories[selectedCategory].colors.bg} rounded-full`}></div>
-                <h3 className={`text-2xl md:text-3xl font-bold ${skillCategories[selectedCategory].colors.text}`}>
+                <h3
+                  className={`text-2xl md:text-3xl font-bold ${skillCategories[selectedCategory].colors.text}`}
+                  style={{
+                    fontFamily: 'Orbitron, sans-serif',
+                    textShadow: getColoredGlow(skillCategories[selectedCategory].colors.text)
+                  }}
+                >
                   {skillCategories[selectedCategory].title}
                 </h3>
               </div>
-              <p className="text-gray-300 text-base md:text-lg mb-6">
+              <p className="text-gray-300 text-base md:text-lg mb-6" style={{ fontFamily: 'Inter, sans-serif' }}>
                 {skillCategories[selectedCategory].description}
               </p>
             </div>
@@ -309,6 +316,10 @@ export default function Skills() {
                       setSelectedCategory(null);
                     }}
                     className={`px-4 py-2 ${skillCategories[selectedCategory].colors.badge} rounded-lg text-sm md:text-base font-medium transition-all hover:scale-110 cursor-pointer shadow-md hover:shadow-lg`}
+                    style={{
+                      textShadow: getColoredGlow(skillCategories[selectedCategory].colors.text),
+                      boxShadow: getCardGlow(skillCategories[selectedCategory].colors.text)
+                    }}
                   >
                     {skill.name}
                   </span>
@@ -327,7 +338,7 @@ export default function Skills() {
           style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
         >
           <div
-            className="bg-gray-800 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100"
+            className="bg-black/80 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100"
             onClick={(e) => e.stopPropagation()}
             style={{ zIndex: 10000 }}
           >
@@ -344,11 +355,17 @@ export default function Skills() {
             <div className="mb-6 pr-12">
               <div className="flex items-center gap-3 mb-3">
                 <div className={`w-1 h-10 bg-gradient-to-b ${skillCategories[selectedSkill.categoryIndex].colors.bg} rounded-full`}></div>
-                <h3 className={`text-2xl md:text-3xl font-bold ${skillCategories[selectedSkill.categoryIndex].colors.text}`}>
+                <h3
+                  className={`text-2xl md:text-3xl font-bold ${skillCategories[selectedSkill.categoryIndex].colors.text}`}
+                  style={{
+                    fontFamily: 'Orbitron, sans-serif',
+                    textShadow: getColoredGlow(skillCategories[selectedSkill.categoryIndex].colors.text)
+                  }}
+                >
                   {skillCategories[selectedSkill.categoryIndex].title}
                 </h3>
               </div>
-              <p className="text-gray-300 text-lg md:text-xl">
+              <p className="text-gray-300 text-lg md:text-xl" style={{ fontFamily: 'Inter, sans-serif' }}>
                 {skillCategories[selectedSkill.categoryIndex].description}
               </p>
             </div>
@@ -371,6 +388,10 @@ export default function Skills() {
                     className={`px-4 py-2 ${skillCategories[selectedSkill.categoryIndex].colors.badge} rounded-lg text-sm md:text-base font-medium transition-all hover:scale-110 cursor-pointer shadow-md hover:shadow-lg ${
                       skill.name === selectedSkill.skillName ? 'ring-2 ring-blue-400 scale-105' : ''
                     }`}
+                    style={{
+                      textShadow: getColoredGlow(skillCategories[selectedSkill.categoryIndex].colors.text),
+                      boxShadow: getCardGlow(skillCategories[selectedSkill.categoryIndex].colors.text)
+                    }}
                   >
                     {skill.name}
                   </span>
@@ -397,7 +418,7 @@ export default function Skills() {
 
                   {/* Skill Description */}
                   <div className="text-center">
-                    <p className="text-gray-300 text-lg md:text-lg leading-relaxed">
+                    <p className="text-gray-300 text-lg md:text-lg leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
                       {skillCategories[selectedSkill.categoryIndex].skills.find(
                         skill => skill.name === selectedSkill.skillName
                       )?.description}

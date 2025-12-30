@@ -288,14 +288,24 @@ export default function Projects() {
                     ease: [0.22, 0.61, 0.36, 1],
                   }}
                   onClick={() => setSelectedProject(project.id)}
-                  style={{ position: 'absolute' }}
+                  style={{
+                    position: 'absolute',
+                    border: project.slot === 'center'
+                      ? '2px solid rgba(0, 255, 255, 0.8)'
+                      : '2px solid rgba(0, 255, 255, 0.4)',
+                    boxShadow: project.slot === 'center'
+                      ? `0 0 4px rgba(0, 255, 255, 0.9),
+                         0 0 15px rgba(0, 255, 255, 0.5),
+                         0 0 25px rgba(0, 255, 255, 0.3),
+                         0 0 35px rgba(0, 255, 255, 0.2)`
+                      : `0 0 4px rgba(0, 255, 255, 0.6),
+                         0 0 10px rgba(0, 255, 255, 0.3)`
+                  }}
                   className={`
-                    group bg-gray-800 rounded-xl shadow-lg border overflow-hidden flex flex-col cursor-pointer
+                    group bg-black/80 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer
                     w-full max-w-[250px] sm:max-w-[320px] md:max-w-[350px]
                     min-h-[400px] max-h-[400px] sm:min-h-[460px] sm:max-h-[460px] md:min-h-[500px] md:max-h-[500px]
-                    ${project.slot === 'center'
-                      ? 'border-blue-600 hover:shadow-2xl'
-                      : 'border-gray-700 hover:border-blue-400'}
+                    hover:shadow-2xl
                   `}
                 >
                 {/* Preview Section - Only shown if liveUrl exists */}
@@ -343,7 +353,10 @@ export default function Projects() {
                 >
                   {/* Title Section */}
                   <div className="flex items-start justify-between mb-2 flex-shrink-0">
-                    <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-blue-400 transition-colors">
+                    <h3
+                      className="text-lg md:text-xl font-bold text-white group-hover:text-blue-400 transition-colors"
+                      style={{ fontFamily: 'Orbitron, sans-serif' }}
+                    >
                       {project.title}
                     </h3>
                     {project.liveUrl && (
@@ -366,15 +379,18 @@ export default function Projects() {
 
                     Note: Tech stack is hidden on cards and only shown in the expanded modal view
                   */}
-                  <p className={`text-gray-400 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden ${
-                      
+                  <p
+                    className={`text-gray-400 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden ${
+
                     project.liveUrl
                       ? 'line-clamp-7'
                       : 'flex-grow: line-clamp-14'
-                      
-                  }`}>
+
+                  }`}
+                    style={{ fontFamily: 'Inter, sans-serif' }}
+                  >
                     {project.description}
-                      
+
                   </p>
 
                   {/* Click to view details - Fixed at bottom */}
@@ -438,7 +454,7 @@ export default function Projects() {
         style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
       >
             <div
-              className="bg-gray-800 rounded-lg max-w-[85vw] sm:max-w-[90vw] md:max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative modal-content-animate text-gray-100"
+              className="bg-black/80 rounded-lg max-w-[85vw] sm:max-w-[90vw] md:max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative modal-content-animate text-gray-100"
               onClick={(e) => e.stopPropagation()}
               style={{ zIndex: 10000 }}
             >
@@ -453,10 +469,13 @@ export default function Projects() {
 
               {projects.find((p) => p.id === selectedProject) && (
                 <>
-                  <h3 className="text-2xl md:text-3xl font-bold mb-4 pr-12">
+                  <h3
+                    className="text-2xl md:text-3xl font-bold mb-4 pr-12"
+                    style={{ fontFamily: 'Orbitron, sans-serif' }}
+                  >
                     {projects.find((p) => p.id === selectedProject)!.title}
                   </h3>
-                  <p className="text-gray-300 mb-6 text-base md:text-lg leading-relaxed">
+                  <p className="text-gray-300 mb-6 text-base md:text-lg leading-relaxed" style={{ fontFamily: 'Inter, sans-serif' }}>
                     {projects.find((p) => p.id === selectedProject)!.description}
                   </p>
 

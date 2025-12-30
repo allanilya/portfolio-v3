@@ -71,7 +71,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-4 left-4 right-4 z-15 bg-black bg-opacity-80 backdrop-blur-md border border-green-900/30 rounded-xl shadow-lg">
+    <nav className="fixed top-4 left-4 right-4 z-15 bg-black/60 backdrop-blur-md border border-green-900/30 rounded-xl shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Name */}
@@ -82,6 +82,7 @@ export default function Navbar() {
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
             className="text-xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent hover:from-green-300 hover:to-blue-400 transition-all cursor-pointer"
+            // style={{ fontFamily: 'Orbitron, sans-serif' }}
           >
             Allan Ilyasov
           </a>
@@ -104,6 +105,7 @@ export default function Navbar() {
                       : 'text-gray-300 hover:text-green-400'
                     }
                   `}
+                  style={{ fontFamily: 'Orbitron, sans-serif' }}
                 >
                   {item.name}
                   {/* Active indicator */}
@@ -160,6 +162,7 @@ export default function Navbar() {
                     : 'text-gray-300 hover:text-green-400 hover:bg-green-900/10'
                   }
                 `}
+                style={{ fontFamily: 'Orbitron, sans-serif' }}
               >
                 {item.name}
               </a>

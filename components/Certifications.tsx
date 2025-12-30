@@ -56,7 +56,16 @@ export default function Certifications() {
               href={cert.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center p-2 sm:p-4 md:p-6 bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 hover:scale-105 h-full"
+              className="group flex flex-col items-center p-2 sm:p-4 md:p-6 bg-black/60 rounded-lg hover:shadow-xl transition-all duration-300 hover:scale-105 h-full"
+              style={{
+                border: '2px solid rgba(0, 255, 255, 0.6)',
+                boxShadow: `
+                  0 0 4px rgba(0, 255, 255, 0.8),
+                  0 0 15px rgba(0, 255, 255, 0.4),
+                  0 0 25px rgba(0, 255, 255, 0.2),
+                  0 0 35px rgba(0, 255, 255, 0.1)
+                `
+              }}
             >
               <div className="w-full aspect-square flex items-center justify-center mb-2 sm:mb-3 md:mb-4 flex-shrink-0 p-2">
                 <img
@@ -65,7 +74,7 @@ export default function Certifications() {
                   className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
-              <p className="text-center text-xs sm:text-sm font-medium text-gray-300 mt-auto px-1">
+              <p className="text-center text-xs sm:text-sm font-medium text-gray-300 mt-auto px-1" style={{ fontFamily: 'Orbitron, sans-serif' }}>
                 {cert.name}
               </p>
               <p className="text-xs text-blue-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">

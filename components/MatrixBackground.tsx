@@ -25,7 +25,7 @@ export default function MatrixBackground() {
   const [opacity, setOpacity] = useState(0);
   const [startAnimation, setStartAnimation] = useState(false);
 
-  // Start animation 2 seconds before fade-in (at 3 seconds)
+  // Start animation 
   useEffect(() => {
     const animationTimer = setTimeout(() => {
       setStartAnimation(true);
@@ -34,7 +34,7 @@ export default function MatrixBackground() {
     return () => clearTimeout(animationTimer);
   }, []);
 
-  // Fade in effect - starts after 5 seconds (when reveal begins)
+  // Fade in effect 
   useEffect(() => {
     const fadeInTimer = setTimeout(() => {
       setOpacity(0.8);
