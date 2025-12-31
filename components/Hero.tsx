@@ -185,9 +185,9 @@ export default function Hero() {
       <div className="w-full text-center">
         {/* NAME - Tron Neon Sign Style */}
         <h1
-          className="font-bold mb-8"
+          className="font-bold mb-12 sm:mb-16"
           style={{
-            minHeight: isMobile && phase !== 'complete' ? '50vh' : 'auto',
+            minHeight: isMobile && phase !== 'complete' ? '55vh' : 'auto',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -291,26 +291,18 @@ export default function Hero() {
         </h1>
 
         {/* TITLE - Change your professional title here */}
-        <div
-          className="fixed left-0 right-0 flex flex-col items-center"
+        <p
+          className="text-2xl sm:text-2xl md:text-4xl text-cyan-400 mb-4 md:mb-8 px-4"
           style={{
-            top: isMobile ? '68%' : '65%',
-            transform: 'translateY(-50%)',
-            pointerEvents: 'none'
+            fontFamily: 'TR2N, Orbitron, monospace',
+            textShadow: "0 0 2px rgba(0, 255, 255, 1), 0 0 70px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5)"
           }}
         >
-          <p
-            className="text-2xl sm:text-2xl md:text-4xl text-cyan-400 mb-4 md:mb-8 px-4"
-            style={{
-              fontFamily: 'TR2N, Orbitron, monospace',
-              textShadow: "0 0 2px rgba(0, 255, 255, 1), 0 0 70px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5)"
-            }}
-          >
-            AI/ML Engineer & Full-Stack Developer
-          </p>
+          AI/ML Engineer & Full-Stack Developer
+        </p>
 
-          {/* Social Links */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 px-4 w-full max-w-md mx-auto" style={{ pointerEvents: 'auto' }}>
+        {/* Social Links */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 px-4 w-full max-w-md mx-auto">
           <a
             href="https://linkedin.com/in/allanily"
             target="_blank"
@@ -338,7 +330,6 @@ export default function Hero() {
             <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
             Resume
           </a>
-        </div>
         </div>
 
         {/* Scroll indicator */}
