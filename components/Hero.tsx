@@ -171,7 +171,7 @@ export default function Hero() {
     // STARTING POSITIONS (where letters are during flicker)
     // Percentage of viewport width - ADJUST THESE VALUES
     // -------------------------------------------------------------------------
-    const A_START_PERCENT = isMobile ? 36.5 : 35;   // ADJUST: A's starting position (% of viewport)
+    const A_START_PERCENT = isMobile ? 38 : 35;   // ADJUST: A's starting position (% of viewport)
     const I_START_PERCENT = 8.5;   // ADJUST: I's starting position (% of viewport)
     
     // -------------------------------------------------------------------------
