@@ -171,7 +171,7 @@ export default function Hero() {
     // STARTING POSITIONS (where letters are during flicker)
     // Percentage of viewport width - ADJUST THESE VALUES
     // -------------------------------------------------------------------------
-    const A_START_PERCENT = 35;   // ADJUST: A's starting position (% of viewport)
+    const A_START_PERCENT = isMobile ? 36.5 : 35;   // ADJUST: A's starting position (% of viewport)
     const I_START_PERCENT = 8.5;   // ADJUST: I's starting position (% of viewport)
     
     // -------------------------------------------------------------------------
@@ -270,7 +270,7 @@ export default function Hero() {
               style={{
                 fontFamily: 'TR2N, Orbitron, monospace',
                 textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-                letterSpacing: isMobile ? 'clamp(0.1em, 3vw, 0.1em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
+                letterSpacing: isMobile ? 'clamp(0.01em, 3vw, 0.01em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
                 padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)', // Less padding on mobile
                 // APPROACH C: Fixed height on mobile prevents vertical sliding during shrink
                 height: isMobile ? '15rem' : 'auto', // ADJUST THIS to change container height
