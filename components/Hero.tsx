@@ -33,8 +33,8 @@ export default function Hero() {
    * 1. 'flicker' (0-1s): AI flickers in the center like a neon sign turning on
    * 2. 'reveal' (1s+): AI slides apart, letters pop in to complete the name
    */
-  const [phase, setPhase] = useState<'flicker' | 'reveal'>('flicker');
-  const [isMobile, setIsMobile] = useState(false);  
+  const [phase, setPhase] = useState<'flicker' | 'reveal' | 'complete'>('flicker');
+  const [isMobile, setIsMobile] = useState(false);
   const aRef = useRef<HTMLSpanElement>(null);
   const iRef = useRef<HTMLSpanElement>(null);
   const llanRef = useRef<HTMLSpanElement>(null);
@@ -181,18 +181,27 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
+    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-20 sm:py-0">
       <div className="w-full text-center">
         {/* NAME - Tron Neon Sign Style */}
-        <h1 className="font-bold mb-8">
+        <h1
+          className="font-bold mb-8"
+          style={{
+            minHeight: isMobile && phase !== 'complete' ? '50vh' : 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            transition: phase === 'complete' ? 'min-height 0.5s ease-out' : 'none'
+          }}
+        >
           <LayoutGroup>
             <div
               className="flex items-center justify-center text-cyan-400"
               style={{
                 fontFamily: 'TR2N, Orbitron, monospace',
                 textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-                letterSpacing: isMobile ? 'clamp(0.1em, 3vw, 0.1em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
-                padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)' // Less padding on mobile
+                letterSpacing: isMobile ? 'clamp(0.01em, 3vw, 0.01em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
+                padding: 'clamp(40px, 6vw, 80px) clamp(40px, 4vw, 40px)' // Less padding on mobile
               }}
             >
             {/* ALLAN - First line on mobile, baseline aligned */}
@@ -282,18 +291,26 @@ export default function Hero() {
         </h1>
 
         {/* TITLE - Change your professional title here */}
-        <p
-          className="text-2xl sm:text-2xl md:text-4xl text-cyan-400 mb-4 md:mb-8 px-4"
+        <div
+          className="fixed left-0 right-0 flex flex-col items-center"
           style={{
-            fontFamily: 'TR2N, Orbitron, monospace',
-            textShadow: "0 0 2px rgba(0, 255, 255, 1), 0 0 70px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5)"
+            top: isMobile ? '68%' : '65%',
+            transform: 'translateY(-50%)',
+            pointerEvents: 'none'
           }}
         >
-          AI/ML Engineer & Full-Stack Developer
-        </p>
+          <p
+            className="text-2xl sm:text-2xl md:text-4xl text-cyan-400 mb-4 md:mb-8 px-4"
+            style={{
+              fontFamily: 'TR2N, Orbitron, monospace',
+              textShadow: "0 0 2px rgba(0, 255, 255, 1), 0 0 70px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5)"
+            }}
+          >
+            AI/ML Engineer & Full-Stack Developer
+          </p>
 
-        {/* Social Links */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 px-4 w-full max-w-md mx-auto">
+          {/* Social Links */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 px-4 w-full max-w-md mx-auto" style={{ pointerEvents: 'auto' }}>
           <a
             href="https://linkedin.com/in/allanily"
             target="_blank"
@@ -321,6 +338,7 @@ export default function Hero() {
             <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
             Resume
           </a>
+        </div>
         </div>
 
         {/* Scroll indicator */}

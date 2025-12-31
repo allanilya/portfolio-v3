@@ -152,7 +152,7 @@ export default function Skills() {
         }
       `}</style>
 
-      <section id="skills" className="relative z-10 py-16 md:py-20 px-4 overflow-visible">
+      <section id="skills" className="relative z-10 py-32 md:py-40 px-4 overflow-visible">
         {/* Fixed pixel substrate under entire section */}
         <div className="pixel-grid"></div>
 

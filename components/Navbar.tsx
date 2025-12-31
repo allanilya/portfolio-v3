@@ -19,10 +19,11 @@
  * - Font: Change text sizes in className attributes
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState('');
+  const isScrollingRef = useRef(false);
 
   // Navigation items - add or remove sections here
   const navItems = [
@@ -46,10 +47,22 @@ export default function Navbar() {
       const elementPosition = element.getBoundingClientRect().top + window.scrollY;
       const offsetPosition = elementPosition - navbarHeight;
 
+      // Set active section immediately when clicking
+      const sectionId = href.substring(1);
+      setActiveSection(sectionId);
+
+      // Prevent scroll handler from overriding during smooth scroll
+      isScrollingRef.current = true;
+
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
       });
+
+      // Re-enable scroll detection after smooth scroll completes
+      setTimeout(() => {
+        isScrollingRef.current = false;
+      }, 1000); // Smooth scroll typically takes ~500-800ms
     }
   };
 
@@ -59,25 +72,35 @@ export default function Navbar() {
      * Updates the active section indicator based on current scroll position
      */
     const handleScroll = () => {
+      // Skip scroll detection during navbar-initiated smooth scrolling
+      if (isScrollingRef.current) return;
+
       const sections = navItems.map(item => item.href.substring(1));
       const scrollPosition = window.scrollY;
+      const navbarOffset = 100; // Same offset used in scrollToSection
 
       // Clear active section when in Hero section (top of page)
       const aboutElement = document.getElementById('about');
-      if (aboutElement && scrollPosition < aboutElement.offsetTop) {
+      if (aboutElement && scrollPosition < aboutElement.offsetTop - navbarOffset) {
         setActiveSection('');
         return;
       }
 
+      // Find the section that is currently most visible
+      let currentSection = '';
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
-            setActiveSection(section);
-            break;
+          const { offsetTop } = element;
+          // If we've scrolled past this section's start (accounting for navbar offset)
+          if (scrollPosition >= offsetTop - navbarOffset) {
+            currentSection = section;
           }
         }
+      }
+
+      if (currentSection) {
+        setActiveSection(currentSection);
       }
     };
 

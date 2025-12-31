@@ -18,7 +18,7 @@ import { Github, Linkedin, Mail } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="relative z-10 py-16 md:py-20 px-4 mt-16">
+    <footer className="relative z-10 py-16 md:py-20 px-4 mt-24 md:mt-32">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col items-center gap-6 text-center">
           {/* Social Links */}
