@@ -145,9 +145,29 @@ export default function Hero() {
     // Desktop: reveal immediately after flicker stabilizes
     const revealDelay = isMobile ? 5700 : 5000;
     const flickerTimer = setTimeout(() => {
+      // Lock positions BEFORE phase change to prevent glitching
+      if (aRef.current && iRef.current) {
+        const viewportWidth = window.innerWidth;
+        const A_START_PERCENT = isMobile ? 37 : 35;
+        const I_START_PERCENT = 8.5;
+        const A_START_X = (A_START_PERCENT / 100) * viewportWidth;
+        const I_START_X = (I_START_PERCENT / 100) * viewportWidth;
+        
+        gsap.set(aRef.current, {
+          x: A_START_X,
+          y: 0,
+          force3D: true,
+          immediateRender: true
+        });
+        gsap.set(iRef.current, {
+          x: I_START_X,
+          y: 0,
+          force3D: true,
+          immediateRender: true
+        });
+      }
+      
       setPhase('reveal');
-      // NOTE: Don't clear GSAP locks here - let the sliding animation handle the transition
-      // from flicker position to final position
     }, revealDelay);
 
     return () => {
@@ -171,7 +191,7 @@ export default function Hero() {
     // STARTING POSITIONS (where letters are during flicker)
     // Percentage of viewport width - ADJUST THESE VALUES
     // -------------------------------------------------------------------------
-    const A_START_PERCENT = isMobile ? 38 : 35;   // ADJUST: A's starting position (% of viewport)
+    const A_START_PERCENT = isMobile ? 37 : 35;   // ADJUST: A's starting position (% of viewport)
     const I_START_PERCENT = 8.5;   // ADJUST: I's starting position (% of viewport)
     
     // -------------------------------------------------------------------------
@@ -199,23 +219,24 @@ export default function Hero() {
     // -------------------------------------------------------------------------
     // Execute the slide animation
     // -------------------------------------------------------------------------
-    // Set starting positions
-    gsap.set(aRef.current, { x: A_START_X });
-    gsap.set(iRef.current, { x: I_START_X });
-    
-    // Animate to ending positions
+    // Positions were already set in the setTimeout before phase changed
+    // Just animate to ending positions
     gsap.to(aRef.current, {
       x: A_END_X,
+      y: 0,                // Keep Y locked
       duration: SLIDE_DURATION,
-      ease: SLIDE_EASE
+      ease: SLIDE_EASE,
+      force3D: true        // GPU acceleration
     });
     
     gsap.to(iRef.current, {
       x: I_END_X,
+      y: 0,                // Keep Y locked
       duration: SLIDE_DURATION,
-      ease: SLIDE_EASE
+      ease: SLIDE_EASE,
+      force3D: true        // GPU acceleration
     });
-  }, [phase]);
+  }, [phase, isMobile]);
 
 
   /**
