@@ -137,7 +137,7 @@ export default function Hero() {
         fontSize: normalFontSize,
         duration: 2,
         ease: "power2.inOut"
-      }, 4); // Start shrinking at 4s, completes around 3.5s when reveal starts
+      }, 4); // Start shrinking at 4s, completes around 6s
     }
 
     // After flicker completes, switch to reveal phase
@@ -146,13 +146,8 @@ export default function Hero() {
     const revealDelay = isMobile ? 5700 : 5000;
     const flickerTimer = setTimeout(() => {
       setPhase('reveal');
-
-      // Clear GSAP locks right when reveal starts to let Framer Motion take over
-      if (aRef.current && iRef.current) {
-        gsap.set([aRef.current, iRef.current], {
-          clearProps: 'x,y,transform'
-        });
-      }
+      // NOTE: Don't clear GSAP locks here - let the sliding animation handle the transition
+      // from flicker position to final position
     }, revealDelay);
 
     return () => {
@@ -160,6 +155,67 @@ export default function Hero() {
       tl.kill();
     };
   }, [isMobile]);
+
+  // ============================================================================
+  // GSAP HORIZONTAL SLIDING ANIMATION (Approach B)
+  // ============================================================================
+  // Slides A and I horizontally during reveal phase
+  // Uses percentage of viewport width for responsive positioning
+  useEffect(() => {
+    if (phase !== 'reveal' || !aRef.current || !iRef.current) return;
+    
+    // Get viewport width for percentage-based calculations
+    const viewportWidth = window.innerWidth;
+    
+    // -------------------------------------------------------------------------
+    // STARTING POSITIONS (where letters are during flicker)
+    // Percentage of viewport width - ADJUST THESE VALUES
+    // -------------------------------------------------------------------------
+    const A_START_PERCENT = 35;   // ADJUST: A's starting position (% of viewport)
+    const I_START_PERCENT = 8.5;   // ADJUST: I's starting position (% of viewport)
+    
+    // -------------------------------------------------------------------------
+    // ENDING POSITIONS (where letters should end up after reveal)
+    // Percentage of viewport width - ADJUST THESE VALUES
+    // -------------------------------------------------------------------------
+    // Positive % = move right, Negative % = move left
+    const A_END_PERCENT = 0;   // ADJUST: A's final position (% of viewport)
+    const I_END_PERCENT = 0;    // ADJUST: I's final position (% of viewport)
+    
+    // -------------------------------------------------------------------------
+    // Convert percentages to pixel values
+    // -------------------------------------------------------------------------
+    const A_START_X = (A_START_PERCENT / 100) * viewportWidth;
+    const I_START_X = (I_START_PERCENT / 100) * viewportWidth;
+    const A_END_X = (A_END_PERCENT / 100) * viewportWidth;
+    const I_END_X = (I_END_PERCENT / 100) * viewportWidth;
+    
+    // -------------------------------------------------------------------------
+    // ANIMATION TIMING
+    // -------------------------------------------------------------------------
+    const SLIDE_DURATION = 5;        // ADJUST: How long the slide takes (seconds)
+    const SLIDE_EASE = "power2.out"; // ADJUST: Easing function
+    
+    // -------------------------------------------------------------------------
+    // Execute the slide animation
+    // -------------------------------------------------------------------------
+    // Set starting positions
+    gsap.set(aRef.current, { x: A_START_X });
+    gsap.set(iRef.current, { x: I_START_X });
+    
+    // Animate to ending positions
+    gsap.to(aRef.current, {
+      x: A_END_X,
+      duration: SLIDE_DURATION,
+      ease: SLIDE_EASE
+    });
+    
+    gsap.to(iRef.current, {
+      x: I_END_X,
+      duration: SLIDE_DURATION,
+      ease: SLIDE_EASE
+    });
+  }, [phase]);
 
 
   /**
@@ -181,36 +237,51 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-20 sm:py-0">
+    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-32 sm:py-0">
       <div className="w-full text-center">
         {/* NAME - Tron Neon Sign Style */}
-        <h1
-          className="font-bold mb-12 sm:mb-16"
+        <h1 
+          className="font-bold mb-8"
           style={{
-            minHeight: isMobile && phase !== 'complete' ? '55vh' : 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            transition: phase === 'complete' ? 'min-height 0.5s ease-out' : 'none'
+            // On mobile: position absolutely so it doesn't affect layout flow (title/links stay fixed)
+            position: isMobile ? 'absolute' : 'static',
+            top: isMobile ? '80px' : 'auto', // Distance from top of viewport on mobile
+            left: 0,
+            right: 0,
+            zIndex: 10
           }}
         >
           <LayoutGroup>
+            {/* SPACER 1 (Name Vertical Position): Only affects name elements on mobile
+                Pushes name content down from h1 top to center it vertically
+                Adjust height value to move name up/down */}
+            {isMobile && (
+              <div 
+                aria-hidden="true"
+                style={{
+                  height: 'clamp(8rem, 20vh, 12rem)', // ADJUST THIS to change vertical position of name
+                  pointerEvents: 'none'
+                }}
+              />
+            )}
+            
             <div
               className="flex items-center justify-center text-cyan-400"
               style={{
                 fontFamily: 'TR2N, Orbitron, monospace',
                 textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-                letterSpacing: isMobile ? 'clamp(0.01em, 3vw, 0.01em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
-                padding: 'clamp(40px, 6vw, 80px) clamp(40px, 4vw, 40px)' // Less padding on mobile
+                letterSpacing: isMobile ? 'clamp(0.1em, 3vw, 0.1em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
+                padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)', // Less padding on mobile
+                // APPROACH C: Fixed height on mobile prevents vertical sliding during shrink
+                height: isMobile ? '15rem' : 'auto', // ADJUST THIS to change container height
+                overflow: 'visible' // Allow letters to overflow without clipping
               }}
             >
             {/* ALLAN - First line on mobile, baseline aligned */}
             <div className="flex items-center justify-center">
-              {/* Giant "A" - Centered during flicker, slides left during reveal */}
+              {/* Giant "A" - Centered during flicker, slides left during reveal (GSAP handles sliding) */}
               <motion.span
                 ref={aRef}
-                layout
-                transition={{ layout: { duration: 3.5 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
@@ -250,8 +321,6 @@ export default function Hero() {
             <div className="flex items-center justify-center">
               <motion.span
                 ref={iRef}
-                layout
-                transition={{ layout: { duration: 3.5 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
@@ -289,6 +358,19 @@ export default function Hero() {
           </div>
           </LayoutGroup>
         </h1>
+
+        {/* SPACER 2 (Title/Links Position): Creates fixed vertical space on mobile
+            Name floats absolutely above this, title/links respect this spacer
+            Adjust height value to move title/links up/down */}
+        {isMobile && (
+          <div 
+            aria-hidden="true"
+            style={{
+              height: 'clamp(18rem, 25vh, 15rem)', // ADJUST THIS to change vertical position of title/links
+              pointerEvents: 'none'
+            }}
+          />
+        )}
 
         {/* TITLE - Change your professional title here */}
         <p
