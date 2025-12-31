@@ -35,6 +35,7 @@ export default function Hero() {
    */
   const [phase, setPhase] = useState<'flicker' | 'reveal' | 'complete'>('flicker');
   const [isMobile, setIsMobile] = useState(false);
+  const [layoutFrozen, setLayoutFrozen] = useState(true); // Freeze layout initially
   const aRef = useRef<HTMLSpanElement>(null);
   const iRef = useRef<HTMLSpanElement>(null);
   const llanRef = useRef<HTMLSpanElement>(null);
@@ -57,16 +58,14 @@ export default function Hero() {
     const giantFontSize = isMobile ? 'clamp(12rem, 35vw, 50rem)' : 'clamp(5rem, 17vw, 40rem)';
     const normalFontSize = 'clamp(5rem, 17vw, 40rem)';
     
-    // Lock position during flicker to prevent layout squeezing
+    // Initialize flicker state - Framer Motion handles positioning
     gsap.set([aRef.current, iRef.current], {
       opacity: 0,
       color: 'transparent',
       webkitTextStroke: '2px rgba(0, 255, 255, 0.8)',
       textShadow: 'none',
-      fontSize: isMobile ? giantFontSize : normalFontSize, // Start with giant font size on mobile
-      x: 0,
-      y: 0,
-      clearProps: 'transform' // Clear any existing transforms
+      fontSize: isMobile ? giantFontSize : normalFontSize // Start with giant font size on mobile
+      // No x, y, or transform - let Framer Motion handle positioning
     });
 
     const tl = gsap.timeline();
@@ -145,98 +144,28 @@ export default function Hero() {
     // Desktop: reveal immediately after flicker stabilizes
     const revealDelay = isMobile ? 5700 : 5000;
     const flickerTimer = setTimeout(() => {
-      // Lock positions BEFORE phase change to prevent glitching
-      if (aRef.current && iRef.current) {
-        const viewportWidth = window.innerWidth;
-        const A_START_PERCENT = isMobile ? 37 : 35;
-        const I_START_PERCENT = 8.5;
-        const A_START_X = (A_START_PERCENT / 100) * viewportWidth;
-        const I_START_X = (I_START_PERCENT / 100) * viewportWidth;
-        
-        gsap.set(aRef.current, {
-          x: A_START_X,
-          y: 0,
-          force3D: true,
-          immediateRender: true
-        });
-        gsap.set(iRef.current, {
-          x: I_START_X,
-          y: 0,
-          force3D: true,
-          immediateRender: true
-        });
-      }
-      
       setPhase('reveal');
     }, revealDelay);
 
+    // Unfreeze layout on mobile after a specific time (adjust milliseconds as needed)
+    const unfreezeTimer = setTimeout(() => {
+      if (isMobile) {
+        setLayoutFrozen(false);
+      }
+    }, 5000); // Change this number to control freeze duration (6000 = 6 seconds)
+
     return () => {
       clearTimeout(flickerTimer);
+      clearTimeout(unfreezeTimer);
       tl.kill();
     };
   }, [isMobile]);
 
   // ============================================================================
-  // GSAP HORIZONTAL SLIDING ANIMATION (Approach B)
+  // HORIZONTAL SLIDING - Now handled by Framer Motion layout="position"
   // ============================================================================
-  // Slides A and I horizontally during reveal phase
-  // Uses percentage of viewport width for responsive positioning
-  useEffect(() => {
-    if (phase !== 'reveal' || !aRef.current || !iRef.current) return;
-    
-    // Get viewport width for percentage-based calculations
-    const viewportWidth = window.innerWidth;
-    
-    // -------------------------------------------------------------------------
-    // STARTING POSITIONS (where letters are during flicker)
-    // Percentage of viewport width - ADJUST THESE VALUES
-    // -------------------------------------------------------------------------
-    const A_START_PERCENT = isMobile ? 37 : 35;   // ADJUST: A's starting position (% of viewport)
-    const I_START_PERCENT = 8.5;   // ADJUST: I's starting position (% of viewport)
-    
-    // -------------------------------------------------------------------------
-    // ENDING POSITIONS (where letters should end up after reveal)
-    // Percentage of viewport width - ADJUST THESE VALUES
-    // -------------------------------------------------------------------------
-    // Positive % = move right, Negative % = move left
-    const A_END_PERCENT = 0;   // ADJUST: A's final position (% of viewport)
-    const I_END_PERCENT = 0;    // ADJUST: I's final position (% of viewport)
-    
-    // -------------------------------------------------------------------------
-    // Convert percentages to pixel values
-    // -------------------------------------------------------------------------
-    const A_START_X = (A_START_PERCENT / 100) * viewportWidth;
-    const I_START_X = (I_START_PERCENT / 100) * viewportWidth;
-    const A_END_X = (A_END_PERCENT / 100) * viewportWidth;
-    const I_END_X = (I_END_PERCENT / 100) * viewportWidth;
-    
-    // -------------------------------------------------------------------------
-    // ANIMATION TIMING
-    // -------------------------------------------------------------------------
-    const SLIDE_DURATION = 5;        // ADJUST: How long the slide takes (seconds)
-    const SLIDE_EASE = "power2.out"; // ADJUST: Easing function
-    
-    // -------------------------------------------------------------------------
-    // Execute the slide animation
-    // -------------------------------------------------------------------------
-    // Positions were already set in the setTimeout before phase changed
-    // Just animate to ending positions
-    gsap.to(aRef.current, {
-      x: A_END_X,
-      y: 0,                // Keep Y locked
-      duration: SLIDE_DURATION,
-      ease: SLIDE_EASE,
-      force3D: true        // GPU acceleration
-    });
-    
-    gsap.to(iRef.current, {
-      x: I_END_X,
-      y: 0,                // Keep Y locked
-      duration: SLIDE_DURATION,
-      ease: SLIDE_EASE,
-      force3D: true        // GPU acceleration
-    });
-  }, [phase, isMobile]);
+  // A and I have layout="position" prop which animates ONLY horizontal position
+  // when the letter containers expand during reveal phase
 
 
   /**
@@ -300,17 +229,20 @@ export default function Hero() {
             >
             {/* ALLAN - First line on mobile, baseline aligned */}
             <div className="flex items-center justify-center">
-              {/* Giant "A" - Centered during flicker, slides left during reveal (GSAP handles sliding) */}
+              {/* Giant "A" - Centered during flicker, slides left during reveal */}
               <motion.span
                 ref={aRef}
+                layout={isMobile && layoutFrozen ? false : "position"}
+                transition={{ layout: { duration: 3.5 } }}
                 className="leading-none font-black"
                 style={{
-                  fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
+                  fontSize: 'clamp(5rem, 17vw, 40rem)',
                   display: 'inline-block'
                 }}
               >
                 A
               </motion.span>
+
 
               {/* "llan" - Pop up from LAST to FIRST (n→a→l→l) */}
               <motion.span
@@ -320,7 +252,7 @@ export default function Hero() {
                   fontSize: 'clamp(3rem, 10vw, 12rem)', // Smaller on mobile to fit single line
                   width: phase === 'reveal' ? 'auto' : 0,
                   overflow: 'visible', // Allow glow to blend with adjacent letters
-                  transition: 'width 3s'
+                  transition: 'width 3s ease-in-out' // Smooth width expansion
                 }}
                 initial="initial"
                 animate={phase}
@@ -338,13 +270,15 @@ export default function Hero() {
               </motion.span>
             </div>
 
-            {/* ILYASOV - Giant "I" slides right during reveal */}
+            {/* ILYASOV - Giant "I" slides left during reveal */}
             <div className="flex items-center justify-center">
               <motion.span
                 ref={iRef}
+                layout={isMobile && layoutFrozen ? false : "position"}
+                transition={{ layout: { duration: 3.5 } }}
                 className="leading-none font-black"
                 style={{
-                  fontSize: 'clamp(5rem, 17vw, 40rem)', // Smaller on mobile
+                  fontSize: 'clamp(5rem, 17vw, 40rem)',
                   display: 'inline-block'
                 }}
               >
@@ -359,7 +293,7 @@ export default function Hero() {
                   fontSize: 'clamp(3rem, 10vw, 12rem)', // Smaller on mobile to fit single line
                   width: phase === 'reveal' ? 'auto' : 0,
                   overflow: 'visible', // Allow glow to blend with adjacent letters
-                  transition: 'width 3s'
+                  transition: 'width 3s ease-in-out' // Smooth width expansion
                 }}
                 initial="initial"
                 animate={phase}
