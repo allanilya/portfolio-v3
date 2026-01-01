@@ -35,7 +35,7 @@ export default function Projects() {
   const [xOffset, setXOffset] = useState(270); // Default to desktop value
   const [leftRightScale, setLeftRightScale] = useState(0.75); // Default to desktop value
   const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null)
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   // Update x offset and scale based on screen size
   useEffect(() => {
@@ -262,10 +262,11 @@ export default function Projects() {
           Projects
         </h2>
         {/* Carousel Controls */}
-        <div className="relative">
+        <div className="relative" style={{ overflowAnchor: 'none' }}>
           {/* Project Cards - Carousel Focus Layout */}
           <div
             className="relative flex items-center justify-center min-h-[400px] sm:min-h-[460px] md:min-h-[500px] px-4"
+            style={{ overflowAnchor: 'none' }}
             onTouchStart={onTouchStart}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
@@ -287,7 +288,10 @@ export default function Projects() {
                     duration: 0.45,
                     ease: [0.22, 0.61, 0.36, 1],
                   }}
-                  onClick={() => setSelectedProject(project.id)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelectedProject(project.id);
+                  }}
                   style={{
                     position: 'absolute',
                     border: project.slot === 'center'
@@ -349,7 +353,10 @@ export default function Projects() {
 
                 <div
                   className="p-4 cursor-pointer flex-grow flex flex-col"
-                  onClick={() => setSelectedProject(project.id)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSelectedProject(project.id);
+                  }}
                 >
                   {/* Title Section */}
                   <div className="flex items-start justify-between mb-2 flex-shrink-0">
@@ -406,8 +413,18 @@ export default function Projects() {
             <div className="flex items-center justify-center gap-6 mt-16">
               {/* Previous Button */}
               <button
-                onClick={prevProject}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  e.currentTarget.blur();
+                  prevProject();
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
                 className="bg-gray-800 rounded-full p-3 shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-700"
+                style={{ touchAction: 'manipulation' }}
                 aria-label="Previous project"
               >
                 <ChevronLeft className="w-5 h-5 md:w-6 md:h-6" />
@@ -418,7 +435,11 @@ export default function Projects() {
                 {projects.map((project, index) => (
                   <button
                     key={project.id}
-                    onClick={() => setCurrentIndex(index)}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.currentTarget.blur();
+                      setCurrentIndex(index);
+                    }}
                     className={`w-3 h-3 rounded-full transition-all ${
                       currentIndex === index
                         ? 'bg-blue-400 scale-125'
@@ -431,8 +452,18 @@ export default function Projects() {
 
               {/* Next Button */}
               <button
-                onClick={nextProject}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  e.currentTarget.blur();
+                  nextProject();
+                }}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
                 className="bg-gray-800 rounded-full p-3 shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-700"
+                style={{ touchAction: 'manipulation' }}
                 aria-label="Next project"
               >
                 <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />

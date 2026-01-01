@@ -87,11 +87,12 @@ export default function Hero() {
       fontSize: isMobile ? giantFontSize : normalFontSize
     };
     const dimFullState = {
-      opacity: 0.5,
+      opacity: 0.6,
       color: 'rgb(34, 211, 238)',
       webkitTextStroke: '0px transparent',
       textShadow: '0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)',
-      fontSize: isMobile ? giantFontSize : normalFontSize
+      fontSize: isMobile ? giantFontSize : normalFontSize,
+      force3D: true
     };
     const fullState = {
       opacity: 1,
@@ -103,15 +104,15 @@ export default function Hero() {
 
     // Synchronized flicker for both A and I
     tl.set([aRef.current, iRef.current], { ...emptyState, x: 0, y: 0, force3D: true }, 0)
-      // Black for 0.5s
-      .set([aRef.current, iRef.current], emptyState, 1.2)
+      // Black for initial period
+      .set([aRef.current, iRef.current], emptyState, 1.13)
+      .set([aRef.current, iRef.current], dimFullState, 1.20)
       // Rapid flicker starts (both letters in sync)
       .set([aRef.current, iRef.current], skeletonState, 1.24)
-      .set([aRef.current, iRef.current], emptyState, 1.30)
-      .set([aRef.current, iRef.current], dimFullState, 1.13)
       .set([aRef.current, iRef.current], skeletonState, 1.27)
+      .set([aRef.current, iRef.current], emptyState, 1.30)
       .set([aRef.current, iRef.current], dimFullState, 1.40)
-      .set([aRef.current, iRef.current], fullState, 1.5)    
+      .set([aRef.current, iRef.current], fullState, 1.5)
       .set([aRef.current, iRef.current], emptyState, 2.00)
       .set([aRef.current, iRef.current], skeletonState, 2.16)
       .set([aRef.current, iRef.current], dimFullState, 2.35)
@@ -321,7 +322,8 @@ export default function Hero() {
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)',
-                  display: 'inline-block'
+                  display: 'inline-block',
+                  willChange: 'transform' // Force GPU layer to prevent GSAP color conflicts
                 }}
               >
                 I
