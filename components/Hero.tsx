@@ -195,6 +195,35 @@ export default function Hero() {
     }
   };
 
+  /**
+   * ANIMATION VARIANTS FOR TITLE CHARACTERS
+   * ========================================
+   * Faster stagger animation for the title text
+   */
+  const titleCharVariants = {
+    initial: { opacity: 0 },
+    flicker: { opacity: 0 },
+    reveal: {
+      opacity: 1,
+      transition: { duration: 0.15 }
+    }
+  };
+
+  /**
+   * ANIMATION VARIANTS FOR SOCIAL BUTTONS
+   * ======================================
+   * Buttons appear one by one during name reveal
+   */
+  const buttonVariants = {
+    initial: { opacity: 0, y: 10 },
+    flicker: { opacity: 0, y: 10 },
+    reveal: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4 }
+    }
+  };
+
   return (
     <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-32 sm:py-0">
       <div className="w-full text-center">
@@ -350,46 +379,83 @@ export default function Hero() {
         )}
 
         {/* TITLE - Change your professional title here */}
-        <p
+        <motion.p
           className="text-2xl sm:text-2xl md:text-4xl text-cyan-400 mb-4 md:mb-8 px-4"
           style={{
             fontFamily: 'TR2N, Orbitron, monospace',
             textShadow: "0 0 2px rgba(0, 255, 255, 1), 0 0 70px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5)"
           }}
+          initial="initial"
+          animate={phase}
+          transition={{ staggerChildren: 0.03, delayChildren: 4.0 }}
         >
-          AI/ML Engineer & Full-Stack Developer
-        </p>
+          {'AI/ML Engineer & Full-Stack Developer'.split('').map((char, i) => (
+            <motion.span
+              key={i}
+              variants={titleCharVariants}
+              style={{ display: 'inline-block', whiteSpace: char === ' ' ? 'pre' : 'normal' }}
+            >
+              {char}
+            </motion.span>
+          ))}
+        </motion.p>
 
         {/* Social Links */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 px-4 w-full max-w-md mx-auto">
-          <a
+        <motion.div
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 px-4 w-full max-w-md mx-auto"
+          initial="initial"
+          animate={phase}
+          transition={{ staggerChildren: 0.2, delayChildren: 4.5 }}
+        >
+          <motion.a
             href="https://linkedin.com/in/allanily"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors text-sm sm:text-base"
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600/40 border-2 text-blue-400 rounded-full hover:bg-blue-500/10 transition-all text-sm sm:text-base"
+            style={{
+              fontFamily: 'Orbitron, monospace',
+              borderColor: '#0A66C2',
+              boxShadow: '0 0 10px rgba(10, 102, 194, 0.5), 0 0 20px rgba(10, 102, 194, 0.3), inset 0 0 10px rgba(10, 102, 194, 0.1)',
+              textShadow: '0 0 8px rgba(10, 102, 194, 0.8), 0 0 15px rgba(10, 102, 194, 0.5)'
+            }}
+            variants={buttonVariants}
           >
-            <LucideLinkedin className="w-4 h-4 sm:w-5 sm:h-5" />
+            <LucideLinkedin className="w-4 h-4 sm:w-5 sm:h-5" style={{ filter: 'drop-shadow(0 0 4px rgba(10, 102, 194, 0.8)) drop-shadow(0 0 8px rgba(10, 102, 194, 0.5))' }} />
             LinkedIn
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="https://github.com/allanilya"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-800 text-white rounded-full hover:bg-gray-900 transition-colors text-sm sm:text-base"
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-300/40 border-2 text-gray-300 rounded-full hover:bg-gray-500/10 transition-all text-sm sm:text-base"
+            style={{
+              fontFamily: 'Orbitron, monospace',
+              borderColor: '#9CA3AF',
+              boxShadow: '0 0 10px rgba(156, 163, 175, 0.5), 0 0 20px rgba(156, 163, 175, 0.3), inset 0 0 10px rgba(156, 163, 175, 0.1)',
+              textShadow: '0 0 8px rgba(200, 200, 200, 0.8), 0 0 15px rgba(156, 163, 175, 0.5)'
+            }}
+            variants={buttonVariants}
           >
-            <LucideGithub className="w-4 h-4 sm:w-5 sm:h-5" />
+            <LucideGithub className="w-4 h-4 sm:w-5 sm:h-5" style={{ filter: 'drop-shadow(0 0 4px rgba(200, 200, 200, 0.8)) drop-shadow(0 0 8px rgba(156, 163, 175, 0.5))' }} />
             GitHub
-          </a>
-          <a
+          </motion.a>
+          <motion.a
             href="/Allan Resume Portfolio.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-6 py-3 border-2 border-gray-200 text-gray-200 rounded-full hover:bg-gray-800 transition-colors text-sm sm:text-base"
+            className="flex items-center justify-center gap-2 px-6 py-3 bg-green-400/40 border-2 text-green-400 rounded-full hover:bg-green-500/10 transition-all text-sm sm:text-base"
+            style={{
+              fontFamily: 'Orbitron, monospace',
+              borderColor: '#10B981',
+              boxShadow: '0 0 10px rgba(16, 185, 129, 0.5), 0 0 20px rgba(16, 185, 129, 0.3), inset 0 0 10px rgba(16, 185, 129, 0.1)',
+              textShadow: '0 0 8px rgba(16, 185, 129, 0.8), 0 0 15px rgba(16, 185, 129, 0.5)'
+            }}
+            variants={buttonVariants}
           >
-            <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
+            <FileText className="w-4 h-4 sm:w-5 sm:h-5" style={{ filter: 'drop-shadow(0 0 4px rgba(16, 185, 129, 0.8)) drop-shadow(0 0 8px rgba(16, 185, 129, 0.5))' }} />
             Resume
-          </a>
-        </div>
+          </motion.a>
+        </motion.div>
 
         {/* Scroll indicator */}
         <div className="mt-16 animate-bounce">
