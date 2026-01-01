@@ -153,14 +153,14 @@ export default function Hero() {
       if (isMobile) {
         setLayoutFrozen(false);
       }
-    }, 4000); // Change this number to control freeze duration for A
+    }, 3000); // Change this number to control freeze duration for A
 
     // Separate timer for I letter - adjust independently to test
     const unfreezeTimerI = setTimeout(() => {
       if (isMobile) {
         setLayoutFrozenI(false);
       }
-    }, 4000); // Change this number to control freeze duration for I
+    }, 3000); // Change this number to control freeze duration for I
 
     return () => {
       clearTimeout(flickerTimer);
@@ -311,21 +311,13 @@ export default function Hero() {
 
             {/* ILYASOV - Giant "I" slides left during reveal */}
             <div
-              className="flex items-center justify-center"
-              style={{
-                height: isMobile && layoutFrozen ? '15rem' : 'auto', // lock row height during flicker
-                overflow: 'visible'
-              }}
-            >
+              className="flex items-center justify-center">
               <motion.span
                 ref={iRef}
                 initial={false}
-                animate={isMobile && layoutFrozenI ? { y: 0 } : undefined}
-                layout={!isMobile || !layoutFrozenI ? "position" : false}
-                transition={{
-                  layout: { duration: 3 },
-                  y: { type: "spring", stiffness: 1000, damping: 100 }
-                }}
+                animate={isMobile && layoutFrozen ? { y: 0, x: 0 } : {}}
+                layout={isMobile && layoutFrozen ? false : "position"}
+                transition={{ layout: { duration: 3 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)',
@@ -404,7 +396,7 @@ export default function Hero() {
           className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 px-4 w-full max-w-md mx-auto"
           initial="initial"
           animate={phase}
-          transition={{ staggerChildren: 0.5, delayChildren: 3.0 }}
+          transition={{ staggerChildren: 0.45, delayChildren: 3.0 }}
         >
           <motion.a
             href="https://linkedin.com/in/allanily"
@@ -457,7 +449,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Scroll indicator */}
-        <div className="mt-16 animate-bounce">
+        {/* <div className="mt-16 animate-bounce">
           <svg
             className="w-6 h-6 mx-auto text-gray-400"
             fill="none"
@@ -469,7 +461,7 @@ export default function Hero() {
           >
             <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
           </svg>
-        </div>
+        </div> */}
       </div>
     </section>
   );
