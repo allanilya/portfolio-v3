@@ -422,6 +422,8 @@ export default function Projects() {
                 onTouchEnd={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
+                  e.currentTarget.blur();
+                  prevProject();
                 }}
                 className="bg-gray-800 rounded-full p-3 shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-700"
                 style={{ touchAction: 'manipulation' }}
@@ -461,6 +463,8 @@ export default function Projects() {
                 onTouchEnd={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
+                  e.currentTarget.blur();
+                  nextProject();
                 }}
                 className="bg-gray-800 rounded-full p-3 shadow-lg hover:shadow-xl transition-all hover:scale-110 border border-gray-700"
                 style={{ touchAction: 'manipulation' }}
