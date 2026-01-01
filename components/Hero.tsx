@@ -216,11 +216,15 @@ export default function Hero() {
    * Buttons appear one by one during name reveal
    */
   const buttonVariants = {
-    initial: { opacity: 0 },
-    flicker: { opacity: 0 },
+    initial: { opacity: 0, pointerEvents: 'none' as const },
+    flicker: { opacity: 0, pointerEvents: 'none' as const },
     reveal: {
       opacity: 1,
-      transition: { duration: 0.8 }
+      pointerEvents: 'auto' as const,
+      transition: {
+        opacity: { duration: 0.8 },
+        pointerEvents: { delay: 0.8 } // Enable clicks only after fade-in completes
+      }
     }
   };
 
