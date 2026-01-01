@@ -322,7 +322,7 @@ export default function Hero() {
                 ref={iRef}
                 initial={false}
                 animate={isMobile && layoutFrozenI ? { y: 0 } : undefined}
-                layout={!isMobile || !layoutFrozenI ? "position" : true}
+                layout={!isMobile || !layoutFrozenI ? "position" : false}
                 transition={{
                   layout: { duration: 3.5 },
                   y: { type: "spring", stiffness: 1000, damping: 100 }
