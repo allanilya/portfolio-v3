@@ -362,10 +362,10 @@ export default function Hero() {
             Name floats absolutely above this, title/links respect this spacer
             Adjust height value to move title/links up/down */}
         {isMobile && (
-          <div 
+          <div
             aria-hidden="true"
             style={{
-              height: 'clamp(18rem, 25vh, 15rem)', // ADJUST THIS to change vertical position of title/links
+              height: 'clamp(14rem, 20vh, 12rem)', // ADJUST THIS to change vertical position of title/links
               pointerEvents: 'none'
             }}
           />
