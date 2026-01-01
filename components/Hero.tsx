@@ -215,12 +215,11 @@ export default function Hero() {
    * Buttons appear one by one during name reveal
    */
   const buttonVariants = {
-    initial: { opacity: 0, y: 10 },
-    flicker: { opacity: 0, y: 10 },
+    initial: { opacity: 0 },
+    flicker: { opacity: 0 },
     reveal: {
       opacity: 1,
-      y: 0,
-      transition: { duration: 0.4 }
+      transition: { duration: 0.8 }
     }
   };
 
