@@ -36,6 +36,7 @@ export default function Hero() {
   const [phase, setPhase] = useState<'flicker' | 'reveal' | 'complete'>('flicker');
   const [isMobile, setIsMobile] = useState(false);
   const [layoutFrozen, setLayoutFrozen] = useState(true); // Freeze layout initially
+  const [layoutFrozenI, setLayoutFrozenI] = useState(true); // Separate freeze for I letter
   const aRef = useRef<HTMLSpanElement>(null);
   const iRef = useRef<HTMLSpanElement>(null);
   const llanRef = useRef<HTMLSpanElement>(null);
@@ -152,11 +153,19 @@ export default function Hero() {
       if (isMobile) {
         setLayoutFrozen(false);
       }
-    }, 5000); // Change this number to control freeze duration (6000 = 6 seconds)
+    }, 4000); // Change this number to control freeze duration for A
+
+    // Separate timer for I letter - adjust independently to test
+    const unfreezeTimerI = setTimeout(() => {
+      if (isMobile) {
+        setLayoutFrozenI(false);
+      }
+    }, 4000); // Change this number to control freeze duration for I
 
     return () => {
       clearTimeout(flickerTimer);
       clearTimeout(unfreezeTimer);
+      clearTimeout(unfreezeTimerI);
       tl.kill();
     };
   }, [isMobile]);
@@ -209,7 +218,7 @@ export default function Hero() {
               <div 
                 aria-hidden="true"
                 style={{
-                  height: 'clamp(8rem, 20vh, 12rem)', // ADJUST THIS to change vertical position of name
+                  height: 'clamp(8rem, 20vh, 4rem)', // ADJUST THIS to change vertical position of name
                   pointerEvents: 'none'
                 }}
               />
@@ -232,6 +241,8 @@ export default function Hero() {
               {/* Giant "A" - Centered during flicker, slides left during reveal */}
               <motion.span
                 ref={aRef}
+                initial={false}
+                animate={isMobile && layoutFrozen ? { y: 0, x: 0 } : {}}
                 layout={isMobile && layoutFrozen ? false : "position"}
                 transition={{ layout: { duration: 3.5 } }}
                 className="leading-none font-black"
@@ -271,11 +282,22 @@ export default function Hero() {
             </div>
 
             {/* ILYASOV - Giant "I" slides left during reveal */}
-            <div className="flex items-center justify-center">
+            <div
+              className="flex items-center justify-center"
+              style={{
+                height: isMobile && layoutFrozen ? '15rem' : 'auto', // lock row height during flicker
+                overflow: 'visible'
+              }}
+            >
               <motion.span
                 ref={iRef}
-                layout={isMobile && layoutFrozen ? false : "position"}
-                transition={{ layout: { duration: 3.5 } }}
+                initial={false}
+                animate={isMobile && layoutFrozenI ? { y: 0 } : undefined}
+                layout={!isMobile || !layoutFrozenI ? "position" : true}
+                transition={{
+                  layout: { duration: 3.5 },
+                  y: { type: "spring", stiffness: 1000, damping: 100 }
+                }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)',
@@ -285,31 +307,31 @@ export default function Hero() {
                 I
               </motion.span>
 
-              {/* "lyasov" - Pop up from LAST to FIRST (v→o→s→a→y→l) */}
               <motion.span
                 ref={lyasovRef}
                 className="flex"
                 style={{
-                  fontSize: 'clamp(3rem, 10vw, 12rem)', // Smaller on mobile to fit single line
+                  fontSize: 'clamp(3rem, 10vw, 12rem)',
                   width: phase === 'reveal' ? 'auto' : 0,
-                  overflow: 'visible', // Allow glow to blend with adjacent letters
-                  transition: 'width 3s ease-in-out' // Smooth width expansion
+                  overflow: 'visible',
+                  transition: 'width 3s ease-in-out'
                 }}
                 initial="initial"
                 animate={phase}
-                transition={{ staggerChildren: 0.7, delayChildren: 0.20}}
+                transition={{ staggerChildren: 0.7, delayChildren: 0.20 }}
               >
-                {['v', 'o', 's', 'a', 'y', 'l'].map((char, i) => (
+                {['v','o','s','a','y','l'].map((char, i) => (
                   <motion.span
                     key={i}
                     variants={letterVariants}
-                    style={{ order: 5 - i }} // Reverse visual order
+                    style={{ order: 5-i }}
                   >
                     {char}
                   </motion.span>
                 ))}
               </motion.span>
             </div>
+
           </div>
           </LayoutGroup>
         </h1>
