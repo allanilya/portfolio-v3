@@ -20,10 +20,33 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
 
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const isScrollingRef = useRef(false);
+
+  // Detect mobile screen size (matches Hero component)
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 640); // sm breakpoint
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Show navbar when Hero reveal phase begins
+  useEffect(() => {
+    const revealDelay = isMobile ? 10300 : 9600; // Match Hero component timing
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, revealDelay);
+
+    return () => clearTimeout(timer);
+  }, [isMobile]);
 
   // Navigation items - add or remove sections here
   const navItems = [
@@ -109,7 +132,15 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-4 left-4 right-4 z-15 bg-black/60 backdrop-blur-md border border-green-900/30 rounded-xl shadow-lg">
+    <motion.nav
+      className="fixed top-4 left-4 right-4 z-15 bg-black/60 backdrop-blur-md border border-green-900/30 rounded-xl shadow-lg"
+      initial={{ opacity: 0, pointerEvents: 'none' }}
+      animate={{
+        opacity: isVisible ? 1 : 0,
+        pointerEvents: isVisible ? 'auto' : 'none'
+      }}
+      transition={{ opacity: { duration: 0.8 }, pointerEvents: { delay: isVisible ? 0.8 : 0 } }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo/Name */}
@@ -211,6 +242,6 @@ export default function Navbar() {
           })}
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 }

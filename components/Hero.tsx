@@ -216,11 +216,15 @@ export default function Hero() {
    * Buttons appear one by one during name reveal
    */
   const buttonVariants = {
-    initial: { opacity: 0 },
-    flicker: { opacity: 0 },
+    initial: { opacity: 0, pointerEvents: 'none' as const },
+    flicker: { opacity: 0, pointerEvents: 'none' as const },
     reveal: {
       opacity: 1,
-      transition: { duration: 0.8 }
+      pointerEvents: 'auto' as const,
+      transition: {
+        opacity: { duration: 0.8 },
+        pointerEvents: { delay: 0.8 } // Enable clicks only after fade-in completes
+      }
     }
   };
 
@@ -362,10 +366,10 @@ export default function Hero() {
             Name floats absolutely above this, title/links respect this spacer
             Adjust height value to move title/links up/down */}
         {isMobile && (
-          <div 
+          <div
             aria-hidden="true"
             style={{
-              height: 'clamp(18rem, 25vh, 15rem)', // ADJUST THIS to change vertical position of title/links
+              height: 'clamp(14rem, 20vh, 12rem)', // ADJUST THIS to change vertical position of title/links
               pointerEvents: 'none'
             }}
           />
