@@ -258,7 +258,7 @@ export default function Hero() {
                 fontFamily: 'TR2N, Orbitron, monospace',
                 textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
                 letterSpacing: isMobile ? 'clamp(0.01em, 3vw, 0.01em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
-                padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)', // Less padding on mobile
+                padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)', // Padding for all screen sizes
                 // APPROACH C: Fixed height on mobile prevents vertical sliding during shrink
                 height: isMobile ? '15rem' : 'auto', // ADJUST THIS to change container height
                 overflow: 'visible' // Allow letters to overflow without clipping
@@ -272,7 +272,7 @@ export default function Hero() {
                 initial={false}
                 animate={isMobile && layoutFrozen ? { y: 0, x: 0 } : {}}
                 layout={isMobile && layoutFrozen ? false : "position"}
-                transition={{ layout: { duration: 3.5 } }}
+                transition={{ layout: { duration: 3 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)',
@@ -295,7 +295,7 @@ export default function Hero() {
                 }}
                 initial="initial"
                 animate={phase}
-                transition={{ staggerChildren: 0.7 , delayChildren: 0.85 }}
+                transition={{ staggerChildren: 0.6 , delayChildren: 0.85 }}
               >
                 {['n', 'a', 'l', 'l'].map((char, i) => (
                   <motion.span
@@ -323,7 +323,7 @@ export default function Hero() {
                 animate={isMobile && layoutFrozenI ? { y: 0 } : undefined}
                 layout={!isMobile || !layoutFrozenI ? "position" : false}
                 transition={{
-                  layout: { duration: 3.5 },
+                  layout: { duration: 3 },
                   y: { type: "spring", stiffness: 1000, damping: 100 }
                 }}
                 className="leading-none font-black"
@@ -346,7 +346,7 @@ export default function Hero() {
                 }}
                 initial="initial"
                 animate={phase}
-                transition={{ staggerChildren: 0.7, delayChildren: 0.20 }}
+                transition={{ staggerChildren: 0.6, delayChildren: 0.20 }}
               >
                 {['v','o','s','a','y','l'].map((char, i) => (
                   <motion.span
@@ -386,7 +386,7 @@ export default function Hero() {
           }}
           initial="initial"
           animate={phase}
-          transition={{ staggerChildren: 0.03, delayChildren: 4.0 }}
+          transition={{ staggerChildren: 0.03, delayChildren: 1.5 }}
         >
           {'AI/ML Engineer & Full-Stack Developer'.split('').map((char, i) => (
             <motion.span
@@ -404,7 +404,7 @@ export default function Hero() {
           className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 px-4 w-full max-w-md mx-auto"
           initial="initial"
           animate={phase}
-          transition={{ staggerChildren: 0.2, delayChildren: 4.5 }}
+          transition={{ staggerChildren: 0.5, delayChildren: 3.0 }}
         >
           <motion.a
             href="https://linkedin.com/in/allanily"
