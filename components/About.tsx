@@ -44,22 +44,11 @@ export default function About() {
   return (
     <section id="about" className="relative z-10 py-24 md:py-32 px-4">
       <div className="max-w-6xl mx-auto">
-        {/* Section Heading - Centered on screen */}
-        <h2
-          className="text-3xl md:text-4xl font-bold text-center text-cyan-400 mb-6 md:mb-8"
-          style={{
-            fontFamily: 'Orbitron, monospace',
-            textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
-          }}
-        >
-          About Me
-        </h2>
-
         {/* Profile Picture + Content Layout */}
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-stretch">
+        <div className="flex flex-col md:flex-row md:flex-wrap gap-6 md:gap-8 items-center md:items-stretch">
           {/* Profile Picture - Outside the box, as tall as content on desktop */}
           <div
-            className="relative w-[85vw] max-w-sm md:w-80 flex-shrink-0 overflow-hidden rounded-2xl"
+            className="relative w-[85vw] max-w-sm md:w-80 flex-shrink-0 overflow-hidden rounded-2xl order-1 md:order-2"
             style={{
               opacity: opacity,
               transition: 'opacity 1.5s ease-in-out',
@@ -79,9 +68,20 @@ export default function About() {
             />
           </div>
 
+          {/* Section Heading - Below profile pic on mobile, above on desktop */}
+          <h2
+            className="text-3xl md:text-4xl font-bold text-center text-cyan-400 mb-0 md:mb-0 w-full md:basis-full order-2 md:order-1"
+            style={{
+              fontFamily: 'Orbitron, monospace',
+              textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
+            }}
+          >
+            About Me
+          </h2>
+
           {/* Content Card */}
           <div
-            className="bg-black/60 rounded-lg p-6 md:p-8 shadow-lg flex-1"
+            className="bg-black/60 rounded-lg p-6 md:p-8 shadow-lg flex-1 order-3"
             style={{
               border: '2px solid rgba(0, 255, 255, 0.6)',
               boxShadow: `

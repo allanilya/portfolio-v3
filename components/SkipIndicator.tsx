@@ -37,7 +37,7 @@ export default function SkipIndicator() {
       }}
     >
       <p className="text-sm text-gray-400 font-light tracking-wide">
-        {isMobile ? 'tap' : 'click'} anywhere to skip
+        {isMobile ? 'Tap' : 'Click'} anywhere to skip
       </p>
     </div>
   );
