@@ -42,7 +42,7 @@ export default function Certifications() {
         <h2
           className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center text-cyan-400"
           style={{
-            fontFamily: 'TR2N, Orbitron, monospace',
+            fontFamily: 'Orbitron, monospace',
             textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
           }}
         >
