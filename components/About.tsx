@@ -36,6 +36,17 @@ export default function About() {
   return (
     <section id="about" className="relative z-10 py-24 md:py-32 px-4">
       <div className="max-w-6xl mx-auto">
+        {/* Section Heading - Centered on screen */}
+        <h2
+          className="text-3xl md:text-4xl font-bold text-center text-cyan-400 mb-6 md:mb-8"
+          style={{
+            fontFamily: 'Orbitron, monospace',
+            textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
+          }}
+        >
+          About Me
+        </h2>
+
         {/* Profile Picture + Content Layout */}
         <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-center md:items-stretch">
           {/* Profile Picture - Outside the box, as tall as content on desktop */}
@@ -60,21 +71,8 @@ export default function About() {
             />
           </div>
 
-          {/* Right side container for heading and content */}
-          <div className="flex-1 flex flex-col gap-4 md:gap-6">
-            {/* Section Heading */}
-            <h2
-              className="text-3xl md:text-4xl font-bold text-center md:text-left text-cyan-400"
-              style={{
-                fontFamily: 'TR2N, Orbitron, monospace',
-                textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
-              }}
-            >
-              About Me
-            </h2>
-
-            {/* Content Card */}
-            <div
+          {/* Content Card */}
+          <div
             className="bg-black/60 rounded-lg p-6 md:p-8 shadow-lg flex-1"
             style={{
               border: '2px solid rgba(0, 255, 255, 0.6)',
@@ -109,7 +107,6 @@ export default function About() {
                 operation to a national brand.
               </p>
             </div>
-          </div>
           </div>
         </div>
       </div>

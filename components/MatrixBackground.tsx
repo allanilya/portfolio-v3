@@ -37,7 +37,7 @@ export default function MatrixBackground() {
   // Fade in effect 
   useEffect(() => {
     const fadeInTimer = setTimeout(() => {
-      setOpacity(0.8);
+      setOpacity(0.6);
     }, 4500);
 
     return () => clearTimeout(fadeInTimer);
