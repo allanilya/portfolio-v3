@@ -21,8 +21,10 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useAnimation } from '@/contexts/AnimationContext';
 
 export default function Navbar() {
+  const { isSkipped } = useAnimation();
   const [activeSection, setActiveSection] = useState('');
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -40,13 +42,19 @@ export default function Navbar() {
 
   // Show navbar when Hero reveal phase begins
   useEffect(() => {
+    if (isSkipped) {
+      // If animations are skipped, show immediately
+      setIsVisible(true);
+      return;
+    }
+
     const revealDelay = isMobile ? 10300 : 9600; // Match Hero component timing
     const timer = setTimeout(() => {
       setIsVisible(true);
     }, revealDelay);
 
     return () => clearTimeout(timer);
-  }, [isMobile]);
+  }, [isMobile, isSkipped]);
 
   // Navigation items - add or remove sections here
   const navItems = [

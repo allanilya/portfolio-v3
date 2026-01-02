@@ -6,6 +6,7 @@ import Certifications from '@/components/Certifications';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import MatrixBackground from '@/components/MatrixBackground';
+import SkipIndicator from '@/components/SkipIndicator';
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <Projects />
       <Certifications />
       <Footer />
+      <SkipIndicator />
     </div>
   );
 }
