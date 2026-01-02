@@ -13,13 +13,13 @@ export default function Home() {
     <div className="min-h-screen bg-black text-gray-100 overflow-x-hidden max-w-full relative">
       <MatrixBackground />
 
-      {/* Gradient overlay - fades matrix background from black to grey to white */}
+      {/* Gradient overlay - fades matrix background from 110vh to 130vh */}
       <div
         className="absolute w-full pointer-events-none"
         style={{
-          top: '110vh',
+          top: '70vh',
           bottom: 0,
-          background: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 1%, rgba(128,128,128,1) 50%, rgba(192,192,192,1) 65%, rgba(255,255,255,1) 80%, rgba(255,255,255,1) 100%)',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10% 20vh, rgba(128,128,128,1) 40%, rgba(192,192,192,1) 80%, rgba(255,255,255,1) 90%, rgba(255,255,255,1) 100%)',
           zIndex: 5
         }}
       />
