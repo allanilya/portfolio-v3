@@ -19,29 +19,43 @@
  */
 
 import { useEffect, useRef, useState } from 'react';
+import { useAnimation } from '@/contexts/AnimationContext';
 
 export default function MatrixBackground() {
+  const { isSkipped } = useAnimation();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [opacity, setOpacity] = useState(0);
   const [startAnimation, setStartAnimation] = useState(false);
 
-  // Start animation 
+  // Start animation
   useEffect(() => {
+    if (isSkipped) {
+      // If animations are skipped, start immediately
+      setStartAnimation(true);
+      return;
+    }
+
     const animationTimer = setTimeout(() => {
       setStartAnimation(true);
     }, 2000);
 
     return () => clearTimeout(animationTimer);
-  }, []);
+  }, [isSkipped]);
 
-  // Fade in effect 
+  // Fade in effect
   useEffect(() => {
+    if (isSkipped) {
+      // If animations are skipped, show immediately
+      setOpacity(0.6);
+      return;
+    }
+
     const fadeInTimer = setTimeout(() => {
       setOpacity(0.6);
     }, 4500);
 
     return () => clearTimeout(fadeInTimer);
-  }, []);
+  }, [isSkipped]);
 
   useEffect(() => {
     if (!startAnimation) return; // Don't start until fade-in begins
@@ -127,7 +141,7 @@ export default function MatrixBackground() {
         background: '#000',
         zIndex: 0,
         opacity: opacity,
-        transition: 'opacity 4s ease-in-out'
+        transition: isSkipped ? 'none' : 'opacity 4s ease-in-out' // Skip transition when skipped
       }}
     />
   );

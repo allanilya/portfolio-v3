@@ -24,8 +24,11 @@ import { LucideGithub, LucideLinkedin, FileText } from 'lucide-react';
 import { motion, LayoutGroup } from 'framer-motion';
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { useAnimation } from '@/contexts/AnimationContext';
 
 export default function Hero() {
+  const { isSkipped, skipAnimations, setIsAnimating } = useAnimation();
+
   /**
    * ANIMATION PHASE CONTROL
    * =======================
@@ -149,6 +152,11 @@ export default function Hero() {
       setPhase('reveal');
     }, revealDelay);
 
+    // Mark animations as complete when navbar appears (last element to animate in)
+    const completeTimer = setTimeout(() => {
+      setIsAnimating(false);
+    }, revealDelay + 4300); // Fade out right as navbar is appearing 
+
     // Unfreeze layout on mobile after a specific time (adjust milliseconds as needed)
     const unfreezeTimer = setTimeout(() => {
       if (isMobile) {
@@ -165,11 +173,37 @@ export default function Hero() {
 
     return () => {
       clearTimeout(flickerTimer);
+      clearTimeout(completeTimer);
       clearTimeout(unfreezeTimer);
       clearTimeout(unfreezeTimerI);
       tl.kill();
     };
   }, [isMobile]);
+
+  // Handle skip animation
+  useEffect(() => {
+    if (isSkipped) {
+      // Immediately set to reveal state (final state for Framer Motion)
+      setPhase('reveal');
+      setLayoutFrozen(false);
+      setLayoutFrozenI(false);
+
+      // Clear all GSAP animations and set final state
+      if (aRef.current && iRef.current) {
+        gsap.killTweensOf([aRef.current, iRef.current]);
+        gsap.set([aRef.current, iRef.current], {
+          opacity: 1,
+          color: '',
+          webkitTextStroke: '',
+          textShadow: '',
+          fontSize: 'clamp(5rem, 17vw, 40rem)'
+        });
+      }
+
+      // Mark animations as complete immediately
+      setIsAnimating(false);
+    }
+  }, [isSkipped, setIsAnimating]);
 
   // ============================================================================
   // HORIZONTAL SLIDING - Now handled by Framer Motion layout="position"
@@ -192,7 +226,7 @@ export default function Hero() {
     flicker: { opacity: 0 }, // Stay hidden during flicker
     reveal: {
       opacity: 1,
-      transition: { duration: 0.2 } // Quick pop like a light switch
+      transition: { duration: isSkipped ? 0 : 0.2 } // Instant if skipped
     }
   };
 
@@ -206,7 +240,7 @@ export default function Hero() {
     flicker: { opacity: 0 },
     reveal: {
       opacity: 1,
-      transition: { duration: 0.15 }
+      transition: { duration: isSkipped ? 0 : 0.15 } // Instant if skipped
     }
   };
 
@@ -221,15 +255,28 @@ export default function Hero() {
     reveal: {
       opacity: 1,
       pointerEvents: 'auto' as const,
-      transition: {
+      transition: isSkipped ? {
+        opacity: { duration: 0 },
+        pointerEvents: { delay: 0 }
+      } : {
         opacity: { duration: 0.8 },
         pointerEvents: { delay: 0.8 } // Enable clicks only after fade-in completes
       }
     }
   };
 
+  // Handle click to skip animations
+  const handleClick = () => {
+    if (!isSkipped) {
+      skipAnimations();
+    }
+  };
+
   return (
-    <section className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-32 sm:py-0">
+    <section
+      className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-32 sm:py-0"
+      onClick={handleClick}
+    >
       <div className="w-full text-center">
         {/* NAME - Tron Neon Sign Style */}
         <h1 
@@ -277,7 +324,7 @@ export default function Hero() {
                 initial={false}
                 animate={isMobile && layoutFrozen ? { y: 0, x: 0 } : {}}
                 layout={isMobile && layoutFrozen ? false : "position"}
-                transition={{ layout: { duration: 3 } }}
+                transition={{ layout: { duration: isSkipped ? 0 : 3 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)',
@@ -296,11 +343,11 @@ export default function Hero() {
                   fontSize: 'clamp(3rem, 10vw, 12rem)', // Smaller on mobile to fit single line
                   width: phase === 'reveal' ? 'auto' : 0,
                   overflow: 'visible', // Allow glow to blend with adjacent letters
-                  transition: 'width 3s ease-in-out' // Smooth width expansion
+                  transition: isSkipped ? 'width 0s' : 'width 3s ease-in-out' // Instant if skipped
                 }}
                 initial="initial"
                 animate={phase}
-                transition={{ staggerChildren: 0.6 , delayChildren: 0.85 }}
+                transition={{ staggerChildren: isSkipped ? 0 : 0.6, delayChildren: isSkipped ? 0 : 0.85 }}
               >
                 {['n', 'a', 'l', 'l'].map((char, i) => (
                   <motion.span
@@ -322,7 +369,7 @@ export default function Hero() {
                 initial={false}
                 animate={isMobile && layoutFrozen ? { y: 0, x: 0 } : {}}
                 layout={isMobile && layoutFrozen ? false : "position"}
-                transition={{ layout: { duration: 3 } }}
+                transition={{ layout: { duration: isSkipped ? 0 : 3 } }}
                 className="leading-none font-black"
                 style={{
                   fontSize: 'clamp(5rem, 17vw, 40rem)',
@@ -340,11 +387,11 @@ export default function Hero() {
                   fontSize: 'clamp(3rem, 10vw, 12rem)',
                   width: phase === 'reveal' ? 'auto' : 0,
                   overflow: 'visible',
-                  transition: 'width 3s ease-in-out'
+                  transition: isSkipped ? 'width 0s' : 'width 3s ease-in-out' // Instant if skipped
                 }}
                 initial="initial"
                 animate={phase}
-                transition={{ staggerChildren: 0.6, delayChildren: 0.20 }}
+                transition={{ staggerChildren: isSkipped ? 0 : 0.6, delayChildren: isSkipped ? 0 : 0.20 }}
               >
                 {['v','o','s','a','y','l'].map((char, i) => (
                   <motion.span
@@ -384,7 +431,7 @@ export default function Hero() {
           }}
           initial="initial"
           animate={phase}
-          transition={{ staggerChildren: 0.03, delayChildren: 1.5 }}
+          transition={{ staggerChildren: isSkipped ? 0 : 0.03, delayChildren: isSkipped ? 0 : 1.5 }}
         >
           {'AI/ML Engineer & Full-Stack Developer'.split('').map((char, i) => (
             <motion.span
@@ -402,7 +449,7 @@ export default function Hero() {
           className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-8 px-4 w-full max-w-md mx-auto"
           initial="initial"
           animate={phase}
-          transition={{ staggerChildren: 0.45, delayChildren: 3.0 }}
+          transition={{ staggerChildren: isSkipped ? 0 : 0.45, delayChildren: isSkipped ? 0 : 3.0 }}
         >
           <motion.a
             href="https://linkedin.com/in/allanily"

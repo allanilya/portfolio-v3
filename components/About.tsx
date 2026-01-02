@@ -20,18 +20,26 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useAnimation } from '@/contexts/AnimationContext';
 
 export default function About() {
+  const { isSkipped, skipAnimations } = useAnimation();
   const [opacity, setOpacity] = useState(0);
 
   // Fade in profile picture after Hero reveal animation (at 6 seconds)
   useEffect(() => {
+    if (isSkipped) {
+      // If animations are skipped, show immediately
+      setOpacity(1);
+      return;
+    }
+
     const timer = setTimeout(() => {
       setOpacity(1);
-    }, 5000);
+    }, 3000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [isSkipped]);
 
   return (
     <section id="about" className="relative z-10 py-24 md:py-32 px-4">
