@@ -215,11 +215,11 @@ export function getTechColor(tech: string): string {
  */
 export function getColoredGlow(neonRgb: string): string {
   return `
-    0 0 2px rgba(${neonRgb}, 0.9),
-    0 0 15px rgba(${neonRgb}, 0.6),
-    0 0 30px rgba(${neonRgb}, 0.4),
-    0 0 45px rgba(${neonRgb}, 0.25),
-    0 0 60px rgba(${neonRgb}, 0.15)
+    0 0 2px rgba(${neonRgb}, 0.5),
+    0 0 15px rgba(${neonRgb}, 0.3),
+    0 0 30px rgba(${neonRgb}, 0.2),
+    0 0 45px rgba(${neonRgb}, 0.12),
+    0 0 60px rgba(${neonRgb}, 0.08)
   `;
 }
 
@@ -228,10 +228,10 @@ export function getColoredGlow(neonRgb: string): string {
  */
 export function getCardGlow(neonRgb: string): string {
   return `
-    0 0 4px rgba(${neonRgb}, 0.9),
-    0 0 20px rgba(${neonRgb}, 0.5),
-    0 0 35px rgba(${neonRgb}, 0.3),
-    0 0 50px rgba(${neonRgb}, 0.2)
+    0 0 4px rgba(${neonRgb}, 0.2),
+    0 0 20px rgba(${neonRgb}, 0),
+    0 0 35px rgba(${neonRgb}, 0),
+    0 0 50px rgba(${neonRgb}, 0)
   `;
 }
 
