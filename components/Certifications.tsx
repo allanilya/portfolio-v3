@@ -57,13 +57,7 @@ export default function Certifications() {
               rel="noopener noreferrer"
               className="group flex flex-col items-center p-2 sm:p-4 md:p-6 bg-black/60 rounded-lg hover:shadow-xl transition-all duration-300 hover:scale-105 h-full"
               style={{
-                border: '2px solid rgba(0, 255, 255, 0.6)',
-                boxShadow: `
-                  0 0 4px rgba(0, 255, 255, 0.8),
-                  0 0 15px rgba(0, 255, 255, 0.4),
-                  0 0 25px rgba(0, 255, 255, 0.2),
-                  0 0 35px rgba(0, 255, 255, 0.1)
-                `
+
               }}
             >
               <div className="w-full aspect-square flex items-center justify-center mb-2 sm:mb-3 md:mb-4 flex-shrink-0 p-2">

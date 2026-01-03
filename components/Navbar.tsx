@@ -141,7 +141,7 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      className="fixed top-4 left-4 right-4 z-15 bg-black/60 backdrop-blur-md border border-green-900/30 rounded-xl shadow-lg"
+      className="fixed top-4 left-4 right-4 z-15 bg-black/40 backdrop-blur-sm rounded-xl shadow-lg"
       initial={{ opacity: 0, pointerEvents: 'none' }}
       animate={{
         opacity: isVisible ? 1 : 0,

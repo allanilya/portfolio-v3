@@ -46,7 +46,7 @@ export default function MatrixBackground() {
   useEffect(() => {
     if (isSkipped) {
       // If animations are skipped, show immediately
-      setOpacity(0.6);
+      setOpacity(0.8);
       return;
     }
 

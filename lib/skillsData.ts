@@ -228,7 +228,7 @@ export function getColoredGlow(neonRgb: string): string {
  */
 export function getCardGlow(neonRgb: string): string {
   return `
-    0 0 4px rgba(${neonRgb}, 0.2),
+    0 0 4px rgba(${neonRgb}, 0),
     0 0 20px rgba(${neonRgb}, 0),
     0 0 35px rgba(${neonRgb}, 0),
     0 0 50px rgba(${neonRgb}, 0)

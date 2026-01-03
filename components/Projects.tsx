@@ -256,7 +256,7 @@ export default function Projects() {
           className="text-3xl md:text-4xl font-bold mb-12 text-center text-cyan-400"
           style={{
             fontFamily: 'Orbitron, monospace',
-            textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
+            //textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
 
           }}
         >
@@ -294,17 +294,7 @@ export default function Projects() {
                     setSelectedProject(project.id);
                   }}
                   style={{
-                    position: 'absolute',
-                    border: project.slot === 'center'
-                      ? '2px solid rgba(0, 255, 255, 0.8)'
-                      : '2px solid rgba(0, 255, 255, 0.4)',
-                    boxShadow: project.slot === 'center'
-                      ? `0 0 4px rgba(0, 255, 255, 0.9),
-                         0 0 15px rgba(0, 255, 255, 0.5),
-                         0 0 25px rgba(0, 255, 255, 0.3),
-                         0 0 35px rgba(0, 255, 255, 0.2)`
-                      : `0 0 4px rgba(0, 255, 255, 0.6),
-                         0 0 10px rgba(0, 255, 255, 0.3)`
+                    position: 'absolute'
                   }}
                   className={`
                     group bg-black/80 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer
@@ -399,10 +389,7 @@ export default function Projects() {
                   </p>
 
                   {/* Click to view details - Fixed at bottom */}
-                  <div className="pt-3 border-t border-gray-700 flex items-center gap-2 text-xs text-gray-400 flex-shrink-0 mt-auto">
-                    <Github className="w-4 h-4" />
-                    <span>Click to view details</span>
-                  </div>
+
                 </div>
               </motion.div>
               ))}
