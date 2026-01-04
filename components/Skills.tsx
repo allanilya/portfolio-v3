@@ -93,7 +93,7 @@ export default function Skills() {
   return (
     <>
 
-      <section id="skills" className="relative z-10 py-32 md:py-40 px-4 overflow-visible">
+      <section id="skills" className="relative z-10 py-0 md:py-0 px-4 overflow-visible">
         {/* Fixed pixel substrate under entire section */}
         <div className="pixel-grid"></div>
 

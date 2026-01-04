@@ -19,7 +19,7 @@ export default function Home() {
         style={{
           top: '70vh',
           bottom: 0,
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10% 20vh, rgba(128,128,128,1) 40%, rgba(192,192,192,1) 80%, rgba(255,255,255,1) 90%, rgba(255,255,255,1) 100%)',
+          background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 10% 20vh, rgba(128,128,128,1) 40%, rgba(192,192,192,1) 60%, rgba(255,255,255,1) 80%, rgba(255,255,255,1) 100%)',
           zIndex: 5
         }}
       />

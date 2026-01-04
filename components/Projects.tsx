@@ -250,7 +250,7 @@ export default function Projects() {
           animation: modalScaleIn 0.3s ease-out;
         }
       `}</style>
-      <section id="projects" className="relative z-10 py-24 md:py-32 px-4">
+      <section id="projects" className="relative z-10 py-10 md:py-0 px-4">
         <div className="max-w-7xl mx-auto">
         <h2
           className="text-3xl md:text-4xl font-bold mb-12 text-center text-cyan-400"
