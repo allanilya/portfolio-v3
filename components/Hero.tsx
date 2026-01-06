@@ -189,6 +189,8 @@ export default function Hero() {
       setLayoutFrozenI(false);
 
       // Clear all GSAP animations and set final state
+      // Use window width directly to ensure correct size on skip
+      const skipIsMobile = window.innerWidth < 640;
       if (aRef.current && iRef.current) {
         gsap.killTweensOf([aRef.current, iRef.current]);
         gsap.set([aRef.current, iRef.current], {
@@ -196,7 +198,7 @@ export default function Hero() {
           color: '',
           webkitTextStroke: '',
           textShadow: '',
-          fontSize: 'clamp(5rem, 17vw, 40rem)'
+          fontSize: skipIsMobile ? 'clamp(4rem, 14vw, 40rem)' : 'clamp(5rem, 17vw, 40rem)'
         });
       }
 
@@ -381,7 +383,7 @@ export default function Hero() {
               className="flex items-center justify-center">
               <motion.span
                 ref={iRef}
-                initial={false}
+                initial={true}
                 animate={isMobile && layoutFrozen ? { y: 0, x: 0 } : {}}
                 layout={isMobile && layoutFrozen ? false : "position"}
                 transition={{ layout: { duration: isSkipped ? 0 : 3 } }}
