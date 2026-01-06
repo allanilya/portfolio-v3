@@ -113,7 +113,7 @@ export default function Skills() {
               <div
                 key={index}
                 onClick={() => setSelectedCategory(index)}
-                className="group bg-black/10 p-5 md:p-6 transition-all duration-300 rounded-xl transform hover:-translate-y-1 cursor-pointer relative"
+                className="group bg-gray-600/20 shadow-lg p-5 md:p-6 transition-all duration-300 rounded-xl transform hover:-translate-y-1 cursor-pointer relative"
                /* style={{
                   borderColor: `rgba(${category.colors.neonRgb}, 0.6)`,
                   boxShadow: `0 0 8px rgba(${category.colors.neonRgb}, 0.6), 0 0 15px rgba(${category.colors.neonRgb}, 0.3)`,
@@ -174,7 +174,7 @@ export default function Skills() {
             {/* Close Button */}
             <button
               onClick={() => setSelectedCategory(null)}
-              className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full transition-colors"
+              className="absolute top-4 right-4 p-2 hover:bg-gray-600 rounded-full transition-colors"
               aria-label="Close modal"
             >
               <X className="w-6 h-6" />

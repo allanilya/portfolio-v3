@@ -55,7 +55,7 @@ export default function Certifications() {
               href={cert.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center p-2 sm:p-4 md:p-6 bg-black/60 rounded-lg hover:shadow-xl transition-all duration-300 hover:scale-105 h-full"
+              className="group flex flex-col items-center p-2 sm:p-4 md:p-6 bg-clear/60 rounded-lg shadow-xl hover:shadow-xl transition-all duration-300 hover:scale-105 h-full"
               style={{
 
               }}
@@ -67,7 +67,7 @@ export default function Certifications() {
                   className="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
                 />
               </div>
-              <p className="text-center text-xs sm:text-sm font-medium text-gray-300 mt-auto px-1" style={{ fontFamily: 'Orbitron, sans-serif' }}>
+              <p className="text-center text-xs sm:text-sm font-medium text-gray-700 mt-auto px-1" style={{ fontFamily: 'Orbitron, sans-serif' }}>
                 {cert.name}
               </p>
               <p className="text-xs text-blue-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">

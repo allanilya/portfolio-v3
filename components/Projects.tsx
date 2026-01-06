@@ -44,7 +44,7 @@ export default function Projects() {
         setXOffset(130); // Mobile
         setLeftRightScale(0.5); // Mobile - smaller scale
       } else {
-        setXOffset(270); // Desktop
+        setXOffset(290); // Desktop
         setLeftRightScale(0.75); // Desktop - larger scale
       }
     };
@@ -297,10 +297,10 @@ export default function Projects() {
                     position: 'absolute'
                   }}
                   className={`
-                    group bg-black/80 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer
+                    group bg-gray-200/70 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer
                     w-full max-w-[250px] sm:max-w-[320px] md:max-w-[350px]
                     min-h-[400px] max-h-[400px] sm:min-h-[460px] sm:max-h-[460px] md:min-h-[500px] md:max-h-[500px]
-                    hover:shadow-2xl
+                    hover:shadow-2xl backdrop-blur-sm
                   `}
                 >
                 {/* Preview Section - Only shown if liveUrl exists */}
@@ -350,9 +350,9 @@ export default function Projects() {
                   }}
                 >
                   {/* Title Section */}
-                  <div className="flex items-start justify-between mb-2 flex-shrink-0">
+                  <div className="flex items-start justify-between mb-2 pb-1 flex-shrink-0 border-b border-gray-400">
                     <h3
-                      className="text-lg md:text-xl font-bold text-white group-hover:text-blue-400 transition-colors"
+                      className="text-lg md:text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors "
                       style={{ fontFamily: 'Orbitron, sans-serif' }}
                     >
                       {project.title}
@@ -378,7 +378,7 @@ export default function Projects() {
                     Note: Tech stack is hidden on cards and only shown in the expanded modal view
                   */}
                   <p
-                    className={`text-gray-400 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden text-center ${
+                    className={`text-gray-700 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden text-center ${
                     project.liveUrl
                       ? 'line-clamp-7'
                       : 'flex-grow line-clamp-14'
