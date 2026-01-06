@@ -250,13 +250,14 @@ export default function Projects() {
           animation: modalScaleIn 0.3s ease-out;
         }
       `}</style>
-      <section id="projects" className="relative z-10 py-10 md:py-0 px-4">
+      <section id="projects" className="relative z-10 py-14 md:py-14 px-4">
         <div className="max-w-7xl mx-auto">
         <h2
           className="text-3xl md:text-4xl font-bold mb-12 text-center text-cyan-400"
           style={{
             fontFamily: 'Orbitron, monospace',
             //textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
+            textShadow: "1px 1px 1px rgba(0, 0, 0, 0.5)"
 
           }}
         >

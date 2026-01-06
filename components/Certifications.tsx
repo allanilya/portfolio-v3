@@ -37,12 +37,13 @@ export default function Certifications() {
   ];
 
   return (
-    <section id="certifications" className="relative z-10 py-0 md:py-22 pb-58 md:pb-64 px-4">
+    <section id="certifications" className="relative z-10 py-0 md:py-0 pb-58 md:pb-64 px-4">
       <div className="max-w-6xl mx-auto">
         <h2
           className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center text-cyan-400"
           style={{
-            fontFamily: 'Orbitron, monospace'
+            fontFamily: 'Orbitron, monospace',
+            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)"
           }}
         >
           Certifications
