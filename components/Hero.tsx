@@ -273,11 +273,26 @@ export default function Hero() {
   };
 
   return (
-    <section
-      className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-32 sm:py-0"
-      onClick={handleClick}
-    >
-      <div className="w-full text-center">
+    <>
+      <style jsx>{`
+        @keyframes shimmer {
+          0%, 100% {
+            opacity: 0.3;
+          }
+          50% {
+            opacity: 1;
+          }
+        }
+        .animate-shimmer {
+          animation: shimmer 2s ease-in-out infinite;
+        }
+      `}</style>
+
+      <section
+        className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-32 sm:py-0"
+        onClick={handleClick}
+      >
+        <div className="w-full text-center">
         {/* NAME - Tron Neon Sign Style */}
         <h1 
           className="font-bold mb-8"
@@ -502,9 +517,32 @@ export default function Hero() {
         </motion.div>
 
         {/* Scroll indicator */}
-        {/* <div className="mt-16 animate-bounce">
+        <motion.div
+          className="mt-16"
+          initial="initial"
+          animate={phase}
+          variants={{
+            initial: { opacity: 0 },
+            flicker: { opacity: 0 },
+            reveal: {
+              opacity: 1,
+              transition: isSkipped ? {
+                opacity: { duration: 0 }
+              } : {
+                opacity: { duration: 0.8, delay: 4.35 } // Appears after Resume button (3.0 + 0.45 * 3)
+              }
+            }
+          }}
+          onAnimationComplete={() => {
+            // Add shimmer class after initial fade-in completes
+            const indicator = document.querySelector('.scroll-indicator');
+            if (indicator) {
+              indicator.classList.add('animate-shimmer');
+            }
+          }}
+        >
           <svg
-            className="w-6 h-6 mx-auto text-gray-400"
+            className="w-6 h-6 mx-auto text-gray-400 scroll-indicator"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -514,8 +552,9 @@ export default function Hero() {
           >
             <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
           </svg>
-        </div> */}
+        </motion.div>
       </div>
     </section>
+    </>
   );
 }
