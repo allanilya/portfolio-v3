@@ -93,66 +93,22 @@ export default function Skills() {
   return (
     <>
       <style jsx>{`
-        
-          position: relative;
+        @keyframes modalScaleIn {
+          from {
+            transform: scale(0.95);
+            opacity: 0;
+          }
+          to {
+            transform: scale(1);
+            opacity: 1;
+          }
         }
-
-        /* Layer 1: Pixel Grid Underlay */
-        .neon-pixel::before {
-          content: "";
-          position: absolute;
-          inset: -40px; /* Glow spread area */
-          z-index: -1;
-          pointer-events: none;
-
-          /* Create the cube/voxel grid that light catches on */
-          background-image:
-            linear-gradient(90deg, rgba(var(--rgb), 0.3) 1px, transparent 1px),
-            linear-gradient(0deg, rgba(var(--rgb), 0.3) 1px, transparent 1px);
-          background-size: 6px 6px; /* Cube size - matches fixed grid */
-
-          /* Neon bloom that illuminates the grid */
-          filter:
-            blur(28px)        /* Medium bloom - catches the grid */
-            brightness(1.8)   /* Amplify the glow */
-            saturate(1.5);    /* Boost color intensity */
-
-          opacity: 0.85;
-        }
-
-        /* Layer 2: Soft Outer Bloom */
-        .neon-pixel::after {
-          content: "";
-          position: absolute;
-          inset: -60px; /* Wider spread for large diffused bloom */
-          z-index: -2;
-          pointer-events: none;
-
-          /* Radial gradient for soft outer glow */
-          background: radial-gradient(
-            circle at center,
-            rgba(var(--rgb), 0.7) 0%,
-            rgba(var(--rgb), 0.35) 30%,
-            rgba(var(--rgb), 0.15) 60%,
-            transparent 100%
-          );
-
-          /* Large blur for wide diffusion (matches your 70px composite) */
-          filter: blur(50px);
-          opacity: 0.9;
-        }
-
-        /* Sharp neon core on the text itself */
-        .neon-pixel {
-          text-shadow:
-            0 0 2px rgba(var(--rgb), 1),      /* Sharp core */
-            0 0 8px rgba(var(--rgb), 0.8),    /* Close glow */
-            0 0 16px rgba(var(--rgb), 0.6),   /* Medium spread */
-            0 0 32px rgba(var(--rgb), 0.4);   /* Wider halo */
+        .modal-content-animate {
+          animation: modalScaleIn 0.3s ease-out;
         }
       `}</style>
 
-      <section id="skills" className="relative z-10 py-32 md:py-40 px-4 overflow-visible">
+      <section id="skills" className="relative z-10 py-0 md:py-0 px-4 overflow-visible">
         {/* Fixed pixel substrate under entire section */}
         <div className="pixel-grid"></div>
 
@@ -172,12 +128,12 @@ export default function Skills() {
               <div
                 key={index}
                 onClick={() => setSelectedCategory(index)}
-                className="group bg-black/80 p-5 md:p-6 transition-all duration-300 border-2 transform hover:-translate-y-1 cursor-pointer relative"
-                style={{
+                className="group bg-gray-600/20 shadow-lg p-5 md:p-6 transition-all duration-300 rounded-xl transform hover:-translate-y-1 cursor-pointer relative"
+               /* style={{
                   borderColor: `rgba(${category.colors.neonRgb}, 0.6)`,
                   boxShadow: `0 0 8px rgba(${category.colors.neonRgb}, 0.6), 0 0 15px rgba(${category.colors.neonRgb}, 0.3)`,
                   overflow: 'visible',
-                }}
+                }}*/
               >
                 {/* Depth background for each card - creates 3D stepped shadow effect */}
                 <DepthBackground rgb={category.colors.neonRgb} layers={DEFAULT_LAYERS} />
@@ -226,14 +182,14 @@ export default function Skills() {
           style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
         >
           <div
-            className="bg-black/80 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100"
+            className="bg-black/80 bg-opacity-95 rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100 modal-content-animate"
             onClick={(e) => e.stopPropagation()}
             style={{ zIndex: 10000 }}
           >
             {/* Close Button */}
             <button
               onClick={() => setSelectedCategory(null)}
-              className="absolute top-4 right-4 p-2 hover:bg-gray-700 rounded-full transition-colors"
+              className="absolute top-4 right-4 p-2 hover:bg-gray-600 rounded-full transition-colors"
               aria-label="Close modal"
             >
               <X className="w-6 h-6" />
@@ -292,7 +248,7 @@ export default function Skills() {
           style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
         >
           <div
-            className="bg-black/80 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100"
+            className="bg-black/80 rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100 modal-content-animate"
             onClick={(e) => e.stopPropagation()}
             style={{ zIndex: 10000 }}
           >

@@ -44,7 +44,7 @@ export default function Projects() {
         setXOffset(130); // Mobile
         setLeftRightScale(0.5); // Mobile - smaller scale
       } else {
-        setXOffset(270); // Desktop
+        setXOffset(290); // Desktop
         setLeftRightScale(0.75); // Desktop - larger scale
       }
     };
@@ -250,13 +250,13 @@ export default function Projects() {
           animation: modalScaleIn 0.3s ease-out;
         }
       `}</style>
-      <section id="projects" className="relative z-10 py-24 md:py-32 px-4">
+      <section id="projects" className="relative z-10 py-10 md:py-0 px-4">
         <div className="max-w-7xl mx-auto">
         <h2
           className="text-3xl md:text-4xl font-bold mb-12 text-center text-cyan-400"
           style={{
             fontFamily: 'Orbitron, monospace',
-            textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
+            //textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
 
           }}
         >
@@ -294,23 +294,13 @@ export default function Projects() {
                     setSelectedProject(project.id);
                   }}
                   style={{
-                    position: 'absolute',
-                    border: project.slot === 'center'
-                      ? '2px solid rgba(0, 255, 255, 0.8)'
-                      : '2px solid rgba(0, 255, 255, 0.4)',
-                    boxShadow: project.slot === 'center'
-                      ? `0 0 4px rgba(0, 255, 255, 0.9),
-                         0 0 15px rgba(0, 255, 255, 0.5),
-                         0 0 25px rgba(0, 255, 255, 0.3),
-                         0 0 35px rgba(0, 255, 255, 0.2)`
-                      : `0 0 4px rgba(0, 255, 255, 0.6),
-                         0 0 10px rgba(0, 255, 255, 0.3)`
+                    position: 'absolute'
                   }}
                   className={`
-                    group bg-black/80 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer
+                    group bg-gray-200/70 rounded-xl shadow-lg overflow-hidden flex flex-col cursor-pointer
                     w-full max-w-[250px] sm:max-w-[320px] md:max-w-[350px]
                     min-h-[400px] max-h-[400px] sm:min-h-[460px] sm:max-h-[460px] md:min-h-[500px] md:max-h-[500px]
-                    hover:shadow-2xl
+                    hover:shadow-2xl backdrop-blur-sm
                   `}
                 >
                 {/* Preview Section - Only shown if liveUrl exists */}
@@ -360,9 +350,9 @@ export default function Projects() {
                   }}
                 >
                   {/* Title Section */}
-                  <div className="flex items-start justify-between mb-2 flex-shrink-0">
+                  <div className="flex items-start justify-between mb-2 pb-1 flex-shrink-0 border-b border-gray-400">
                     <h3
-                      className="text-lg md:text-xl font-bold text-white group-hover:text-blue-400 transition-colors"
+                      className="text-lg md:text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors "
                       style={{ fontFamily: 'Orbitron, sans-serif' }}
                     >
                       {project.title}
@@ -388,7 +378,7 @@ export default function Projects() {
                     Note: Tech stack is hidden on cards and only shown in the expanded modal view
                   */}
                   <p
-                    className={`text-gray-400 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden text-center ${
+                    className={`text-gray-700 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden text-center ${
                     project.liveUrl
                       ? 'line-clamp-7'
                       : 'flex-grow line-clamp-14'
@@ -399,10 +389,7 @@ export default function Projects() {
                   </p>
 
                   {/* Click to view details - Fixed at bottom */}
-                  <div className="pt-3 border-t border-gray-700 flex items-center gap-2 text-xs text-gray-400 flex-shrink-0 mt-auto">
-                    <Github className="w-4 h-4" />
-                    <span>Click to view details</span>
-                  </div>
+
                 </div>
               </motion.div>
               ))}
@@ -487,7 +474,7 @@ export default function Projects() {
         style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
       >
             <div
-              className="bg-black/80 rounded-lg max-w-[85vw] sm:max-w-[90vw] md:max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative modal-content-animate text-gray-100"
+              className="bg-black/80 rounded-xl max-w-[85vw] sm:max-w-[90vw] md:max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative modal-content-animate text-gray-100"
               onClick={(e) => e.stopPropagation()}
               style={{ zIndex: 10000 }}
             >

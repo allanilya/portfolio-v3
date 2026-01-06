@@ -42,29 +42,21 @@ export default function About() {
   }, [isSkipped]);
 
   return (
-    <section id="about" className="relative z-10 py-24 md:py-32 px-4">
+    <section id="about" className="relative z-10 py-14 md:py-20 px-4">
       <div className="max-w-6xl mx-auto">
         {/* Profile Picture + Content Layout */}
-        <div className="flex flex-col md:flex-row md:flex-wrap gap-6 md:gap-8 items-center md:items-stretch">
-          {/* Profile Picture - Outside the box, as tall as content on desktop */}
+        <div className="flex flex-col md:flex-row md:flex-wrap gap-6 md:gap-8 items-center md:items-start">
+          {/* Profile Picture - Aligns with body text start on desktop */}
           <div
-            className="relative w-[85vw] max-w-sm md:w-80 flex-shrink-0 overflow-hidden rounded-2xl order-1 md:order-2"
+            className="relative w-[85vw] max-w-sm md:w-80 aspect-square flex-shrink-0 overflow-hidden rounded-2xl order-1 md:order-2 md:self-start"
             style={{
-              opacity: opacity,
-              transition: 'opacity 1.5s ease-in-out',
-              border: '3px solid rgba(0, 255, 255, 0.8)',
-              boxShadow: `
-                0 0 4px rgba(0, 255, 255, 0.9),
-                0 0 20px rgba(0, 255, 255, 0.5),
-                0 0 35px rgba(0, 255, 255, 0.3),
-                0 0 50px rgba(0, 255, 255, 0.2)
-              `
+              clipPath: 'inset(0 0 0 0 round 1rem)'
             }}
           >
             <img
               src="/profilepic.jpeg"
               alt="Allan Ilyasov"
-              className="w-full h-full object-cover scale-110 translate-x-3 [object-position:0%_5%]"
+              className="w-full h-full object-cover object-top scale-110 rounded-2xl translate-x-3"
             />
           </div>
 
@@ -81,8 +73,8 @@ export default function About() {
 
           {/* Content Card */}
           <div
-            className="bg-black/60 rounded-lg p-6 md:p-8 shadow-lg flex-1 order-3"
-            style={{
+            className="p-6 md:pt-0 pb-0 md:pb-0 md:px-6 flex-1 order-3 "
+            /*style={{
               border: '2px solid rgba(0, 255, 255, 0.6)',
               boxShadow: `
                 0 0 4px rgba(0, 255, 255, 0.8),
@@ -90,7 +82,7 @@ export default function About() {
                 0 0 25px rgba(0, 255, 255, 0.2),
                 0 0 35px rgba(0, 255, 255, 0.1)
               `
-            }}
+            }}*/
           >
             {/* Text Content */}
             <div style={{ fontFamily: 'Inter, sans-serif' }}>
