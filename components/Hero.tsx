@@ -324,7 +324,7 @@ export default function Hero() {
               style={{
                 fontFamily: 'TR2N, Orbitron, monospace',
                 textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-                letterSpacing: isMobile ? 'clamp(0.1em, 3vw, 0.2em)' : 'clamp(0.1em, 3vw, 0.50em)', // Increased spacing on mobile
+                letterSpacing: isMobile ? 'clamp(0.1em, 3vw, 0.1em)' : 'clamp(0.1em, 3vw, 0.50em)', // Increased spacing on mobile
                 padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)', // Padding for all screen sizes
                 // APPROACH C: Fixed height on mobile prevents vertical sliding during shrink
                 height: isMobile ? '15rem' : 'auto', // ADJUST THIS to change container height
