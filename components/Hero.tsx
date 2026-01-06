@@ -59,8 +59,8 @@ export default function Hero() {
     if (!aRef.current || !iRef.current) return;
 
     // Set initial state immediately (before timeline starts)
-    const giantFontSize = isMobile ? 'clamp(12rem, 35vw, 50rem)' : 'clamp(5rem, 17vw, 40rem)';
-    const normalFontSize = 'clamp(5rem, 17vw, 40rem)';
+    const giantFontSize = isMobile ? 'clamp(12rem, 35vw, 50rem)' : 'clamp(4rem, 14vw, 40rem)';
+    const normalFontSize = isMobile ? 'clamp(4rem, 14vw, 40rem)' : 'clamp(5rem, 17vw, 40rem)';
     
     // Initialize flicker state - Framer Motion handles positioning
     gsap.set([aRef.current, iRef.current], {
@@ -324,7 +324,7 @@ export default function Hero() {
               style={{
                 fontFamily: 'TR2N, Orbitron, monospace',
                 textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)",
-                letterSpacing: isMobile ? 'clamp(0.01em, 3vw, 0.01em)' : 'clamp(0.1em, 3vw, 0.50em)', // Tighter on mobile
+                letterSpacing: isMobile ? 'clamp(0.1em, 3vw, 0.2em)' : 'clamp(0.1em, 3vw, 0.50em)', // Increased spacing on mobile
                 padding: 'clamp(20px, 6vw, 80px) clamp(10px, 4vw, 40px)', // Padding for all screen sizes
                 // APPROACH C: Fixed height on mobile prevents vertical sliding during shrink
                 height: isMobile ? '15rem' : 'auto', // ADJUST THIS to change container height
@@ -342,7 +342,7 @@ export default function Hero() {
                 transition={{ layout: { duration: isSkipped ? 0 : 3 } }}
                 className="leading-none font-black"
                 style={{
-                  fontSize: 'clamp(5rem, 17vw, 40rem)',
+                  fontSize: isMobile ? 'clamp(4rem, 14vw, 40rem)' : 'clamp(5rem, 17vw, 40rem)',
                   display: 'inline-block'
                 }}
               >
@@ -387,7 +387,7 @@ export default function Hero() {
                 transition={{ layout: { duration: isSkipped ? 0 : 3 } }}
                 className="leading-none font-black"
                 style={{
-                  fontSize: 'clamp(5rem, 17vw, 40rem)',
+                  fontSize: isMobile ? 'clamp(4rem, 14vw, 40rem)' : 'clamp(5rem, 17vw, 40rem)',
                   display: 'inline-block',
                   willChange: 'transform' // Force GPU layer to prevent GSAP color conflicts
                 }}
