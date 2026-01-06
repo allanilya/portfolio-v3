@@ -474,7 +474,7 @@ export default function Projects() {
         style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
       >
             <div
-              className="bg-black/80 rounded-lg max-w-[85vw] sm:max-w-[90vw] md:max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative modal-content-animate text-gray-100"
+              className="bg-black/80 rounded-xl max-w-[85vw] sm:max-w-[90vw] md:max-w-4xl w-full max-h-[90vh] overflow-y-auto p-4 md:p-6 lg:p-6 relative modal-content-animate text-gray-100"
               onClick={(e) => e.stopPropagation()}
               style={{ zIndex: 10000 }}
             >

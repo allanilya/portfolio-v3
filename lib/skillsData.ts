@@ -40,10 +40,10 @@ export const skillCategories: SkillCategory[] = [
       { name: "PHP", description: "Server-side scripting language for web development and content management systems." }
     ],
     colors: {
-      bg: 'from-purple-500 to-pink-500',
-      text: 'text-purple-400',
-      badge: 'bg-purple-900 text-purple-200',
-      neonRgb: '192,132,252'
+      bg: 'from-orange-500 to-red-500',
+      text: 'text-orange-300',
+      badge: 'bg-orange-900 text-orange-200',
+      neonRgb: '251,146,60'
     }
   },
   {
@@ -56,10 +56,10 @@ export const skillCategories: SkillCategory[] = [
       { name: "Radix UI", description: "Unstyled, accessible UI component library for building design systems." }
     ],
     colors: {
-      bg: 'from-blue-500 to-cyan-500',
-      text: 'text-blue-400',
-      badge: 'bg-blue-900 text-blue-200',
-      neonRgb: '96,165,250'
+      bg: 'from-pink-500 to-rose-500',
+      text: 'text-pink-300',
+      badge: 'bg-pink-900 text-pink-200',
+      neonRgb: '244,114,182'
     }
   },
   {
@@ -91,10 +91,10 @@ export const skillCategories: SkillCategory[] = [
       { name: "AWS Bedrock", description: "Fully managed service for building and scaling generative AI applications." }
     ],
     colors: {
-      bg: 'from-orange-500 to-red-500',
-      text: 'text-orange-400',
-      badge: 'bg-orange-900 text-orange-200',
-      neonRgb: '251,146,60'
+      bg: 'from-teal-500 to-cyan-500',
+      text: 'text-teal-900',
+      badge: 'bg-teal-900 text-teal-200',
+      neonRgb:  ""
     }
   },
   {
@@ -109,10 +109,10 @@ export const skillCategories: SkillCategory[] = [
       { name: "API Gateway", description: "Service for creating, publishing, and managing secure APIs at scale." }
     ],
     colors: {
-      bg: 'from-indigo-500 to-purple-500',
-      text: 'text-indigo-400',
-      badge: 'bg-indigo-900 text-indigo-200',
-      neonRgb: '129,140,248'
+      bg: 'from-blue-500 to-cyan-500',
+      text: 'text-blue-800',
+      badge: 'bg-blue-900 text-blue-200',
+      neonRgb: ""
     }
   },
   {
@@ -128,10 +128,10 @@ export const skillCategories: SkillCategory[] = [
       { name: "Beautiful Soup", description: "Web scraping library for parsing HTML and extracting data from web pages." }
     ],
     colors: {
-      bg: 'from-teal-500 to-cyan-500',
-      text: 'text-teal-400',
-      badge: 'bg-teal-900 text-teal-200',
-      neonRgb: '45,212,191'
+      bg: 'from-indigo-500 to-purple-500',
+      text: 'text-indigo-800',
+      badge: 'bg-indigo-900 text-indigo-200',
+      neonRgb: ""
     }
   },
   {
@@ -145,10 +145,10 @@ export const skillCategories: SkillCategory[] = [
       { name: "Vector Databases", description: "Specialized databases for storing and querying high-dimensional vectors for AI." }
     ],
     colors: {
-      bg: 'from-pink-500 to-rose-500',
-      text: 'text-pink-400',
-      badge: 'bg-pink-900 text-pink-200',
-      neonRgb: '244,114,182'
+      bg: 'from-purple-500 to-pink-500',
+      text: 'text-purple-800',
+      badge: 'bg-purple-900 text-purple-200',
+       neonRgb: ""
     }
   }
 ];

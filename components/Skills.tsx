@@ -92,6 +92,21 @@ export default function Skills() {
 
   return (
     <>
+      <style jsx>{`
+        @keyframes modalScaleIn {
+          from {
+            transform: scale(0.95);
+            opacity: 0;
+          }
+          to {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        .modal-content-animate {
+          animation: modalScaleIn 0.3s ease-out;
+        }
+      `}</style>
 
       <section id="skills" className="relative z-10 py-0 md:py-0 px-4 overflow-visible">
         {/* Fixed pixel substrate under entire section */}
@@ -167,7 +182,7 @@ export default function Skills() {
           style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
         >
           <div
-            className="bg-black/80 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100"
+            className="bg-black/80 bg-opacity-95 rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100 modal-content-animate"
             onClick={(e) => e.stopPropagation()}
             style={{ zIndex: 10000 }}
           >
@@ -233,7 +248,7 @@ export default function Skills() {
           style={{ zIndex: 9999, backgroundColor: 'rgba(0, 0, 0, 0.3)' }}
         >
           <div
-            className="bg-black/80 rounded-lg max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100"
+            className="bg-black/80 rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 relative text-gray-100 modal-content-animate"
             onClick={(e) => e.stopPropagation()}
             style={{ zIndex: 10000 }}
           >
