@@ -133,23 +133,6 @@ export const skillCategories: SkillCategory[] = [
       badge: 'bg-indigo-900 text-indigo-200',
       neonRgb: ""
     }
-  },
-  {
-    title: "Databases",
-    description: "Database systems for storing, retrieving, and managing structured and unstructured data.",
-    skills: [
-      { name: "MySQL", description: "Popular relational database for web applications with ACID compliance." },
-      { name: "MongoDB", description: "NoSQL document database for flexible, scalable data storage." },
-      { name: "Pinecone", description: "Vector database for similarity search and ML embedding storage." },
-      { name: "FAISS", description: "Library for efficient similarity search of dense vectors and embeddings." },
-      { name: "Vector Databases", description: "Specialized databases for storing and querying high-dimensional vectors for AI." }
-    ],
-    colors: {
-      bg: 'from-purple-500 to-pink-500',
-      text: 'text-purple-800',
-      badge: 'bg-purple-900 text-purple-200',
-       neonRgb: ""
-    }
   }
 ];
 
