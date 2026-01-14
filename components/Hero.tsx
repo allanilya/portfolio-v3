@@ -291,7 +291,7 @@ export default function Hero() {
       `}</style>
 
       <section
-        className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-32 sm:py-0"
+        className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-35 sm:py-0"
         onClick={handleClick}
       >
         <div className="w-full text-center">
@@ -441,9 +441,9 @@ export default function Hero() {
 
         {/* TITLE - Change your professional title here */}
         <motion.p
-          className="text-2xl sm:text-2xl md:text-4xl text-cyan-400 mb-4 md:mb-8 px-4"
+          className="text-xl sm:text-2xl md:text-4xl text-cyan-400 mb-4 md:mb-8 px-4"
           style={{
-            fontFamily: 'TR2N, Orbitron, monospace',
+            fontFamily: ' Orbitron, monospace',
             textShadow: "0 0 2px rgba(0, 255, 255, 1), 0 0 70px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5)"
           }}
           initial="initial"
@@ -520,7 +520,7 @@ export default function Hero() {
 
         {/* Scroll indicator */}
         <motion.div
-          className="mt-16"
+          className="mt-8 md:mt-16"
           initial="initial"
           animate={phase}
           variants={{
