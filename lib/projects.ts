@@ -3,6 +3,7 @@ export interface Project {
   title: string;
   description: string;
   techStack: string[];
+  image?: string;
   githubUrl?: string;
   liveUrl?: string;
   heavyInteractive?: boolean; // For server-side apps (Shiny, etc.) that should only load when visible
@@ -11,34 +12,42 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: 1,
+    title: "ESP32 Alarm Clock",
+    description: "A phone-independent alarm clock built with ESP32 microcontroller featuring a low-power 3.7\" e-ink display with adjustable frontlight, custom alarm sounds via MP3/WAV playback, and wireless configuration through a companion iOS app using BLE. Designed to eliminate morning phone dependency and reduce nighttime screen exposure.",
+    techStack: ["ESP32", "C++", "Swift", "E-Ink Display", "BLE", "I2S Audio", "PlatformIO"],
+    image: "/esp32-alarm-clock.jpg",
+    githubUrl: "https://github.com/allanilya/alarm-clock"
+  },
+  {
+    id: 2,
     title: "Codify AI",
     description: "An AI-powered programming tutor that helps students learn coding through interactive conversations without just providing pasted code. Features real-time code assistance powered by Claude 4.5 haiku via AWS Bedrock, with intelligent agentic workflows that adapt to each student's learning pace.",
     techStack: ["React", "Flask", "AWS Bedrock", "Claude Sonnet 4.5", "DynamoDB", "Elastic Beanstalk", "Docker", "LangChain"],
     liveUrl: "https://codifyai.org"
   },
   {
-    id: 2,
+    id: 3,
     title: "Time Series Forecasting for Financial Markets",
     description: "A comprehensive stock prediction system that analyzes and forecasts prices for AAPL, NVDA, and LYFT using multiple machine learning approaches. Combines traditional ARIMA statistical models with deep learning architectures (LSTM and GRU) to achieve highly accurate predictions across 1,458+ trading days.",
     techStack: ["Python", "TensorFlow", "Statsmodels", "LSTM", "GRU", "ARIMA", "yfinance"],
     githubUrl: "https://github.com/allanilya/Stock-analytics"
   },
   {
-    id: 3,
+    id: 4,
     title: "Multimodal Video Analysis",
     description: "A full-stack video analysis platform that enables intelligent searching and interaction with video content. Features visual search using CLIP embeddings, transcript search, and an AI chat interface powered by Gemini 2.5 Flash that can answer questions about video content with conversational memory.",
     techStack: ["Flask", "Next.js", "CLIP", "Gemini 2.5 Flash", "Python", "React", "Async Processing"],
     githubUrl: "https://github.com/allanilya/Multimodal-Video-Analysis"
   },
     {
-    id: 4,
+    id: 5,
     title: "NoScroll Content Blocker Script",
     description: "Custom CSS rules designed to block short-form content on Instagram and YouTube while browsing on iOS and macOS Safari. Works with content blocking extensions like 1Blocker or AdGuard to help users avoid infinite scrolling and focus on intentional content consumption.",
     techStack: ["CSS", "1Blocker"],
     githubUrl: "https://github.com/allanilya/NoScroll"
   },
     {
-    id: 5,
+    id: 6,
     title: "Gapminder Global Trends",
     description: "An interactive web application that visualizes global trends in life expectancy and economic development using the Gapminder dataset. Features dynamic charts and maps built with R Shiny that allow users to explore historical patterns and regional differences across decades.",
     techStack: ["R", "Shiny"],
@@ -47,21 +56,21 @@ export const projects: Project[] = [
     heavyInteractive: true
   },
   {
-    id: 6,
+    id: 7,
     title: "Student Performance Analytics",
     description: "An analytical exploration of factors affecting student academic performance through classification algorithms and data visualization. Examines how study time, internet access, alcohol consumption, and other variables correlate with student GPA to identify key predictors of academic success.",
     techStack: ["Python", "Scikit-learn", "Naive Bayes", "Random Forest", "Logistic Regression", "Decision Tree", "Pandas", "Jupyter Notebook"],
     githubUrl: "https://github.com/allanilya/Diabetes-Prediction"
   },
     {
-    id: 7,
+    id: 8,
     title: "Diabetes Risk Prediction",
     description: "A machine learning study comparing lifestyle versus demographic factors as predictors of diabetes risk using 230K+ patient records. Analyzes which factors—such as diet, exercise, and family history—are most significant in predicting diabetes, using ensemble methods and cross-validation for robust predictions.",
     techStack: ["Python", "Scikit-learn", "SMOTE", "Random Forest", "Logistic Regression", "KNN", "Pandas"],
     githubUrl: "https://github.com/allanilya/Diabetes-Prediction"
   },
     {
-    id: 8,
+    id: 9,
     title: "Personal Portfolio Website",
     description: "A modern, responsive portfolio website built with Next.js and Tailwind CSS featuring an interactive Matrix-style background, project showcases, and smooth navigation. Optimized for performance and SEO with server-side rendering and static generation.",
     techStack: ["Next.js", "Tailwind CSS", "React", "JavaScript", "Vercel"],

@@ -37,6 +37,7 @@ export const skillCategories: SkillCategory[] = [
       { name: "SQL", description: "Database query language for relational database management and data analysis." },
       { name: "R", description: "Statistical computing language for data analysis, visualization, and machine learning." },
       { name: "Swift", description: "Apple's language for iOS, macOS, and native app development." },
+      { name: "C++", description: "C++ is a high-performance, general-purpose programming language developed by Bjarne Stroustrup as an extension of C, adding object-oriented, functional, and generic programming features. Known for its speed and low-level memory manipulation, it is widely used in systems programming, game development, VR, and high-performance applications" },
       { name: "PHP", description: "Server-side scripting language for web development and content management systems." }
     ],
     colors: {
@@ -167,6 +168,13 @@ export const extraTechColors: Record<string, string> = {
   // Frontend - Blue
   'css': 'bg-blue-900 text-blue-200',
 
+  // Hardware/Embedded - Gray
+  'esp32': 'bg-gray-700 text-gray-200',
+  'platformio': 'bg-gray-700 text-gray-200',
+  'ble': 'bg-gray-700 text-gray-200',
+  'e-ink display': 'bg-gray-700 text-gray-200',
+  'i2s audio': 'bg-gray-700 text-gray-200',
+
   // Other
   '1blocker': 'bg-gray-700 text-gray-200',
 };
@@ -258,6 +266,8 @@ export function getTechRgb(tech: string): string {
 
     // Frontend - Blue
     'css': '96,165,250',
+
+
 
     // Other - Gray
     '1blocker': '156,163,175',
