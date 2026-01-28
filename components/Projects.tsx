@@ -359,16 +359,13 @@ export default function Projects() {
                   }}
                 >
                   {/* Title Section */}
-                  <div className="flex items-start justify-between mb-2 pb-1 flex-shrink-0 border-b border-gray-400">
+                  <div className="flex items-center justify-center mb-2 pb-1 flex-shrink-0 border-b border-gray-400">
                     <h3
-                      className="text-lg md:text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors "
+                      className="text-lg md:text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors text-center"
                       style={{ fontFamily: 'Orbitron, sans-serif' }}
                     >
                       {project.title}
                     </h3>
-                    {project.liveUrl && (
-                      <ExternalLink className="w-4 h-4 text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0 ml-2" />
-                    )}
                   </div>
 
                   {/*
