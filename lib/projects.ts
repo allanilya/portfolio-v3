@@ -12,11 +12,11 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: 1,
-    title: "ESP32 Alarm Clock",
-    description: "A phone-independent alarm clock built with ESP32 microcontroller featuring a low-power 3.7\" e-ink display with adjustable frontlight, custom alarm sounds via MP3/WAV playback, and wireless configuration through a companion iOS app using BLE. Designed to eliminate morning phone dependency and reduce nighttime screen exposure.",
+    title: "Bluetooth Optimized Morning Bell ",
+    description: "An alarm clock built with ESP32 microcontroller featuring a low-power 3.7\" e-ink display with adjustable frontlight, custom alarm sounds via MP3/WAV playback, and wireless configuration through a companion iOS app using BLE. Designed to eliminate morning phone dependency and reduce nighttime screen exposure.",
     techStack: ["ESP32", "C++", "Swift", "E-Ink Display", "BLE", "I2S Audio", "PlatformIO"],
     image: "/esp32-alarm-clock.jpg",
-    githubUrl: "https://github.com/allanilya/alarm-clock"
+    githubUrl: "https://github.com/allanilya/B.O.M.B."
   },
   {
     id: 2,
