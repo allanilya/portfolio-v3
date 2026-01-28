@@ -304,8 +304,16 @@ export default function Projects() {
                     hover:shadow-2xl backdrop-blur-sm
                   `}
                 >
-                {/* Preview Section - Only shown if liveUrl exists */}
-                {project.liveUrl && (
+                {/* Preview Section - Show image if exists, otherwise liveUrl iframe */}
+                {project.image ? (
+                  <div className="relative w-full h-32 md:h-50 bg-gray-900 overflow-hidden flex-shrink-0">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ) : project.liveUrl ? (
                   <div
                     className="relative w-full h-32 md:h-50 bg-gray-900 overflow-hidden cursor-pointer flex-shrink-0"
                     onClick={(e) => {
@@ -341,7 +349,7 @@ export default function Projects() {
                       </div>
                     </div>
                   </div>
-                )}
+                ) : null}
 
                 <div
                   className="p-4 cursor-pointer flex-grow flex flex-col"
@@ -380,7 +388,7 @@ export default function Projects() {
                   */}
                   <p
                     className={`text-gray-700 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden text-center ${
-                    project.liveUrl
+                    project.image || project.liveUrl
                       ? 'line-clamp-7'
                       : 'flex-grow line-clamp-14'
                   }`}
@@ -500,8 +508,19 @@ export default function Projects() {
                     {projects.find((p) => p.id === selectedProject)!.description}
                   </p>
 
-                  {/* Live Preview */}
-                  {projects.find((p) => p.id === selectedProject)!.liveUrl && (
+                  {/* Image or Live Preview */}
+                  {projects.find((p) => p.id === selectedProject)!.image ? (
+                    <div className="mb-6">
+                      <h4 className="text-lg md:text-xl font-semibold mb-3">Project Image</h4>
+                      <div className="relative w-full rounded-lg overflow-hidden border-2 border-gray-700 shadow-lg">
+                        <img
+                          src={projects.find((p) => p.id === selectedProject)!.image}
+                          alt={projects.find((p) => p.id === selectedProject)!.title}
+                          className="w-full h-auto object-cover"
+                        />
+                      </div>
+                    </div>
+                  ) : projects.find((p) => p.id === selectedProject)!.liveUrl ? (
                     <div className="mb-6">
                       <h4 className="text-lg md:text-xl font-semibold mb-3">Live Preview</h4>
                       <div className="relative w-full rounded-lg overflow-hidden border-2 border-gray-700 shadow-lg">
@@ -525,7 +544,7 @@ export default function Projects() {
                         />
                       </div>
                     </div>
-                  )}
+                  ) : null}
 
                   <div className="mb-6">
                     <h4 className="text-lg md:text-xl font-semibold mb-3">Tech Stack</h4>
