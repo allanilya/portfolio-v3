@@ -27,8 +27,10 @@ import { Github, ExternalLink, X, ChevronLeft, ChevronRight } from 'lucide-react
 import { projects } from '@/lib/projects';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getTechColor, getTechRgb, getColoredGlow, getCardGlow } from '@/lib/skillsData';
+import { useAnimation } from '@/contexts/AnimationContext';
 
 export default function Projects() {
+  const { isSkipped } = useAnimation();
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
@@ -36,6 +38,12 @@ export default function Projects() {
   const [leftRightScale, setLeftRightScale] = useState(0.75); // Default to desktop value
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  // Animation variants for section
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
 
   // Update x offset and scale based on screen size
   useEffect(() => {
@@ -250,7 +258,15 @@ export default function Projects() {
           animation: modalScaleIn 0.3s ease-out;
         }
       `}</style>
-      <section id="projects" className="relative z-10 py-14 md:py-14 px-4">
+      <motion.section
+        id="projects"
+        className="relative z-10 py-14 md:py-14 px-4"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+        transition={{ duration: isSkipped ? 0 : 0.5 }}
+      >
         <div className="max-w-7xl mx-auto">
         <h2
           className="text-3xl md:text-4xl font-bold mb-12 text-center text-cyan-400"
@@ -470,7 +486,7 @@ export default function Projects() {
           )}
         </div>
       </div>
-    </section>
+    </motion.section>
 
     {/* Project Modal - Outside section to avoid z-index stacking context issues */}
     {selectedProject !== null && (

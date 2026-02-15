@@ -22,6 +22,7 @@ import { useState, useEffect } from 'react';
 import { skillCategories, getColoredGlow, getCardGlow } from '@/lib/skillsData';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useAnimation } from '@/contexts/AnimationContext';
 
 // Depth layer configuration
 const DEFAULT_LAYERS = 0;
@@ -73,8 +74,15 @@ const DepthBackground: React.FC<{
 };
 
 export default function Skills() {
+  const { isSkipped } = useAnimation();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<{ categoryIndex: number; skillName: string } | null>(null);
+
+  // Animation variants for skill cards
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
 
 
   // Prevent body scroll when modal is open
@@ -125,8 +133,13 @@ export default function Skills() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
             {skillCategories.map((category, index) => (
-              <div
+              <motion.div
                 key={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={cardVariants}
+                transition={{ duration: 0.5, delay: isSkipped ? 0 : index * 0.1 }}
                 onClick={() => setSelectedCategory(index)}
                 className="group bg-gray-600/20 shadow-lg p-5 md:p-6 transition-all duration-300 rounded-xl transform hover:-translate-y-1 cursor-pointer relative"
                /* style={{
@@ -168,7 +181,7 @@ export default function Skills() {
                     </span>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
