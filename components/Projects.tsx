@@ -320,8 +320,19 @@ export default function Projects() {
                     hover:shadow-2xl backdrop-blur-sm
                   `}
                 >
-                {/* Preview Section - Show image if exists, otherwise liveUrl iframe */}
-                {project.image ? (
+                {/* Preview Section - videoUrl > image > liveUrl iframe */}
+                {project.videoUrl ? (
+                  <div className="relative w-full h-32 md:h-50 bg-gray-900 overflow-hidden flex-shrink-0">
+                    <video
+                      src={project.videoUrl}
+                      className="w-full h-full object-cover"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                  </div>
+                ) : project.image ? (
                   <div className="relative w-full h-32 md:h-50 bg-gray-900 overflow-hidden flex-shrink-0">
                     <img
                       src={project.image}
@@ -401,7 +412,7 @@ export default function Projects() {
                   */}
                   <p
                     className={`text-gray-700 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden text-center ${
-                    project.image || project.liveUrl
+                    project.videoUrl || project.image || project.liveUrl
                       ? 'line-clamp-7'
                       : 'flex-grow line-clamp-14'
                   }`}
@@ -521,8 +532,23 @@ export default function Projects() {
                     {projects.find((p) => p.id === selectedProject)!.description}
                   </p>
 
-                  {/* Image or Live Preview */}
-                  {projects.find((p) => p.id === selectedProject)!.image ? (
+                  {/* Video, Image, or Live Preview */}
+                  {projects.find((p) => p.id === selectedProject)!.videoUrl ? (
+                    <div className="mb-6">
+                      <h4 className="text-lg md:text-xl font-semibold mb-3">Demo</h4>
+                      <div className="relative w-full rounded-lg overflow-hidden border-2 border-gray-700 shadow-lg">
+                        <video
+                          src={projects.find((p) => p.id === selectedProject)!.videoUrl}
+                          className="w-full h-auto"
+                          controls
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                        />
+                      </div>
+                    </div>
+                  ) : projects.find((p) => p.id === selectedProject)!.image ? (
                     <div className="mb-6">
                       <h4 className="text-lg md:text-xl font-semibold mb-3">Project Image</h4>
                       <div className="relative w-full rounded-lg overflow-hidden border-2 border-gray-700 shadow-lg">
