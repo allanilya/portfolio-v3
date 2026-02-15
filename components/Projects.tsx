@@ -27,8 +27,10 @@ import { Github, ExternalLink, X, ChevronLeft, ChevronRight } from 'lucide-react
 import { projects } from '@/lib/projects';
 import { motion, AnimatePresence } from 'framer-motion';
 import { getTechColor, getTechRgb, getColoredGlow, getCardGlow } from '@/lib/skillsData';
+import { useAnimation } from '@/contexts/AnimationContext';
 
 export default function Projects() {
+  const { isSkipped } = useAnimation();
   const [selectedProject, setSelectedProject] = useState<number | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
@@ -36,6 +38,12 @@ export default function Projects() {
   const [leftRightScale, setLeftRightScale] = useState(0.75); // Default to desktop value
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  // Animation variants for section
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
 
   // Update x offset and scale based on screen size
   useEffect(() => {
@@ -250,7 +258,15 @@ export default function Projects() {
           animation: modalScaleIn 0.3s ease-out;
         }
       `}</style>
-      <section id="projects" className="relative z-10 py-14 md:py-14 px-4">
+      <motion.section
+        id="projects"
+        className="relative z-10 py-14 md:py-14 px-4"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={sectionVariants}
+        transition={{ duration: isSkipped ? 0 : 0.5 }}
+      >
         <div className="max-w-7xl mx-auto">
         <h2
           className="text-3xl md:text-4xl font-bold mb-12 text-center text-cyan-400"
@@ -304,8 +320,19 @@ export default function Projects() {
                     hover:shadow-2xl backdrop-blur-sm
                   `}
                 >
-                {/* Preview Section - Show image if exists, otherwise liveUrl iframe */}
-                {project.image ? (
+                {/* Preview Section - videoUrl > image > liveUrl iframe */}
+                {project.videoUrl ? (
+                  <div className="relative w-full h-32 md:h-50 bg-gray-900 overflow-hidden flex-shrink-0">
+                    <video
+                      src={project.videoUrl}
+                      className="w-full h-full object-cover"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                    />
+                  </div>
+                ) : project.image ? (
                   <div className="relative w-full h-32 md:h-50 bg-gray-900 overflow-hidden flex-shrink-0">
                     <img
                       src={project.image}
@@ -385,7 +412,7 @@ export default function Projects() {
                   */}
                   <p
                     className={`text-gray-700 mb-0.8 text-sm md:text-lg leading-relaxed overflow-hidden text-center ${
-                    project.image || project.liveUrl
+                    project.videoUrl || project.image || project.liveUrl
                       ? 'line-clamp-7'
                       : 'flex-grow line-clamp-14'
                   }`}
@@ -470,7 +497,7 @@ export default function Projects() {
           )}
         </div>
       </div>
-    </section>
+    </motion.section>
 
     {/* Project Modal - Outside section to avoid z-index stacking context issues */}
     {selectedProject !== null && (
@@ -505,8 +532,23 @@ export default function Projects() {
                     {projects.find((p) => p.id === selectedProject)!.description}
                   </p>
 
-                  {/* Image or Live Preview */}
-                  {projects.find((p) => p.id === selectedProject)!.image ? (
+                  {/* Video, Image, or Live Preview */}
+                  {projects.find((p) => p.id === selectedProject)!.videoUrl ? (
+                    <div className="mb-6">
+                      <h4 className="text-lg md:text-xl font-semibold mb-3">Demo</h4>
+                      <div className="relative w-full rounded-lg overflow-hidden border-2 border-gray-700 shadow-lg">
+                        <video
+                          src={projects.find((p) => p.id === selectedProject)!.videoUrl}
+                          className="w-full h-auto"
+                          controls
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                        />
+                      </div>
+                    </div>
+                  ) : projects.find((p) => p.id === selectedProject)!.image ? (
                     <div className="mb-6">
                       <h4 className="text-lg md:text-xl font-semibold mb-3">Project Image</h4>
                       <div className="relative w-full rounded-lg overflow-hidden border-2 border-gray-700 shadow-lg">

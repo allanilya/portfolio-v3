@@ -175,6 +175,22 @@ export const extraTechColors: Record<string, string> = {
   'e-ink display': 'bg-gray-700 text-gray-200',
   'i2s audio': 'bg-gray-700 text-gray-200',
 
+  // Backend
+  'express.js': 'bg-green-900 text-green-200',
+
+  // Cloud & DevOps
+  'supabase': 'bg-blue-900 text-blue-200',
+
+  // AI/ML - Teal
+  'openai gpt-4o': 'bg-teal-900 text-teal-200',
+  'tavily api': 'bg-teal-900 text-teal-200',
+
+  // Frontend/Microsoft
+  'office.js': 'bg-blue-900 text-blue-200',
+
+  // Utility - Gray
+  'pptxgenjs': 'bg-gray-700 text-gray-200',
+
   // Other
   '1blocker': 'bg-gray-700 text-gray-200',
 };
@@ -268,6 +284,22 @@ export function getTechRgb(tech: string): string {
     'css': '96,165,250',
 
 
+
+    // Backend - Green
+    'express.js': '74,222,128',
+
+    // Cloud & DevOps - Blue
+    'supabase': '96,165,250',
+
+    // AI/ML
+    'openai gpt-4o': '45,212,191',
+    'tavily api': '45,212,191',
+
+    // Frontend/Microsoft - Blue
+    'office.js': '96,165,250',
+
+    // Utility - Gray
+    'pptxgenjs': '156,163,175',
 
     // Other - Gray
     '1blocker': '156,163,175',

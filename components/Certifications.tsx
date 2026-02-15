@@ -16,7 +16,20 @@
  * - Change hover effect: Edit transform-scale on line 52
  */
 
+'use client';
+
+import { motion } from 'framer-motion';
+import { useAnimation } from '@/contexts/AnimationContext';
+
 export default function Certifications() {
+  const { isSkipped } = useAnimation();
+
+  // Animation variants for certification badges
+  const badgeVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   // ADD YOUR CERTIFICATIONS HERE
   const certifications = [
     {
@@ -51,15 +64,17 @@ export default function Certifications() {
 
         <div className="grid grid-cols-3 gap-4 md:gap-8">
           {certifications.map((cert, index) => (
-            <a
+            <motion.a
               key={index}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={badgeVariants}
+              transition={{ duration: 0.5, delay: isSkipped ? 0 : index * 0.1 }}
               href={cert.link}
               target="_blank"
               rel="noopener noreferrer"
               className="group flex flex-col items-center p-2 sm:p-4 md:p-6 bg-clear/60 rounded-lg shadow-xl hover:shadow-xl transition-all duration-300 hover:scale-105 h-full"
-              style={{
-
-              }}
             >
               <div className="w-full aspect-square flex items-center justify-center mb-2 sm:mb-3 md:mb-4 flex-shrink-0 p-2">
                 <img
@@ -74,7 +89,7 @@ export default function Certifications() {
               <p className="text-xs text-blue-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 View Credential →
               </p>
-            </a>
+            </motion.a>
           ))}
         </div>
       </div>

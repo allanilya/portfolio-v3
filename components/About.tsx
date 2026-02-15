@@ -20,11 +20,18 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { useAnimation } from '@/contexts/AnimationContext';
 
 export default function About() {
   const { isSkipped, skipAnimations } = useAnimation();
   const [opacity, setOpacity] = useState(0);
+
+  // Animation variants for section
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
 
   // Fade in profile picture after Hero reveal animation (at 6 seconds)
   useEffect(() => {
@@ -42,7 +49,15 @@ export default function About() {
   }, [isSkipped]);
 
   return (
-    <section id="about" className="relative z-10 py-14 md:py-20 px-4">
+    <motion.section
+      id="about"
+      className="relative z-10 py-14 md:py-20 px-4"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={sectionVariants}
+      transition={{ duration: isSkipped ? 0 : 0.5 }}
+    >
       <div className="max-w-6xl mx-auto">
         {/* Profile Picture + Content Layout */}
         <div className="flex flex-col md:flex-row md:flex-wrap gap-6 md:gap-8 items-center md:items-start">
@@ -110,6 +125,6 @@ export default function About() {
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
