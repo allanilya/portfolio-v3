@@ -22,7 +22,6 @@ import { useState, useEffect } from 'react';
 import { skillCategories, getColoredGlow, getCardGlow } from '@/lib/skillsData';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAnimation } from '@/contexts/AnimationContext';
 
 // Depth layer configuration
 const DEFAULT_LAYERS = 0;
@@ -74,16 +73,8 @@ const DepthBackground: React.FC<{
 };
 
 export default function Skills() {
-  const { isSkipped } = useAnimation();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<{ categoryIndex: number; skillName: string } | null>(null);
-
-  // Animation variants for skill cards
-  const cardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -121,27 +112,30 @@ export default function Skills() {
         <div className="pixel-grid"></div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* Section Title - No voxel background needed, Tron font has pixel glow */}
-          <h2
+          {/* Section Title */}
+          <motion.h2
             className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center text-cyan-400"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.6 }}
+            transition={{ duration: 0.8 }}
             style={{
               fontFamily: ' Orbitron, monospace',
               textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
             }}
           >
             Technical Skills
-          </h2>
+          </motion.h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
             {skillCategories.map((category, index) => (
               <motion.div
                 key={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={cardVariants}
-                transition={{ duration: 0.5, delay: isSkipped ? 0 : index * 0.1 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.8, delay: 0.3 + index * 0.08 }}
                 onClick={() => setSelectedCategory(index)}
-                className="group bg-gray-600/20 shadow-lg p-5 md:p-6 transition-all duration-300 rounded-xl transform hover:-translate-y-1 cursor-pointer relative"
+                className="group bg-gray-600/20 shadow-lg p-5 md:p-6 transition-shadow duration-300 rounded-xl transform hover:-translate-y-1 cursor-pointer relative"
                /* style={{
                   borderColor: `rgba(${category.colors.neonRgb}, 0.6)`,
                   boxShadow: `0 0 8px rgba(${category.colors.neonRgb}, 0.6), 0 0 15px rgba(${category.colors.neonRgb}, 0.3)`,

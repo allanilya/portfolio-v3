@@ -19,16 +19,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useAnimation } from '@/contexts/AnimationContext';
-
 export default function Certifications() {
-  const { isSkipped } = useAnimation();
-
-  // Animation variants for certification badges
-  const badgeVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
 
   // ADD YOUR CERTIFICATIONS HERE
   const certifications = [
@@ -52,29 +43,32 @@ export default function Certifications() {
   return (
     <section id="certifications" className="relative z-10 py-0 md:py-0 pb-58 md:pb-64 px-4">
       <div className="max-w-6xl mx-auto">
-        <h2
+        <motion.h2
           className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center text-cyan-400"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.8 }}
           style={{
             fontFamily: 'Orbitron, monospace',
             textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)"
           }}
         >
           Certifications
-        </h2>
+        </motion.h2>
 
         <div className="grid grid-cols-3 gap-4 md:gap-8">
           {certifications.map((cert, index) => (
             <motion.a
               key={index}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={badgeVariants}
-              transition={{ duration: 0.5, delay: isSkipped ? 0 : index * 0.1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4}}
+              transition={{ duration: 0.8, delay: 0.3 + index * 0.25 }}
               href={cert.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex flex-col items-center p-2 sm:p-4 md:p-6 bg-clear/60 rounded-lg shadow-xl hover:shadow-xl transition-all duration-300 hover:scale-105 h-full"
+              className="group flex flex-col items-center p-2 sm:p-4 md:p-6 bg-clear/60 rounded-lg shadow-xl hover:shadow-xl transition-shadow duration-300 hover:scale-105 h-full"
             >
               <div className="w-full aspect-square flex items-center justify-center mb-2 sm:mb-3 md:mb-4 flex-shrink-0 p-2">
                 <img

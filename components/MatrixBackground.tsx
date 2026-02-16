@@ -70,8 +70,8 @@ export default function MatrixBackground() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Characters to use in the rain (Matrix-style: Japanese katakana, Latin letters, numbers)
-    const characters = 'アィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヴヵヶABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
+    // Characters to use in the rain
+    const characters = '01234567890101010101';
     const charactersArray = characters.split('');
 
     const fontSize = 16;

@@ -39,12 +39,6 @@ export default function Projects() {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
-  // Animation variants for section
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
-
   // Update x offset and scale based on screen size
   useEffect(() => {
     const updateResponsiveValues = () => {
@@ -258,29 +252,33 @@ export default function Projects() {
           animation: modalScaleIn 0.3s ease-out;
         }
       `}</style>
-      <motion.section
+      <section
         id="projects"
         className="relative z-10 py-14 md:py-14 px-4"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
-        variants={sectionVariants}
-        transition={{ duration: isSkipped ? 0 : 0.5 }}
       >
         <div className="max-w-7xl mx-auto">
-        <h2
+        <motion.h2
           className="text-3xl md:text-4xl font-bold mb-12 text-center text-cyan-400"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 4, y: 0 }}
+          viewport={{ once: true, amount: 0.1  }}
+          transition={{ duration: 0.8, delay: 0.6 }}
           style={{
             fontFamily: 'Orbitron, monospace',
-            //textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
             textShadow: "1px 1px 1px rgba(0, 0, 0, 0.5)"
-
           }}
         >
           Projects
-        </h2>
+        </motion.h2>
         {/* Carousel Controls */}
-        <div className="relative" style={{ overflowAnchor: 'none' }}>
+        <motion.div
+          className="relative"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          style={{ overflowAnchor: 'none' }}
+        >
           {/* Project Cards - Carousel Focus Layout */}
           <div
             className="relative flex items-center justify-center min-h-[400px] sm:min-h-[460px] md:min-h-[500px] px-4"
@@ -495,9 +493,9 @@ export default function Projects() {
               </button>
             </div>
           )}
-        </div>
+        </motion.div>
       </div>
-    </motion.section>
+    </section>
 
     {/* Project Modal - Outside section to avoid z-index stacking context issues */}
     {selectedProject !== null && (
