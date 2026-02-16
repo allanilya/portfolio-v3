@@ -54,9 +54,9 @@ export default function About() {
       className="relative z-10 py-14 md:py-20 px-4"
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
+      viewport={{ once: true, amount: 0.8 }}
       variants={sectionVariants}
-      transition={{ duration: isSkipped ? 0 : 0.5 }}
+      transition={{ duration: 0.5 }}
     >
       <div className="max-w-6xl mx-auto">
         {/* Profile Picture + Content Layout */}

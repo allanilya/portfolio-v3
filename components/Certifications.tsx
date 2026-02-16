@@ -19,13 +19,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useAnimation } from '@/contexts/AnimationContext';
-
 export default function Certifications() {
-  const { isSkipped } = useAnimation();
 
-  // Animation variants for certification badges
-  const badgeVariants = {
+  // Animation variants for section and certification badges
+  const sectionVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
   };
@@ -50,7 +47,15 @@ export default function Certifications() {
   ];
 
   return (
-    <section id="certifications" className="relative z-10 py-0 md:py-0 pb-58 md:pb-64 px-4">
+    <motion.section
+      id="certifications"
+      className="relative z-10 py-0 md:py-0 pb-58 md:pb-64 px-4"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.4 }}
+      variants={sectionVariants}
+      transition={{ duration: 0.5 }}
+    >
       <div className="max-w-6xl mx-auto">
         <h2
           className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center text-cyan-400"
@@ -64,13 +69,8 @@ export default function Certifications() {
 
         <div className="grid grid-cols-3 gap-4 md:gap-8">
           {certifications.map((cert, index) => (
-            <motion.a
+            <a
               key={index}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={badgeVariants}
-              transition={{ duration: 0.5, delay: isSkipped ? 0 : index * 0.1 }}
               href={cert.link}
               target="_blank"
               rel="noopener noreferrer"
@@ -89,10 +89,10 @@ export default function Certifications() {
               <p className="text-xs text-blue-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                 View Credential →
               </p>
-            </motion.a>
+            </a>
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -22,7 +22,6 @@ import { useState, useEffect } from 'react';
 import { skillCategories, getColoredGlow, getCardGlow } from '@/lib/skillsData';
 import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useAnimation } from '@/contexts/AnimationContext';
 
 // Depth layer configuration
 const DEFAULT_LAYERS = 0;
@@ -74,16 +73,14 @@ const DepthBackground: React.FC<{
 };
 
 export default function Skills() {
-  const { isSkipped } = useAnimation();
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<{ categoryIndex: number; skillName: string } | null>(null);
 
-  // Animation variants for skill cards
-  const cardVariants = {
+  // Animation variants for section and skill cards
+  const sectionVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 }
   };
-
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -116,7 +113,15 @@ export default function Skills() {
         }
       `}</style>
 
-      <section id="skills" className="relative z-10 py-0 md:py-0 px-4 overflow-visible">
+      <motion.section
+        id="skills"
+        className="relative z-10 py-0 md:py-0 px-4 overflow-visible"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.6 }}
+        variants={sectionVariants}
+        transition={{ duration: 0.5 }}
+      >
         {/* Fixed pixel substrate under entire section */}
         <div className="pixel-grid"></div>
 
@@ -133,13 +138,8 @@ export default function Skills() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
             {skillCategories.map((category, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={cardVariants}
-                transition={{ duration: 0.5, delay: isSkipped ? 0 : index * 0.1 }}
                 onClick={() => setSelectedCategory(index)}
                 className="group bg-gray-600/20 shadow-lg p-5 md:p-6 transition-all duration-300 rounded-xl transform hover:-translate-y-1 cursor-pointer relative"
                /* style={{
@@ -181,11 +181,11 @@ export default function Skills() {
                     </span>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Category Modal - Outside section to avoid z-index stacking context issues */}
       {selectedCategory !== null && (

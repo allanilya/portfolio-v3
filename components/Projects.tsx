@@ -263,9 +263,9 @@ export default function Projects() {
         className="relative z-10 py-14 md:py-14 px-4"
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.4 }}
         variants={sectionVariants}
-        transition={{ duration: isSkipped ? 0 : 0.5 }}
+        transition={{ duration: 0.5 }}
       >
         <div className="max-w-7xl mx-auto">
         <h2
