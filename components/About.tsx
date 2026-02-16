@@ -26,12 +26,14 @@ import { useAnimation } from '@/contexts/AnimationContext';
 export default function About() {
   const { isSkipped, skipAnimations } = useAnimation();
   const [opacity, setOpacity] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Animation variants for section
-  const sectionVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  };
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   // Fade in profile picture after Hero reveal animation (at 6 seconds)
   useEffect(() => {
@@ -49,21 +51,20 @@ export default function About() {
   }, [isSkipped]);
 
   return (
-    <motion.section
+    <section
       id="about"
       className="relative z-10 py-14 md:py-20 px-4"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.8 }}
-      variants={sectionVariants}
-      transition={{ duration: 0.5 }}
     >
       <div className="max-w-6xl mx-auto">
         {/* Profile Picture + Content Layout */}
         <div className="flex flex-col md:flex-row md:flex-wrap gap-6 md:gap-8 items-center md:items-start">
           {/* Profile Picture - Aligns with body text start on desktop */}
-          <div
+          <motion.div
             className="relative w-[85vw] max-w-sm md:w-80 aspect-square flex-shrink-0 overflow-hidden rounded-2xl order-1 md:order-2 md:self-start"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, delay: isMobile ? 0 : 0.4 }}
             style={{
               clipPath: 'inset(0 0 0 0 round 1rem)'
             }}
@@ -73,22 +74,30 @@ export default function About() {
               alt="Allan Ilyasov"
               className="w-full h-full object-cover object-top scale-110 rounded-2xl translate-x-3"
             />
-          </div>
+          </motion.div>
 
           {/* Section Heading - Below profile pic on mobile, above on desktop */}
-          <h2
+          <motion.h2
             className="text-3xl md:text-4xl font-bold text-center text-cyan-400 mb-0 md:mb-0 w-full md:basis-full order-2 md:order-1"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.8, delay: isMobile ? 0.4 : 0 }}
             style={{
               fontFamily: 'Orbitron, monospace',
               textShadow: "0 0 2px rgba(0, 255, 255, 0.8), 0 0 70px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3)"
             }}
           >
             About Me
-          </h2>
+          </motion.h2>
 
           {/* Content Card */}
-          <div
-            className="p-6 md:pt-0 pb-0 md:pb-0 md:px-6 flex-1 order-3 "
+          <motion.div
+            className="p-6 md:pt-0 pb-0 md:pb-0 md:px-6 flex-1 order-3"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.8, delay: 0.55 }}
             /*style={{
               border: '2px solid rgba(0, 255, 255, 0.6)',
               boxShadow: `
@@ -122,9 +131,9 @@ export default function About() {
                 operation to a national brand.
               </p>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 }
