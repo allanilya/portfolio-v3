@@ -72,7 +72,7 @@ export default function About() {
             <img
               src="/profilepic.jpeg"
               alt="Allan Ilyasov"
-              className="w-full h-full object-cover object-top scale-110 rounded-2xl translate-x-3"
+              className="w-full h-full "
             />
           </motion.div>
 
