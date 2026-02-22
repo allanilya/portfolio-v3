@@ -3,6 +3,7 @@ import About from '@/components/About';
 import Skills from '@/components/Skills';
 import Projects from '@/components/Projects';
 import Certifications from '@/components/Certifications';
+import GagSection from '@/components/GagSection';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import MatrixBackground from '@/components/MatrixBackground';
@@ -30,6 +31,7 @@ export default function Home() {
       <Skills />
       <Projects />
       <Certifications />
+      <GagSection />
       <Footer />
       <SkipIndicator />
     </div>

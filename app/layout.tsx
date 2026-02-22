@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Orbitron, Rajdhani } from "next/font/google";
 import "./globals.css";
 import { AnimationProvider } from "@/contexts/AnimationContext";
+import SessionWrapper from "@/components/SessionWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -51,9 +52,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} ${rajdhani.variable} antialiased bg-black text-gray-100 overflow-x-hidden`}
       >
-        <AnimationProvider>
-          {children}
-        </AnimationProvider>
+        <SessionWrapper>
+          <AnimationProvider>
+            {children}
+          </AnimationProvider>
+        </SessionWrapper>
       </body>
     </html>
   );
