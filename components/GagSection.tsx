@@ -14,8 +14,15 @@ export default function GagSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.5 }}
-          className="border border-cyan-400/30 rounded-2xl p-8 md:p-12 bg-gray-900/40 backdrop-blur-sm"
-          style={{ boxShadow: '0 0 30px rgba(0,255,255,0.05)' }}
+          className="border transparent rounded-2xl p-8 md:p-12 backdrop-blur-sm"
+          style={{
+              boxShadow: `
+                0 0 20px rgba(0, 255, 255, 0.8),
+                0 0 15px rgba(0, 255, 255, 0.4),
+                0 0 20px rgba(0, 255, 255, 0.2),
+                0 0 20px rgba(0, 255, 255, 0.1)
+              `
+            }}
         >
           {status === 'loading' && (
             <p className="text-gray-400 text-sm" style={{ fontFamily: 'Orbitron, monospace' }}>
@@ -25,11 +32,11 @@ export default function GagSection() {
 
           {status === 'unauthenticated' && (
             <>
-              <p className="text-xs text-cyan-400/60 uppercase tracking-widest mb-3" style={{ fontFamily: 'Orbitron, monospace' }}>
+              <p className="text-2xl text-cyan-300 font-bold uppercase tracking-widest mb-3" style={{ fontFamily: 'Orbitron, monospace', textShadow: '1px 1px 2px rgba(0, 0, 0, 0.5' }}>
                 Classified
               </p>
               <h2
-                className="text-2xl md:text-3xl font-bold text-white mb-3"
+                className="text-2xl md:text-3xl font-bold text-black mb-3"
                 style={{ fontFamily: 'Orbitron, monospace' }}
               >
                 🔒 Restricted Access
