@@ -17,10 +17,8 @@ export default function GagSection() {
           className="border transparent rounded-2xl p-8 md:p-12 backdrop-blur-sm"
           style={{
               boxShadow: `
-                0 0 20px rgba(0, 255, 255, 0.8),
-                0 0 15px rgba(0, 255, 255, 0.4),
-                0 0 20px rgba(0, 255, 255, 0.2),
-                0 0 20px rgba(0, 255, 255, 0.1)
+                0 0 40px rgba(0, 0, 2, 0.3)
+
               `
             }}
         >

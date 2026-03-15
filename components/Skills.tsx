@@ -133,7 +133,7 @@ export default function Skills() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8, delay: 0.3 + index * 0.08 }}
+                transition={{ duration: 0.4, delay: 0.2 + index * 0.06 }}
                 onClick={() => setSelectedCategory(index)}
                 className="group bg-gray-600/20 shadow-lg p-5 md:p-6 transition-shadow duration-300 rounded-xl transform hover:-translate-y-1 cursor-pointer relative"
                /* style={{

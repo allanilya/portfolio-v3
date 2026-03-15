@@ -199,7 +199,7 @@ export default function Navbar() {
 
           {/* Mobile menu button */}
           <button
-            className="md:hidden text-gray-300 hover:text-green-400"
+            className="md:hidden text-gray-300 hover:text-cyan-400"
             onClick={() => {
               const menu = document.getElementById('mobile-menu');
               menu?.classList.toggle('hidden');
@@ -221,7 +221,7 @@ export default function Navbar() {
       </div>
 
       {/* Mobile menu */}
-      <div id="mobile-menu" className="hidden md:hidden bg-black bg-opacity-95 border-t border-green-900/30 rounded-b-xl">
+      <div id="mobile-menu" className="hidden md:hidden bg-black bg-opacity-95 border-t border-cyan-900/30 rounded-b-xl">
         <div className="px-2 pt-2 pb-3 space-y-1">
           {navItems.map((item) => {
             const sectionId = item.href.substring(1);
@@ -238,8 +238,8 @@ export default function Navbar() {
                 className={`
                   block px-3 py-2 text-base font-medium rounded-md
                   ${isActive
-                    ? 'text-green-400 bg-green-900/20'
-                    : 'text-gray-300 hover:text-green-400 hover:bg-green-900/10'
+                    ? 'text-cyan-400 bg-cyan-900/20'
+                    : 'text-gray-300 hover:text-cyan-400 hover:bg-cyan-900/10'
                   }
                 `}
                 style={{ fontFamily: 'Orbitron, sans-serif' }}
