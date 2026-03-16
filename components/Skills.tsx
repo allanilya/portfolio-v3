@@ -75,6 +75,14 @@ const DepthBackground: React.FC<{
 export default function Skills() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<{ categoryIndex: number; skillName: string } | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -151,7 +159,7 @@ export default function Skills() {
                     className={`text-lg md:text-xl font-bold ${category.colors.text}`}
                     style={{
                       fontFamily: 'Orbitron, sans-serif',
-                      textShadow: getColoredGlow(category.colors.neonRgb)
+                      textShadow: (isMobile && category.title === 'AI/ML') ? 'none' : getColoredGlow(category.colors.neonRgb)
                     }}
                   >
                     {category.title}

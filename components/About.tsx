@@ -92,46 +92,47 @@ export default function About() {
           </motion.h2>
 
           {/* Content Card */}
-          <motion.div
-            className="p-6 md:pt-0 pb-0 md:pb-0 md:px-6 flex-1 order-3"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, delay: 0.55 }}
-            /*style={{
-              border: '2px solid rgba(0, 255, 255, 0.6)',
-              boxShadow: `
-                0 0 4px rgba(0, 255, 255, 0.8),
-                0 0 15px rgba(0, 255, 255, 0.4),
-                0 0 25px rgba(0, 255, 255, 0.2),
-                0 0 35px rgba(0, 255, 255, 0.1)
-              `
-            }}*/
-          >
-            {/* Text Content */}
-            <div style={{ fontFamily: 'Inter, sans-serif' }}>
-              <p className="text-base md:text-xl text-gray-300 leading-relaxed mb-4">
-                Greetings. I am Allan Ilyasov.
-              </p>
-              {/* Paragraph 1 - Edit your background here */}
-              <p className="text-base md:text-xl text-gray-300 leading-relaxed mb-4">
-                I'm a Graduate Student pursuing an M.S. in Data Science through an accelerated 4+1 program, after completing my B.S. in Computer Science. Currently working as a Graduate Research Assistant,
-                I specialize in building AI-powered applications and scalable cloud infrastructure.
-              </p>
-
-              {/* Paragraph 2 - Edit your expertise here */}
-              <p className="text-base md:text-xl text-gray-300 leading-relaxed mb-4">
-                My expertise spans full-stack development, machine learning, and AWS cloud services. I've led the development
-                of Codify AI, an AI-powered programming tutor, and won a hackathon for innovative AI solutions.
-              </p>
-
-              {/* Paragraph 3 - Edit personal interests here */}
-              <p className="text-base md:text-xl text-gray-300 leading-relaxed">
-                When I'm not coding, I'm contributing to Uncle Edik's Pickles, a startup I helped grow from a home-based
-                operation to a national brand.
-              </p>
-            </div>
-          </motion.div>
+          <div className="p-6 md:pt-0 pb-0 md:pb-0 md:px-6 flex-1 order-3" style={{ fontFamily: 'Inter, sans-serif' }}>
+            <motion.p
+              className="text-base md:text-xl text-gray-300 leading-relaxed mb-4"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.55 }}
+            >
+              Greetings. I am Allan Ilyasov.
+            </motion.p>
+            <motion.p
+              className="text-base md:text-xl text-gray-300 leading-relaxed mb-4"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+            >
+              I'm a Graduate Student pursuing an M.S. in Data Science through an accelerated 4+1 program, after completing my B.S. in Computer Science. Currently working as a Graduate Research Assistant,
+              I specialize in building AI-powered applications and scalable cloud infrastructure.
+            </motion.p>
+            <motion.p
+              className="text-base md:text-xl text-gray-300 leading-relaxed mb-4"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.85 }}
+            >
+              My expertise spans full-stack development, machine learning, and AWS cloud services. I've led the development
+              of Codify AI, an AI-powered programming tutor, and won a hackathon for innovative AI solutions.
+            </motion.p>
+            <motion.p
+              className="text-base md:text-xl text-gray-300 leading-relaxed"
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.5, delay: 1.0 }}
+            >
+              When I'm not coding, I'm contributing to Uncle Edik's Pickles, a startup I helped grow from a home-based
+              operation to a national brand.
+            </motion.p>
+          </div>
         </div>
       </div>
     </section>
