@@ -22,10 +22,10 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Github, ExternalLink, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { projects } from '@/lib/projects';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { getTechColor, getTechRgb, getColoredGlow, getCardGlow } from '@/lib/skillsData';
 import { useAnimation } from '@/contexts/AnimationContext';
 
@@ -38,6 +38,24 @@ export default function Projects() {
   const [leftRightScale, setLeftRightScale] = useState(0.75); // Default to desktop value
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [entranceStep, setEntranceStep] = useState(isSkipped ? 2 : 0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const isCarouselInView = useInView(carouselRef, { once: true, amount: 0.15 });
+
+  useEffect(() => {
+    if (isCarouselInView && entranceStep === 0) {
+      setTimeout(() => setEntranceStep(1), 150);  // center
+      setTimeout(() => setEntranceStep(2), 650);  // left + right
+    }
+  }, [isCarouselInView]);
+
+  const getSlotOpacity = (slot: string): number => {
+    const baseOpacity = SLOT[slot as keyof typeof SLOT]?.opacity ?? 0;
+    if (slot === 'center') return entranceStep >= 1 ? baseOpacity : 0;
+    if (slot === 'left') return entranceStep >= 2 ? baseOpacity : 0;
+    if (slot === 'right') return entranceStep >= 2 ? baseOpacity : 0;
+    return baseOpacity;
+  };
 
   // Update x offset and scale based on screen size
   useEffect(() => {
@@ -271,12 +289,9 @@ export default function Projects() {
           Projects
         </motion.h2>
         {/* Carousel Controls */}
-        <motion.div
+        <div
+          ref={carouselRef}
           className="relative"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
           style={{ overflowAnchor: 'none' }}
         >
           {/* Project Cards - Carousel Focus Layout */}
@@ -294,15 +309,23 @@ export default function Projects() {
                   layout
                   initial={{
                     opacity: 0,
-                    scale: 0.6,
-                    x: slideDirection === 'right' ? 220 : -220,
+                    scale: entranceStep > 0
+                      ? 0.6
+                      : SLOT[project.slot as 'far-left' | 'left' | 'center' | 'right' | 'far-right'].scale,
+                    x: entranceStep > 0
+                      ? (slideDirection === 'right' ? 220 : -220)
+                      : SLOT[project.slot as 'far-left' | 'left' | 'center' | 'right' | 'far-right'].x,
                     zIndex: project.slot === 'center' ? 30 : project.slot === 'far-left' || project.slot === 'far-right' ? 0 : 1,
                   }}
-                  animate={SLOT[project.slot as 'far-left' | 'left' | 'center' | 'right' | 'far-right']}
+                  animate={{
+                    ...SLOT[project.slot as 'far-left' | 'left' | 'center' | 'right' | 'far-right'],
+                    opacity: getSlotOpacity(project.slot),
+                  }}
                   exit={exitVariants[slideDirection || 'right']}
                   transition={{
                     duration: 0.45,
                     ease: [0.22, 0.61, 0.36, 1],
+                    opacity: { duration: 0.6, ease: 'easeInOut' },
                   }}
                   onClick={(e) => {
                     e.preventDefault();
@@ -493,7 +516,7 @@ export default function Projects() {
               </button>
             </div>
           )}
-        </motion.div>
+        </div>
       </div>
     </section>
 
