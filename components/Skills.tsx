@@ -75,6 +75,14 @@ const DepthBackground: React.FC<{
 export default function Skills() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [selectedSkill, setSelectedSkill] = useState<{ categoryIndex: number; skillName: string } | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -130,17 +138,15 @@ export default function Skills() {
             {skillCategories.map((category, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial="hidden"
+                whileInView="visible"
                 viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 0.8, delay: 0.3 + index * 0.08 }}
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.2 + index * 0.06, staggerChildren: 0.05, delayChildren: (0.2 + index * 0.06) + 0.25 } }
+                }}
                 onClick={() => setSelectedCategory(index)}
                 className="group bg-gray-600/20 shadow-lg p-5 md:p-6 transition-shadow duration-300 rounded-xl transform hover:-translate-y-1 cursor-pointer relative"
-               /* style={{
-                  borderColor: `rgba(${category.colors.neonRgb}, 0.6)`,
-                  boxShadow: `0 0 8px rgba(${category.colors.neonRgb}, 0.6), 0 0 15px rgba(${category.colors.neonRgb}, 0.3)`,
-                  overflow: 'visible',
-                }}*/
               >
                 {/* Depth background for each card - creates 3D stepped shadow effect */}
                 <DepthBackground rgb={category.colors.neonRgb} layers={DEFAULT_LAYERS} />
@@ -151,16 +157,20 @@ export default function Skills() {
                     className={`text-lg md:text-xl font-bold ${category.colors.text}`}
                     style={{
                       fontFamily: 'Orbitron, sans-serif',
-                      textShadow: getColoredGlow(category.colors.neonRgb)
+                      textShadow: (isMobile && category.title === 'AI/ML') ? 'none' : getColoredGlow(category.colors.neonRgb)
                     }}
                   >
                     {category.title}
                   </h3>
                 </div>
-                <div className="flex flex-wrap gap-2">
+                <motion.div
+                  className="flex flex-wrap gap-2"
+                >
                   {category.skills.map((skill, skillIndex) => (
-                    <span
+                    <motion.span
                       key={skillIndex}
+                      variants={{ hidden: { opacity: 0, y: 0 }, visible: { opacity: 1, y: 0 } }}
+                      transition={{ duration: 0.55 }}
                       onClick={(e) => {
                         e.stopPropagation();
                         setSelectedSkill({ categoryIndex: index, skillName: skill.name });
@@ -172,9 +182,9 @@ export default function Skills() {
                       }}
                     >
                       {skill.name}
-                    </span>
+                    </motion.span>
                   ))}
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>

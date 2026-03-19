@@ -93,9 +93,9 @@ export const skillCategories: SkillCategory[] = [
     ],
     colors: {
       bg: 'from-teal-500 to-cyan-500',
-      text: 'text-teal-900',
+      text: 'text-teal-900 md:text-teal-500',
       badge: 'bg-teal-900 text-teal-200',
-      neonRgb:  ""
+      neonRgb: '153,246,228'
     }
   },
   {
