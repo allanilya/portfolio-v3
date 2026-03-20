@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { motion } from 'framer-motion';
 
@@ -16,6 +16,12 @@ const GAG_MESSAGES = [
 export default function GagSection() {
   const { data: session, status } = useSession();
   const message = useRef(GAG_MESSAGES[Math.floor(Math.random() * GAG_MESSAGES.length)]);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      document.getElementById('gag')?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [status]);
 
   return (
     <section id="gag" className="relative z-10 px-4 pb-24 md:pb-32">
@@ -55,7 +61,7 @@ export default function GagSection() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <button
-                  onClick={() => signIn('github', { callbackUrl: '/#gag' })}
+                  onClick={() => signIn('github', { callbackUrl: '/' })}
                   className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium border border-gray-600"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -64,7 +70,7 @@ export default function GagSection() {
                   Sign in with GitHub
                 </button>
                 <button
-                  onClick={() => signIn('google', { callbackUrl: '/#gag' })}
+                  onClick={() => signIn('google', { callbackUrl: '/' })}
                   className="flex items-center justify-center gap-2 px-6 py-3 bg-white hover:bg-gray-100 text-gray-800 rounded-lg transition-colors duration-200 text-sm font-medium"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">
