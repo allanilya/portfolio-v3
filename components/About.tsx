@@ -19,36 +19,123 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { useAnimation } from '@/contexts/AnimationContext';
 
+const SPEED = 0.5;  // seconds for one leg (outbound)
+const MAX_T = 0.5;  // bezier turnaround point (farthest from origin)
+
+function getPathPos(t: number, isMobileVal: boolean) {
+  // Cubic bezier P0=(0,0), P3=(0,0) — farthest at t=0.5
+  const [cx1, cy1, cx2, cy2] = isMobileVal
+    ? [-120, -160, 120, -160]
+    : [-340, -280, 340, -280];
+  const u = 1 - t;
+  return {
+    x: 3 * u * u * t * cx1 + 3 * u * t * t * cx2,
+    y: 3 * u * u * t * cy1 + 3 * u * t * t * cy2,
+  };
+}
+
 export default function About() {
-  const { isSkipped, skipAnimations } = useAnimation();
-  const [opacity, setOpacity] = useState(0);
+  useAnimation();
   const [isMobile, setIsMobile] = useState(false);
+  const [isFlying, setIsFlying] = useState(false);
+
+  const isMobileRef = useRef(false);
+  const progressRef = useRef(0);
+  const directionRef = useRef(1);
+  const accRotZRef = useRef(0);
+  const animFrameRef = useRef<number | null>(null);
+  const lastTimeRef = useRef<number | null>(null);
+  const originRef = useRef<{ x: number; y: number; w: number; h: number } | null>(null);
+  const imgContainerRef = useRef<HTMLDivElement>(null);
+  const flyingDivRef = useRef<HTMLDivElement>(null);
+  const isFlyingRef = useRef(false);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    const check = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      isMobileRef.current = mobile;
+    };
     check();
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, []);
 
-  // Fade in profile picture after Hero reveal animation (at 6 seconds)
-  useEffect(() => {
-    if (isSkipped) {
-      // If animations are skipped, show immediately
-      setOpacity(1);
+  const animate = useCallback((timestamp: number) => {
+    if (lastTimeRef.current === null) lastTimeRef.current = timestamp;
+    const dt = (timestamp - lastTimeRef.current) / 1000;
+    lastTimeRef.current = timestamp;
+
+    progressRef.current += directionRef.current * (dt / SPEED) * MAX_T;
+    accRotZRef.current += (360 / SPEED) * dt;
+
+    if (progressRef.current >= MAX_T) {
+      progressRef.current = MAX_T;
+      directionRef.current = -1;
+    }
+
+    if (progressRef.current <= 0 && directionRef.current === -1) {
+      progressRef.current = 0;
+      isFlyingRef.current = false;
+      setIsFlying(false);
+      if (flyingDivRef.current) {
+        flyingDivRef.current.style.visibility = 'hidden';
+        flyingDivRef.current.style.transform = 'translate(-50%, -50%)';
+      }
+      animFrameRef.current = null;
       return;
     }
 
-    const timer = setTimeout(() => {
-      setOpacity(1);
-    }, 3000);
+    const t = progressRef.current;
+    const origin = originRef.current;
+    if (!origin || !flyingDivRef.current) {
+      animFrameRef.current = requestAnimationFrame(animate);
+      return;
+    }
 
-    return () => clearTimeout(timer);
-  }, [isSkipped]);
+    const pos = getPathPos(t, isMobileRef.current);
+    const rotZ = accRotZRef.current;
+    const rotY = Math.sin((t / MAX_T) * Math.PI * 4) * 50;
+
+    flyingDivRef.current.style.left = `${origin.x + pos.x}px`;
+    flyingDivRef.current.style.top = `${origin.y + pos.y}px`;
+    flyingDivRef.current.style.transform =
+      `translate(-50%, -50%) perspective(400px) rotateY(${rotY}deg) rotate(${rotZ}deg)`;
+
+    animFrameRef.current = requestAnimationFrame(animate);
+  }, []);
+
+  useEffect(() => {
+    return () => { if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current); };
+  }, []);
+
+  const handlePicClick = useCallback(() => {
+    if (!isFlyingRef.current) {
+      if (!imgContainerRef.current) return;
+      const rect = imgContainerRef.current.getBoundingClientRect();
+      originRef.current = {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+        w: rect.width,
+        h: rect.height,
+      };
+      progressRef.current = 0;
+      accRotZRef.current = 0;
+      directionRef.current = 1;
+      lastTimeRef.current = null;
+      isFlyingRef.current = true;
+      setIsFlying(true);
+      if (flyingDivRef.current) flyingDivRef.current.style.visibility = 'visible';
+      if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
+      animFrameRef.current = requestAnimationFrame(animate);
+    } else {
+      directionRef.current *= -1;
+    }
+  }, [animate]);
 
   return (
     <section
@@ -60,19 +147,27 @@ export default function About() {
         <div className="flex flex-col md:flex-row md:flex-wrap gap-6 md:gap-8 items-center md:items-start">
           {/* Profile Picture - Aligns with body text start on desktop */}
           <motion.div
+            ref={imgContainerRef}
             className="relative w-[85vw] max-w-sm md:w-80 aspect-square flex-shrink-0 overflow-hidden rounded-2xl order-1 md:order-2 md:self-start"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8, delay: isMobile ? 0 : 0.4 }}
+            onClick={handlePicClick}
             style={{
-              clipPath: 'inset(0 0 0 0 round 1rem)'
+              clipPath: 'inset(0 0 0 0 round 1rem)',
+              cursor: 'pointer',
             }}
           >
             <img
               src="/profilepic.jpeg"
               alt="Allan Ilyasov"
-              className="w-full h-full "
+              className="w-full h-full"
+              style={{
+                opacity: isFlying ? 0 : 1,
+                transition: 'opacity 0.1s',
+                pointerEvents: 'none',
+              }}
             />
           </motion.div>
 
@@ -134,6 +229,34 @@ export default function About() {
             </motion.p>
           </div>
         </div>
+      </div>
+
+      {/* Flying boomerang — always mounted, visibility toggled via DOM */}
+      <div
+        ref={flyingDivRef}
+        onClick={handlePicClick}
+        style={{
+          visibility: 'hidden',
+          pointerEvents: isFlying ? 'auto' : 'none',
+          position: 'fixed',
+          left: originRef.current?.x ?? 0,
+          top: originRef.current?.y ?? 0,
+          width: originRef.current?.w ?? 288,
+          height: originRef.current?.h ?? 288,
+          borderRadius: '1rem',
+          overflow: 'hidden',
+          zIndex: 9999,
+          cursor: 'pointer',
+          transformStyle: 'preserve-3d',
+          backfaceVisibility: 'hidden',
+          willChange: 'transform',
+        }}
+      >
+        <img
+          src="/profilepic.jpeg"
+          alt="boomerang"
+          style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
+        />
       </div>
     </section>
   );
