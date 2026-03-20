@@ -1,10 +1,21 @@
 'use client';
 
+import { useRef } from 'react';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { motion } from 'framer-motion';
 
+const GAG_MESSAGES = [
+  "That was pointless. Appreciate your commitment!",
+  "Thank you for signing in! Feel free to sign out!",
+  "Appreciate it.",
+  "Bold move. There's nothing here.",
+  "You really did that. Respect.",
+  "Noted. Now what?",
+];
+
 export default function GagSection() {
   const { data: session, status } = useSession();
+  const message = useRef(GAG_MESSAGES[Math.floor(Math.random() * GAG_MESSAGES.length)]);
 
   return (
     <section className="relative z-10 px-4 pb-24 md:pb-32">
@@ -69,33 +80,17 @@ export default function GagSection() {
           )}
 
           {status === 'authenticated' && session && (
-            <>
-              {session.user?.image && (
-                <img
-                  src={session.user.image}
-                  alt={session.user.name ?? 'User'}
-                  className="w-16 h-16 rounded-full mx-auto mb-4 border-2 border-cyan-400/40"
-                />
-              )}
-              <h2
-                className="text-2xl md:text-3xl font-bold text-white mb-4"
-                style={{ fontFamily: 'Orbitron, monospace' }}
-              >
-                Hey, {session.user?.name?.split(' ')[0]}.
-              </h2>
-              <p className="text-gray-300 text-base md:text-lg mb-2">
-                ...You actually signed in.
-              </p>
-              <p className="text-gray-400 text-sm md:text-base mb-8">
-                There's nothing here. What were you expecting? 💀
+            <div className="flex items-center justify-center gap-6 flex-wrap">
+              <p className="text-gray-700 text-base md:text-lg">
+                {message.current}
               </p>
               <button
                 onClick={() => signOut()}
-                className="px-5 py-2 text-sm text-gray-400 hover:text-white border border-gray-600 hover:border-gray-400 rounded-lg transition-colors duration-200"
+                className="px-5 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-400 hover:border-gray-700 rounded-lg transition-colors duration-200 whitespace-nowrap"
               >
-                Sign out (finally)
+                Sign out
               </button>
-            </>
+            </div>
           )}
         </motion.div>
       </div>
