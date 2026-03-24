@@ -5,12 +5,13 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import { motion } from 'framer-motion';
 
 const GAG_MESSAGES = [
-  "That was pointless. Appreciate your commitment!",
   "Thank you for signing in! Feel free to sign out!",
   "Appreciate it.",
   "Bold move. There's nothing here.",
   "You really did that. Respect.",
   "Noted. Now what?",
+  "You signed in. Now what?",
+  "Congratulations! You've unlocked... nothing.",
 ];
 
 export default function GagSection() {
