@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 
 interface AnimationContextType {
   isSkipped: boolean;
@@ -19,6 +19,13 @@ export function AnimationProvider({ children }: { children: React.ReactNode }) {
     setIsSkipped(true);
     setIsAnimating(false);
   }, []);
+
+  useEffect(() => {
+    if (!isAnimating) return;
+    const handler = () => skipAnimations();
+    window.addEventListener('click', handler);
+    return () => window.removeEventListener('click', handler);
+  }, [isAnimating, skipAnimations]);
 
   return (
     <AnimationContext.Provider value={{ isSkipped, skipAnimations, isAnimating, setIsAnimating }}>

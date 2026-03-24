@@ -44,8 +44,8 @@ export default function Projects() {
 
   useEffect(() => {
     if (isCarouselInView && entranceStep === 0) {
-      setTimeout(() => setEntranceStep(1), 150);  // center
-      setTimeout(() => setEntranceStep(2), 650);  // left + right
+      setTimeout(() => setEntranceStep(1), 600);   // center
+      setTimeout(() => setEntranceStep(2), 1100);  // left + right
     }
   }, [isCarouselInView]);
 

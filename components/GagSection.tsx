@@ -5,12 +5,13 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import { motion } from 'framer-motion';
 
 const GAG_MESSAGES = [
-  "That was pointless. Appreciate your commitment!",
   "Thank you for signing in! Feel free to sign out!",
   "Appreciate it.",
   "Bold move. There's nothing here.",
   "You really did that. Respect.",
   "Noted. Now what?",
+  "You signed in. Now what?",
+  "Congratulations! You've unlocked... nothing.",
 ];
 
 export default function GagSection() {
@@ -18,10 +19,14 @@ export default function GagSection() {
   const message = useRef(GAG_MESSAGES[Math.floor(Math.random() * GAG_MESSAGES.length)]);
 
   useEffect(() => {
-    if (status === 'authenticated') {
-      document.getElementById('gag')?.scrollIntoView({ behavior: 'smooth' });
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('gag')) {
+      document.getElementById('gag')?.scrollIntoView({ behavior: 'instant' });
+      params.delete('gag');
+      const newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
+      window.history.replaceState(null, '', newUrl);
     }
-  }, [status]);
+  }, []);
 
   return (
     <section id="gag" className="relative z-10 px-4 pb-24 md:pb-32">
@@ -61,7 +66,7 @@ export default function GagSection() {
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <button
-                  onClick={() => signIn('github', { callbackUrl: '/' })}
+                  onClick={() => signIn('github', { callbackUrl: '/?gag=1' })}
                   className="flex items-center justify-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition-colors duration-200 text-sm font-medium border border-gray-600"
                 >
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -70,7 +75,7 @@ export default function GagSection() {
                   Sign in with GitHub
                 </button>
                 <button
-                  onClick={() => signIn('google', { callbackUrl: '/' })}
+                  onClick={() => signIn('google', { callbackUrl: '/?gag=1' })}
                   className="flex items-center justify-center gap-2 px-6 py-3 bg-white hover:bg-gray-100 text-gray-800 rounded-lg transition-colors duration-200 text-sm font-medium"
                 >
                   <svg className="w-5 h-5" viewBox="0 0 24 24">

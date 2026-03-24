@@ -54,6 +54,7 @@ export const skillCategories: SkillCategory[] = [
       { name: "React", description: "Component-based JavaScript library for building dynamic user interfaces and SPAs." },
       { name: "Next.js", description: "React framework with server-side rendering, routing, and optimized performance." },
       { name: "Tailwind CSS", description: "Utility-first CSS framework for rapid, responsive UI development." },
+      { name: "Bootstrap", description: "CSS framework for building responsive, mobile-first websites and web apps." },
       { name: "Radix UI", description: "Unstyled, accessible UI component library for building design systems." }
     ],
     colors: {
