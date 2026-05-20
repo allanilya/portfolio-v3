@@ -62,6 +62,7 @@ export default function Navbar() {
     { name: 'Technical Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
     { name: 'Certifications', href: '#certifications' },
+    { name: 'Publications', href: '#publications' },
   ];
 
   /**

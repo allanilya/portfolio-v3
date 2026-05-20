@@ -204,8 +204,7 @@ export default function About() {
               viewport={{ once: true, amount: 0.5 }}
               transition={{ duration: 0.5, delay: 0.7 }}
             >
-              I'm a Graduate Student pursuing an M.S. in Data Science through an accelerated 4+1 program, after completing my B.S. in Computer Science. Currently working as a Graduate Research Assistant,
-              I specialize in building AI-powered applications and scalable cloud infrastructure.
+              I hold an M.S. in Data Science and a B.S. in Computer Science, completed through an accelerated 4+1 program. I specialize in building AI-powered applications and scalable cloud infrastructure.
             </motion.p>
             <motion.p
               className="text-base md:text-xl text-gray-300 leading-relaxed mb-4"

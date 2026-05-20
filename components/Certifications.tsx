@@ -41,7 +41,7 @@ export default function Certifications() {
   ];
 
   return (
-    <section id="certifications" className="relative z-10 py-0 md:py-0 pb-58 md:pb-64 px-4">
+    <section id="certifications" className="relative z-10 py-0 md:py-0 pb-24 md:pb-24 px-4">
       <div className="max-w-6xl mx-auto">
         <motion.h2
           className="text-3xl md:text-4xl font-bold mb-6 md:mb-8 text-center text-cyan-400"

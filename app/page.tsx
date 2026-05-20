@@ -3,6 +3,7 @@ import About from '@/components/About';
 import Skills from '@/components/Skills';
 import Projects from '@/components/Projects';
 import Certifications from '@/components/Certifications';
+import Publications from '@/components/Publications';
 import GagSection from '@/components/GagSection';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -31,6 +32,7 @@ export default function Home() {
       <Skills />
       <Projects />
       <Certifications />
+      <Publications />
       <GagSection />
       <Footer />
       <SkipIndicator />
