@@ -5,12 +5,8 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 import { motion } from 'framer-motion';
 
 const GAG_MESSAGES = [
-  "Thank you for signing in! Feel free to sign out!",
   "Appreciate it.",
   "Bold move. There's nothing here.",
-  "You really did that. Respect.",
-  "Noted. Now what?",
-  "You signed in. Now what?",
   "Congratulations! You've unlocked... nothing.",
 ];
 
@@ -62,7 +58,7 @@ export default function GagSection() {
                 🔒 Restricted Access
               </h2>
               <p className="text-gray-400 mb-8 text-sm md:text-base">
-                Sign in to view exclusive content.
+                Sign in to view a secret.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <button
@@ -91,13 +87,13 @@ export default function GagSection() {
           )}
 
           {status === 'authenticated' && session && (
-            <div className="flex items-center justify-center gap-6 flex-wrap">
+            <div className="flex flex-col items-center gap-4">
               <p className="text-gray-700 text-base md:text-lg">
                 {message.current}
               </p>
               <button
-                onClick={() => signOut()}
-                className="px-5 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-400 hover:border-gray-700 rounded-lg transition-colors duration-200 whitespace-nowrap"
+                onClick={() => signOut({ callbackUrl: '/?gag=1' })}
+                className="px-5 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-400 hover:border-gray-700 rounded-lg transition-colors duration-200"
               >
                 Sign out
               </button>
