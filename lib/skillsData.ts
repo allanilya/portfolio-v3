@@ -87,7 +87,7 @@ export const skillCategories: SkillCategory[] = [
     skills: [
       { name: "LangChain", description: "Framework for developing LLM-powered applications with chains and agents." },
       { name: "LangGraph", description: "Library for building stateful, multi-actor LLM applications with graph workflows." },
-      { name: "TensorFlow", description: "End-to-end machine learning platform for training and deploying ML models." },
+      { name: "TensorFlow/Keras", description: "End-to-end machine learning platform for training and deploying ML models." },
       { name: "PyTorch", description: "Deep learning framework with dynamic computation graphs for research and production." },
       { name: "Scikit-learn", description: "Machine learning library for classification, regression, and clustering algorithms." },
       { name: "AWS Bedrock", description: "Fully managed service for building and scaling generative AI applications." }
@@ -126,7 +126,7 @@ export const skillCategories: SkillCategory[] = [
       { name: "Plotly", description: "Interactive visualization library for creating charts, dashboards, and graphs." },
       { name: "Spark", description: "Distributed computing framework for big data processing and analytics." },
       { name: "NLTK", description: "Natural Language Toolkit for text processing, tokenization, and NLP tasks." },
-      { name: "Spacy", description: "Industrial-strength NLP library for advanced text processing and entity recognition." },
+      { name: "OpenCV", description: "Open-source computer vision library for image processing and real-time visual applications." },
       { name: "Beautiful Soup", description: "Web scraping library for parsing HTML and extracting data from web pages." }
     ],
     colors: {
