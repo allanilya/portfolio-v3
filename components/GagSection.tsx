@@ -7,7 +7,6 @@ import { motion } from 'framer-motion';
 const GAG_MESSAGES = [
   "Appreciate it.",
   "Bold move. There's nothing here.",
-  "Congratulations! You've unlocked... nothing.",
 ];
 
 export default function GagSection() {
